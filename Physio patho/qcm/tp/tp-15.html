@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 15 — Néoplasies (Cancer)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 15 — <span>Néoplasies</span></h1>
+  <div class="hero-sub">Fiche TP 15 · Carcinogenèse, tumeurs bénignes/malignes, traitements · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 15 — Physiopathologie des néoplasies"</strong> (cancer, métastases, classification, traitements).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 15 — Néoplasies (Cancer)",
+  questions: [
+    {"type":"QCS","question":"Une NÉOPLASIE est :","options":["Un retour à un état normal","Une prolifération cellulaire ANORMALE et autonome (échappant aux contrôles physiologiques)","Une simple inflammation","Une atrophie"],"correct":[1],"explanation":"Néoplasie = nouvelle formation tissulaire par prolifération cellulaire anormale, autonome (échappe à la régulation du tissu), pouvant être bénigne ou maligne. 'Tumeur' = synonyme."},
+    {"type":"QCM","question":"Quelles sont les CARACTÉRISTIQUES différenciant une tumeur MALIGNE d'une tumeur bénigne ?","options":["Croissance rapide","Anaplasie (perte de différenciation)","Invasion locale (effraction tissulaire)","Métastases possibles","Capsule bien délimitée"],"correct":[0,1,2,3],"explanation":"Tumeur maligne : croissance rapide, anaplasie, invasion locale, métastases, mauvaise délimitation. Bénigne : croissance lente, différenciée, encapsulée, pas d'invasion ni de métastase."},
+    {"type":"QCS","question":"L'ANAPLASIE correspond à :","options":["Une augmentation de la différenciation","Une PERTE de différenciation cellulaire (cellules immatures, atypiques)","Une diminution du nombre de cellules","Une augmentation de la fonction cellulaire"],"correct":[1],"explanation":"Anaplasie = perte de différenciation, cellules indifférenciées atypiques (variation taille/forme = pléomorphisme, gros noyaux hyperchromiques, mitoses anormales). Caractéristique des tumeurs malignes."},
+    {"type":"QCM","question":"Les VOIES DE DISSÉMINATION métastatique sont :","options":["Voie sanguine (hématogène)","Voie lymphatique","Voie séreuse / cavités péritonéale, pleurale","Implantation directe (chirurgicale, biopsie)","Voie nerveuse exclusivement"],"correct":[0,1,2,3],"explanation":"4 voies de dissémination : hématogène (carcinomes → poumon, foie, os ; sarcomes), lymphatique (ganglions régionaux puis distance), séreuse (cavités), implantation. La voie nerveuse (périneurale) existe aussi mais minoritaire."},
+    {"type":"QCS","question":"Un CARCINOME est :","options":["Une tumeur maligne d'origine MÉSENCHYMATEUSE","Une tumeur maligne d'origine ÉPITHÉLIALE","Une tumeur bénigne épithéliale","Une tumeur du système nerveux"],"correct":[1],"explanation":"Carcinome = tumeur MALIGNE d'origine ÉPITHÉLIALE (carcinome bronchique, mammaire, colorectal...). Sarcome = origine mésenchymateuse (os, muscle, conjonctif). Adénocarcinome = épithélium glandulaire."},
+    {"type":"QCS","question":"Un SARCOME est :","options":["Une tumeur maligne épithéliale","Une tumeur maligne d'origine MÉSENCHYMATEUSE (os, cartilage, muscle, tissu conjonctif)","Une tumeur bénigne","Une métastase"],"correct":[1],"explanation":"Sarcome = tumeur maligne MÉSENCHYMATEUSE : ostéosarcome (os), chondrosarcome (cartilage), liposarcome (graisse), rhabdomyosarcome (muscle squelettique), léiomyosarcome (muscle lisse). Plus rares que les carcinomes."},
+    {"type":"QCM","question":"Concernant la NOMENCLATURE des tumeurs, quelles affirmations sont vraies ?","options":["Suffixe -OME = tumeur bénigne","Suffixe -CARCINOME = tumeur épithéliale maligne","Suffixe -SARCOME = tumeur mésenchymateuse maligne","'Lymphome' = tumeur bénigne","'Mélanome' = bénin"],"correct":[0,1,2],"explanation":"-OME : généralement bénin (adénome, lipome, fibrome, ostéome). EXCEPTIONS importantes : lymphome, mélanome, séminome → MALINS malgré la terminaison. Carcinome = épithélial malin, sarcome = mésenchymateux malin."},
+    {"type":"QCS","question":"Le système de stadification TNM repose sur :","options":["T (Tumeur) + N (Ganglions/Nodes) + M (Métastases)","T (Type) + N (Nature) + M (Mécanisme)","Trois grades histologiques","Trois mutations"],"correct":[0],"explanation":"TNM (UICC) : T = taille/extension de la Tumeur primitive (T1-T4), N = atteinte ganglionnaire (N0-N3), M = présence de Métastases (M0/M1). Stadification universelle, pronostique, guide le tx."},
+    {"type":"QCM","question":"Concernant les TRAITEMENTS du cancer :","options":["Chirurgie (résection)","Radiothérapie (rayonnements)","Chimiothérapie (cytotoxiques)","Immunothérapie","Antibiothérapie"],"correct":[0,1,2,3],"explanation":"Tx oncologiques : chirurgie, radiothérapie, chimiothérapie, hormonothérapie, thérapies ciblées (anti-HER2, anti-EGFR), immunothérapie (anti-PD1/PD-L1). Choix selon type, stade, état général. Antibiotiques en cas d'infection associée seulement."},
+    {"type":"QCS","question":"L'ANGIOGENÈSE TUMORALE est :","options":["Inutile à la croissance tumorale","Indispensable à la croissance tumorale au-delà de quelques mm (apport nutritif)","Une simple coïncidence","Toujours bénéfique"],"correct":[1],"explanation":"Angiogenèse tumorale : la tumeur stimule la formation de nouveaux vaisseaux (VEGF) pour son propre apport en O₂/nutriments. Cible thérapeutique : anti-angiogéniques (bevacizumab)."},
+    {"type":"QCM","question":"Concernant les ONCOGÈNES et GÈNES SUPPRESSEURS DE TUMEURS :","options":["Oncogènes : activent la prolifération (RAS, MYC)","Gènes suppresseurs : freinent la prolifération (p53, RB)","Mutations activatrices d'oncogènes → cancer","Mutations inactivatrices de p53 → cancer","Tous les gènes ont la même fonction"],"correct":[0,1,2,3],"explanation":"Oncogènes : activent la croissance. Activation par mutation/amplification = pro-oncogène. Gènes suppresseurs : freinent la croissance et réparent l'ADN. Inactivation par mutation = perte de frein. Cancer = accumulation de ces altérations."},
+    {"type":"QCS","question":"La p53 est :","options":["Un oncogène","Un gène SUPPRESSEUR de tumeur (le 'gardien du génome')","Sans rôle dans le cancer","Un médicament"],"correct":[1],"explanation":"p53 (TP53) = gène suppresseur majeur (gardien du génome) : induit l'arrêt du cycle ou apoptose en cas de lésion ADN. Inactivé dans >50% des cancers humains. Mutations germinales = syndrome de Li-Fraumeni."},
+    {"type":"QCM","question":"Quels sont des FACTEURS DE RISQUE généraux du cancer ?","options":["Tabac (poumon, vessie, ORL...)","Alcool (foie, ORL, sein, colorectal)","Obésité","Infections (HPV → col, EBV, H. pylori)","Activité physique régulière"],"correct":[0,1,2,3],"explanation":"FdR : tabac, alcool, obésité, sédentarité, expositions (UV, amiante, radiations), infections (HPV, HBV/HCV, EBV, H. pylori, HIV), antécédents familiaux/génétiques (BRCA), âge. L'activité physique est PROTECTRICE."},
+    {"type":"QCS","question":"Le CANCER DU SEIN est :","options":["Le plus rare des cancers féminins","Le cancer le plus FRÉQUENT chez la femme dans les pays développés","N'existe que chez la femme","Une infection"],"correct":[1],"explanation":"Cancer du sein = 1er cancer féminin en incidence (1 femme sur 8 risque vie entière). Possible chez l'homme (rare, ~1%). Dépistage organisé par mammographie 50-74 ans en France."},
+    {"type":"QCM","question":"Concernant le DÉPISTAGE des cancers en France :","options":["Sein : mammographie 50-74 ans tous les 2 ans","Côlon : test immunologique (FIT) 50-74 ans tous les 2 ans","Col utérus : frottis (FCV) puis HPV","Prostate : pas de dépistage organisé (PSA discuté)","Tous les cancers ont un dépistage organisé"],"correct":[0,1,2,3],"explanation":"Dépistages organisés : sein (mammographie 50-74 ans), côlon (FIT 50-74 ans), col utérin (FCV/HPV 25-65 ans). PROSTATE : pas de dépistage organisé (intérêt débattu, individuel). Tous les cancers n'ont pas de dépistage organisé."},
+    {"type":"QCS","question":"Une MÉTASTASE est :","options":["Une tumeur primitive isolée","Une localisation tumorale SECONDAIRE à distance du foyer initial","Une tumeur bénigne","Une cicatrice"],"correct":[1],"explanation":"Métastase = colonisation tumorale secondaire à distance (souvent par voie hématogène ou lymphatique). Sites fréquents selon origine : poumons, foie, os, cerveau. Indique une maladie disséminée (M1)."},
+    {"type":"QCM","question":"Quels sites sont FRÉQUEMMENT le siège de métastases osseuses ?","options":["Cancer du sein","Cancer de la prostate","Cancer du poumon","Cancer du rein","Cancer thyroïdien"],"correct":[0,1,2,3,4],"explanation":"Cancers ostéophiles (mnémo PSPRT) : Prostate, Sein, Poumon, Rein, Thyroïde. Sites métastatiques : rachis (++), bassin, fémur, côtes. Risque de fractures pathologiques, hypercalcémie, douleurs."},
+    {"type":"QCS","question":"Le syndrome PARANÉOPLASIQUE :","options":["Est lié à une métastase locale","Manifestation à DISTANCE de la tumeur (sans métastase), souvent endocrinienne ou immunologique","Est toujours bénin","N'existe pas"],"correct":[1],"explanation":"Syndrome paranéoplasique : manifestations cliniques à distance, indépendantes de l'envahissement local ou métastatique. Mécanismes : sécrétion ectopique d'hormones (ACTH → Cushing, ADH → SIADH), auto-immunité. Peut précéder le diagnostic du cancer."},
+    {"type":"QCS","question":"La CACHEXIE cancéreuse est :","options":["Une bonne nouvelle","Un syndrome de dénutrition + atrophie musculaire malgré apports alimentaires (TNF, IL-6)","Sans gravité","Une réaction allergique"],"correct":[1],"explanation":"Cachexie cancéreuse : syndrome multifactoriel = perte de poids, atrophie musculaire, anorexie, asthénie, anémie. Liée aux cytokines (TNF-α 'cachectine', IL-6). Marqueur de mauvais pronostic."},
+    {"type":"QCM","question":"Concernant la KINÉSITHÉRAPIE EN CANCÉROLOGIE :","options":["Réentraînement à l'effort (lutte contre la fatigue, déconditionnement)","Drainage lymphatique manuel (lymphœdème post-curage)","Mobilisations articulaires","Soutien psychologique","Aucun bénéfice prouvé"],"correct":[0,1,2,3],"explanation":"Kiné en oncologie : reconditionnement, lutte contre la fatigue (cancer-related fatigue), DLM pour lymphœdème (mastectomie), mobilisations, prévention des amyotrophies, accompagnement post-chirurgical/radiothérapie. Bénéfices prouvés sur qualité de vie."},
+    {"type":"QCS","question":"Une RADIOTHÉRAPIE peut entraîner comme effet secondaire :","options":["Aucune","Radiodermite, fibrose post-radique, fatigue, troubles selon zone irradiée","Toujours une amélioration sans effet","Une infection systématique"],"correct":[1],"explanation":"Effets secondaires radiothérapie : précoces (radiodermite, mucite, fatigue, alopécie locale, troubles digestifs si abdo) et tardifs (fibrose, sténoses, second cancer rare). Importance de la kiné post-RT."},
+    {"type":"QCM","question":"Quels sont des effets secondaires CLASSIQUES des CHIMIOTHÉRAPIES ?","options":["Nausées, vomissements","Alopécie","Pancytopénie (anémie, neutropénie, thrombopénie)","Mucite","Polyarthrose"],"correct":[0,1,2,3],"explanation":"Effets chimio : nausées/vomissements, alopécie, mucite, pancytopénie (risque infection si neutropénie), neuropathie (cisplatine, taxanes), cardiotoxicité (anthracyclines). Ne provoque pas de polyarthrose."},
+    {"type":"QCS","question":"L'IMMUNOTHÉRAPIE moderne du cancer (anti-PD1/PD-L1) :","options":["Tue directement les cellules cancéreuses","Lève l'inhibition des lymphocytes T pour qu'ils détruisent les cellules cancéreuses","Empêche la croissance bactérienne","Stimule les hormones"],"correct":[1],"explanation":"Immunothérapie (checkpoint inhibitors : nivolumab, pembrolizumab, atézolizumab) : bloque les freins (PD-1/PD-L1, CTLA-4) du système immunitaire → réactivation des LT contre la tumeur. Révolutionne le pronostic de certains cancers (mélanome, poumon)."},
+    {"type":"QCS","question":"Le facteur de risque PRINCIPAL du cancer du POUMON est :","options":["Le tabagisme","La pollution","L'âge","L'amiante"],"correct":[0],"explanation":"Tabac = facteur de risque MAJEUR du cancer du poumon (>85% des cas). Amiante (synergie avec tabac), radon, pollution, antécédents familiaux sont aussi des FdR. Sevrage tabagique = meilleure prévention."},
+    {"type":"QCM","question":"Concernant la BIOPSIE en oncologie :","options":["Permet le diagnostic histologique de certitude","Indique le type histologique et le grade","Permet d'orienter la prise en charge thérapeutique","Indispensable avant un traitement curatif","Toujours dangereuse et à éviter"],"correct":[0,1,2,3],"explanation":"Biopsie : geste diagnostique INDISPENSABLE pour confirmer le cancer, identifier le type/grade/marqueurs (récepteurs hormonaux, HER2, EGFR, PD-L1...). Risque ENSEMENCEMENT marginal mais nécessaire pour traitement adapté."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

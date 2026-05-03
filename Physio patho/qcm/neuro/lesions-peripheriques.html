@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — Lésions Périphériques</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>Lésions <span>Périphériques</span></h1>
+  <div class="hero-sub">Fiche Neuro · Physiopathologie I · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>Ce QCM te fait réviser la fiche <strong>"Lésions Périphériques"</strong> avec <span id="qcmCount">…</span> questions de niveau partiel K1. Mix de QCS (1 bonne réponse) et de QCM (plusieurs réponses possibles).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">… questions</span>
+      <span class="info-pill teal" id="qcsPill">… QCS</span>
+      <span class="info-pill dark" id="qcmPill">… QCM</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "Lésions Périphériques",
+  questions: [
+    {"type":"QCS","question":"Quelles cellules assurent la myélinisation des nerfs dans le SNP ?","options":["Oligodendrocytes","Cellules de Schwann","Astrocytes","Cellules microgliales"],"correct":[1],"explanation":"Dans le SNP, ce sont les cellules de Schwann qui myélinisent les axones. Les oligodendrocytes assurent cette fonction dans le SNC."},
+    {"type":"QCS","question":"Comment s'appelle la gaine conjonctive qui entoure CHAQUE fibre nerveuse ?","options":["Endonèvre","Périnèvre","Épinèvre","Mésonèvre"],"correct":[0],"explanation":"Endonèvre = chaque fibre. Périnèvre = un faisceau. Épinèvre = le nerf entier."},
+    {"type":"QCM","question":"Quelles affirmations concernant la conduction nerveuse sont VRAIES ?","options":["Avec myéline intacte, la conduction est saltatoire","La vitesse normale est d'environ 400 km/h","La perte de myéline réduit la vitesse à environ 4 km/h","Les nœuds de Ranvier ralentissent la conduction","La conduction est toujours uniforme le long de l'axone"],"correct":[0,1,2],"explanation":"La myéline permet la conduction saltatoire (~400 km/h, de nœud de Ranvier en nœud). Sans myéline, la conduction est ~4 km/h. Les nœuds ne ralentissent pas, ils accélèrent."},
+    {"type":"QCS","question":"Le neurotransmetteur de la jonction neuromusculaire (système somatique) est :","options":["Noradrénaline","Acétylcholine","Dopamine","GABA"],"correct":[1],"explanation":"Le système somatique utilise l'acétylcholine (ACh) à la jonction neuromusculaire pour activer le muscle squelettique."},
+    {"type":"QCS","question":"Une compression neurale aiguë avec récupération en environ 10 minutes correspond à :","options":["Neurotmèse","Axonotmèse","Neuropraxie","Ischémie transitoire"],"correct":[3],"explanation":"L'ischémie transitoire (stade 0) = anoxie endonévrale aiguë avec paresthésies/déficits réversibles en ~10 min. La neuropraxie est plus longue (jours-semaines)."},
+    {"type":"QCM","question":"Concernant la NEUROPRAXIE (Seddon I), quelles affirmations sont correctes ?","options":["Tous les éléments anatomiques sont préservés","Il y a une perte transitoire de conductivité","La sensibilité est généralement plus atteinte que la motricité","La récupération prend des jours à des semaines","Une dégénérescence wallérienne se produit"],"correct":[0,1,3],"explanation":"Neuropraxie : préservation anatomique complète, perte transitoire de conduction, motricité plus touchée que sensibilité, récupération en jours/semaines, PAS de dégénérescence wallérienne."},
+    {"type":"QCS","question":"Quelle est la vitesse moyenne de régénération axonale après une axonotmèse ?","options":["0,1 mm/jour","1–2 mm/jour","1 cm/jour","10 cm/jour"],"correct":[1],"explanation":"L'axone régénère à environ 1–2 mm/jour, vitesse qui ralentit avec la distance au corps cellulaire."},
+    {"type":"QCS","question":"La dégénérescence de Waller correspond à :","options":["La régénération axonale après lésion","La dégénérescence de la partie distale d'un axone sectionné","La démyélinisation auto-immune","La formation d'un névrome"],"correct":[1],"explanation":"La dégénérescence de Waller est la dégénérescence de la portion distale d'un axone après section ou interruption. Elle prépare la repousse mais plus elle dure, plus la récupération est difficile."},
+    {"type":"QCM","question":"Concernant la NEUROTMÈSE (Seddon III / Sunderland V), quelles propositions sont vraies ?","options":["Division complète du nerf","Tubes neuraux détruits","Récupération généralement totale","Possibilité de formation d'un névrome lors de la régénération","Intervention chirurgicale souvent nécessaire"],"correct":[0,1,3,4],"explanation":"Neurotmèse = section complète, tubes neuraux détruits, formation possible d'un névrome, fonction parfois adéquate mais JAMAIS normale, chirurgie souvent indispensable."},
+    {"type":"QCS","question":"Une mononeuropathie correspond à :","options":["Atteinte symétrique distale et bilatérale","Atteinte d'un seul nerf isolé","Atteinte d'un plexus complet","Atteinte des racines spinales uniquement"],"correct":[1],"explanation":"Mononeuropathie = atteinte d'un nerf isolé (ex : canal carpien, paralysie faciale). La polyneuropathie = atteinte symétrique distale bilatérale."},
+    {"type":"QCM","question":"Parmi les pathologies suivantes, lesquelles sont des MONONEUROPATHIES ?","options":["Syndrome du canal carpien","Paralysie faciale (Bell)","Syndrome de Guillain-Barré","Polyneuropathie diabétique","Névralgie du trijumeau"],"correct":[0,1,4],"explanation":"Mononeuropathies = canal carpien, paralysie faciale, névralgie du trijumeau. Guillain-Barré et la polyneuropathie diabétique sont des polyneuropathies."},
+    {"type":"QCS","question":"Une paralysie faciale PÉRIPHÉRIQUE atteint :","options":["Uniquement la moitié inférieure du visage","La totalité d'un hémiface (incluant le front)","Les deux hémifaces","Aucune zone du visage"],"correct":[1],"explanation":"La paralysie périphérique (lésion du VII) touche TOUT l'hémiface du même côté (front + bouche). La paralysie centrale épargne le front (innervation bilatérale du frontal)."},
+    {"type":"QCS","question":"Une lagophtalmie est :","options":["Une perte du goût","Une incapacité à fermer l'œil","Une larmoiement excessif","Une vision floue"],"correct":[1],"explanation":"La lagophtalmie = incapacité à fermer la paupière, signe classique de paralysie faciale périphérique. Elle expose la cornée et nécessite une protection oculaire."},
+    {"type":"QCM","question":"Concernant la paralysie faciale CENTRALE, quelles affirmations sont vraies ?","options":["Lésion au-dessus du noyau du VII","Atteinte préférentielle de la partie inférieure du visage","Front épargné","Souvent associée à un AVC","Perte du goût sur les 2/3 antérieurs de la langue"],"correct":[0,1,2,3],"explanation":"Paralysie centrale : lésion supranucléaire (faisceau pyramidal), atteinte du visage inférieur, front épargné (innervation bilatérale), fréquente après AVC. La perte du goût est un signe périphérique."},
+    {"type":"QCS","question":"Le nerf facial (VII) assure la sensibilité gustative de :","options":["La totalité de la langue","Les 2/3 antérieurs de la langue","Le 1/3 postérieur de la langue","La pointe de la langue uniquement"],"correct":[1],"explanation":"Le VII (via la corde du tympan) innerve les 2/3 antérieurs de la langue pour le goût. Le 1/3 postérieur est innervé par le IX (glossopharyngien)."},
+    {"type":"QCM","question":"Quelles sont des fonctions du nerf facial (VII) ?","options":["Motricité des muscles de la mimique","Innervation parasympathique des glandes lacrymales","Innervation parasympathique des glandes sublinguales","Innervation des muscles masticateurs","Innervation du muscle stapédien"],"correct":[0,1,2,4],"explanation":"VII = mimique faciale + stapédien (motrice), goût (2/3 ant. langue) et parasympathique pour glandes lacrymales/salivaires sous-maxillaires/sublinguales. Les muscles masticateurs sont innervés par le V."},
+    {"type":"QCS","question":"Le syndrome de Guillain-Barré est une maladie :","options":["Vasculaire","Auto-immune","Tumorale","Génétique"],"correct":[1],"explanation":"Guillain-Barré = polyneuropathie auto-immune avec attaque des cellules de Schwann (démyélinisation), souvent post-infectieuse."},
+    {"type":"QCM","question":"Concernant le syndrome de Guillain-Barré, quelles affirmations sont vraies ?","options":["Atteinte ascendante des membres inférieurs vers le haut","Évolution rapide","Risque d'atteinte des muscles respiratoires","Hyperréflexie typique","Traitement par immunoglobulines IV ou plasmaphérèse"],"correct":[0,1,2,4],"explanation":"GBS : faiblesse musculaire ascendante rapide, paresthésies, AREFLEXIE (pas hyperréflexie), risque d'insuffisance respiratoire, traitement = Ig IV, plasmaphérèse, corticoïdes, soins intensifs."},
+    {"type":"QCS","question":"La polyneuropathie diabétique est typiquement :","options":["Asymétrique et proximale","Sensitivo-motrice symétrique distale","Purement motrice","Affectant uniquement les nerfs crâniens"],"correct":[1],"explanation":"La polyneuropathie diabétique est sensitivo-motrice, symétrique et distale (mains/pieds en gants/chaussettes). Le pied diabétique en est la complication la plus grave."},
+    {"type":"QCM","question":"Quels sont les mécanismes physiopathologiques de la polyneuropathie diabétique ?","options":["Microangiopathie distale","Ischémie","Glycation des protéines nerveuses","Excès de radicaux libres","Démyélinisation auto-immune"],"correct":[0,1,2,3],"explanation":"PND : microangiopathie → ischémie → glycation des protéines + stress oxydatif (radicaux libres) → dégénérescence axonale et démyélinisation secondaire. L'auto-immunité concerne le GBS, pas le diabète."},
+    {"type":"QCS","question":"De quelles racines naît le plexus brachial ?","options":["C1 à C4","C5 à T1","T2 à T6","L1 à L4"],"correct":[1],"explanation":"Le plexus brachial naît des branches antérieures de C5, C6, C7, C8 et T1."},
+    {"type":"QCS","question":"La paralysie d'Erb-Duchenne correspond à une atteinte du :","options":["Tronc supérieur (C5-C6)","Tronc moyen (C7)","Tronc inférieur (C8-T1)","Plexus entier"],"correct":[0],"explanation":"Erb-Duchenne = atteinte du tronc supérieur C5-C6, déficit en abduction d'épaule, flexion du coude et rotation externe (paralysie obstétricale classique)."},
+    {"type":"QCS","question":"La paralysie de Klumpke correspond à une atteinte du :","options":["Tronc supérieur (C5-C6)","Tronc moyen (C7)","Tronc inférieur (C8-T1)","Nerf radial isolé"],"correct":[2],"explanation":"Klumpke = atteinte du tronc inférieur C8-T1, déficit des muscles intrinsèques de la main et flexion des doigts (main en griffe)."},
+    {"type":"QCM","question":"Quelles sont des étapes de la régénération axonale ?","options":["Réponse du corps cellulaire (germination)","Allongement guidé par les cellules de Schwann","Cessation et synaptogenèse","Remyélinisation progressive","Apoptose massive obligatoire"],"correct":[0,1,2,3],"explanation":"Régénération axonale en 3 étapes : germination, allongement (guidé par Schwann + facteurs chimiques), cessation/synaptogenèse + remyélinisation. L'apoptose massive n'est pas une étape de la régénération."},
+    {"type":"QCS","question":"Une synkinésie correspond à :","options":["Une paralysie totale d'un muscle","Un mouvement involontaire associé à un mouvement volontaire","Une douleur lors du mouvement","Une atrophie progressive"],"correct":[1],"explanation":"Synkinésie = mouvement involontaire qui accompagne un mouvement volontaire (ex : fermer la paupière en souriant). Elle signe une régénération anormale et un mauvais pronostic."},
+    {"type":"QCM","question":"Concernant le tableau récapitulatif des lésions, l'AXONOTMÈSE (Sunderland II) se caractérise par :","options":["Axone interrompu","Endonèvre intact","Périnèvre détruit","Dégénérescence wallérienne","Pronostic excellent en quelques minutes"],"correct":[0,1,3],"explanation":"Axonotmèse Sunderland II : axone interrompu, endonèvre/périnèvre/épinèvre intacts, dégénérescence wallérienne présente, récupération en mois (pas minutes)."},
+    {"type":"QCS","question":"Concernant la régénération nerveuse, quelle affirmation est vraie ?","options":["Le SNC régénère mieux que le SNP","Le SNP a une capacité de régénération que le SNC n'a pas","Aucun nerf ne peut régénérer","Seul le SNC peut régénérer"],"correct":[1],"explanation":"Le SNP peut régénérer (cellules de Schwann, tubes neuraux préservés guidant la repousse). Le SNC ne régénère pratiquement pas (cicatrice gliale, pas de tubes guides)."},
+    {"type":"QCM","question":"Parmi les étiologies de la paralysie faciale, on retrouve :","options":["Idiopathique (Bell)","Virale (zona, herpès)","Bactérienne (Lyme)","Traumatique","Cardiovasculaire ischémique"],"correct":[0,1,2,3],"explanation":"Étiologies de la paralysie faciale : idiopathique (Bell, la plus fréquente), virale, bactérienne (Lyme), traumatique, congénitale, métabolique. La cause cardiovasculaire concerne plutôt la paralysie centrale (AVC)."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

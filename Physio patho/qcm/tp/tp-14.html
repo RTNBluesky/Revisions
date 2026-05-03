@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 14 — Maladies Restrictives & Plèvre</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 14 — <span>Restrictives & Plèvre</span></h1>
+  <div class="hero-sub">Fiche TP 14 · Maladies restrictives, plèvre, pneumothorax · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 14 — Maladies restrictives et pathologies pleurales"</strong>.</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 14 — Maladies Restrictives & Plèvre",
+  questions: [
+    {"type":"QCS","question":"Un trouble ventilatoire RESTRICTIF se définit en spirométrie par :","options":["VEMS/CV diminué","Une CPT (Capacité Pulmonaire Totale) diminuée < 80% prédit","Une CV augmentée","Une obstruction des bronches"],"correct":[1],"explanation":"Trouble ventilatoire restrictif (TVR) = ↓ CPT (<80% prédit), avec CV ↓ et VEMS/CV NORMAL ou augmenté. Distinction importante avec le trouble obstructif (VEMS/CV <70%)."},
+    {"type":"QCM","question":"Concernant les TROUBLES RESTRICTIFS EXTRINSÈQUES (cage thoracique) :","options":["Cyphoscoliose sévère","Obésité majeure","Maladies neuromusculaires (myasthénie, SLA)","Pleurésies massives","Fibrose pulmonaire idiopathique"],"correct":[0,1,2,3],"explanation":"Restrictifs extrinsèques : déformations rachidiennes (cyphoscoliose), obésité, troubles neuromusculaires (paralysie diaphragmatique, SLA, Guillain-Barré, myopathies), pathologie pleurale, ascite massive. La fibrose = INTRINSÈQUE (parenchyme)."},
+    {"type":"QCM","question":"Concernant les TROUBLES RESTRICTIFS INTRINSÈQUES (parenchyme) :","options":["Fibrose pulmonaire idiopathique (FPI)","Sarcoïdose","Pneumoconioses (silicose, asbestose)","Connectivites avec atteinte pulmonaire","Asthme bronchique"],"correct":[0,1,2,3],"explanation":"Restrictifs intrinsèques (parenchyme) : MIP (maladies interstitielles), FPI, sarcoïdose, pneumoconioses (silice, amiante), connectivites (PR, sclérodermie), pneumonies organisées. L'asthme = OBSTRUCTIF."},
+    {"type":"QCS","question":"La FIBROSE PULMONAIRE IDIOPATHIQUE (FPI) est :","options":["Réversible avec corticoïdes","Une maladie chronique progressive de cause inconnue, avec fibrose interstitielle","Une infection","Une tumeur"],"correct":[1],"explanation":"FPI : maladie chronique progressive de cause inconnue, fibrose interstitielle prédominante aux bases. Pronostic réservé (médiane de survie 3-5 ans). Tx : antifibrotiques (pirfénidone, nintédanib), transplantation."},
+    {"type":"QCM","question":"Manifestations cliniques classiques des MALADIES INTERSTITIELLES PULMONAIRES (MIP) :","options":["Dyspnée d'effort progressive","Toux sèche persistante","Râles crépitants 'velcro' aux bases","Hippocratisme digital","Sibilants et ronchi prédominants"],"correct":[0,1,2,3],"explanation":"MIP : dyspnée d'effort progressive, toux sèche, crépitants 'secs' type velcro aux bases (fin d'inspiration), hippocratisme digital (fibrose chronique), désaturation à l'effort. Sibilants/ronchi = obstructif."},
+    {"type":"QCS","question":"La SARCOÏDOSE est :","options":["Une infection bactérienne","Une maladie inflammatoire systémique avec granulomes non caséeux (sans cause identifiée)","Une tumeur maligne","Une maladie infectieuse virale"],"correct":[1],"explanation":"Sarcoïdose : maladie inflammatoire systémique avec granulomes EPITHELIOÏDES sans nécrose CASÉEUSE (vs TB). Atteinte préférentielle pulmonaire (adénopathies hilaires, MIP), peau, yeux, foie, etc. Étiologie inconnue."},
+    {"type":"QCS","question":"Une PNEUMOCONIOSE est :","options":["Une infection respiratoire","Une fibrose pulmonaire causée par l'inhalation chronique de poussières (silice, amiante, charbon)","Une tumeur bénigne","Une affection allergique"],"correct":[1],"explanation":"Pneumoconioses = maladies professionnelles dues à l'inhalation chronique de poussières minérales : silicose (silice), asbestose (amiante), anthracose (charbon), bérylliose, etc. Évolution vers fibrose."},
+    {"type":"QCS","question":"L'ASBESTOSE :","options":["Est due à l'amiante","Est due au tabagisme","Est une infection","Est une tumeur"],"correct":[0],"explanation":"Asbestose : fibrose pulmonaire due à l'exposition chronique à l'AMIANTE (asbeste). Risque accru de mésothéliome pleural et de cancer bronchique (synergique avec tabac). Maladie professionnelle reconnue."},
+    {"type":"QCS","question":"L'ÉPANCHEMENT PLEURAL est :","options":["De l'air dans la cavité pleurale","Une accumulation anormale de LIQUIDE dans la cavité pleurale","Une fibrose pleurale","Une tumeur pleurale"],"correct":[1],"explanation":"Épanchement pleural = accumulation de liquide dans l'espace pleural. Pneumothorax = AIR. Hémothorax = SANG. Pyothorax/empyème = pus. Chylothorax = lymphe."},
+    {"type":"QCM","question":"Concernant les TRANSSUDATS pleuraux :","options":["Liquide pauvre en protéines (<30 g/L)","Causes : insuffisance cardiaque, cirrhose, syndrome néphrotique","Bilatéraux souvent","Sans cellules inflammatoires","Riche en protéines avec inflammation"],"correct":[0,1,2,3],"explanation":"Transsudat : ↓ protéines, peu cellulaire, mécanisme MÉCANIQUE (↑ pression hydrostatique = ICC ou ↓ pression oncotique = cirrhose, hypoalbuminémie). Souvent bilatéral. Pas inflammatoire."},
+    {"type":"QCM","question":"Concernant les EXSUDATS pleuraux :","options":["Liquide riche en protéines (>30 g/L)","Causes : pneumonie (parapneumonique), cancer, embolie pulmonaire, TB","Origine inflammatoire","Souvent unilatéral","Toujours d'origine cardiaque"],"correct":[0,1,2,3],"explanation":"Exsudat : ↑ protéines, cellulaire, origine INFLAMMATOIRE (perméabilité capillaire ↑ ou drainage lymphatique altéré). Causes : pneumonie, cancer, EP, TB, connectivites. Critères de Light pour différencier."},
+    {"type":"QCS","question":"L'EMPYÈME est :","options":["Un transsudat","Un exsudat avec PUS dans la cavité pleurale (infection)","De l'air pleural","Du sang pleural"],"correct":[1],"explanation":"Empyème = présence de pus dans la cavité pleurale (pleurésie purulente), souvent compliquant une pneumonie bactérienne. Diagnostic : ponction → liquide trouble/purulent, pH bas, glucose bas. Tx = drainage + antibiothérapie."},
+    {"type":"QCS","question":"L'examen physique d'un épanchement pleural montre typiquement :","options":["Tympanisme + sibilants","Matité + abolition des vibrations vocales + abolition du murmure vésiculaire","Râles crépitants diffus","Wheezing"],"correct":[1],"explanation":"Sd d'épanchement pleural liquidien : MATITÉ percussion + ABOLITION des vibrations vocales + ABOLITION du murmure vésiculaire (parfois souffle pleural en haut de l'épanchement)."},
+    {"type":"QCS","question":"Le PNEUMOTHORAX est :","options":["Du liquide pleural","De l'AIR dans la cavité pleurale → collapsus pulmonaire partiel/total","Du sang dans le poumon","Une infection"],"correct":[1],"explanation":"Pneumothorax = présence d'air dans la cavité pleurale. Spontané (rupture de bulle, jeune homme grand maigre), traumatique, iatrogène (post-ponction, ventilation). Peut être COMPRESSIF (urgence)."},
+    {"type":"QCM","question":"Symptômes typiques du PNEUMOTHORAX :","options":["Douleur thoracique brutale en coup de poignard","Dyspnée","Toux sèche","Examen : hypersonorité + abolition murmure vésiculaire","Râles crépitants"],"correct":[0,1,2,3],"explanation":"Pneumothorax : douleur thoracique brutale latéralisée, dyspnée, toux sèche. Examen : HYPERSONORITÉ percussion + abolition du murmure vésiculaire + abolition des vibrations vocales. RX confirme."},
+    {"type":"QCS","question":"Un pneumothorax COMPRESSIF (suffocant) est :","options":["Bénin","Une URGENCE VITALE avec compression médiastinale → exsufflation immédiate","Sans symptôme","Spontanément résolutif"],"correct":[1],"explanation":"Pneumothorax compressif/suffocant : air sous tension comprime médiastin, vaisseaux, poumon controlatéral → choc obstructif → décès rapide. URGENCE : exsufflation à l'aiguille en 2e EIC ligne médio-claviculaire puis drainage thoracique."},
+    {"type":"QCS","question":"Un HÉMOTHORAX correspond à :","options":["De l'air pleural","Du SANG dans la cavité pleurale (souvent traumatique)","De l'eau pleurale","Du pus pleural"],"correct":[1],"explanation":"Hémothorax = sang dans la cavité pleurale. Causes : traumatique (le plus souvent), iatrogène, néoplasique, anévrismale. Tx = drainage thoracique, surveillance saignement, parfois chirurgie."},
+    {"type":"QCS","question":"Le MÉSOTHÉLIOME PLEURAL est :","options":["Une tumeur bénigne fréquente","Une tumeur maligne RARE de la plèvre, fortement liée à l'AMIANTE","Une infection","Une atrophie"],"correct":[1],"explanation":"Mésothéliome pleural malin : tumeur agressive primitive de la plèvre, fortement liée à l'exposition à l'amiante (avec long délai 20-40 ans). Pronostic très sombre. Maladie professionnelle indemnisable."},
+    {"type":"QCM","question":"Concernant la PRISE EN CHARGE KINÉSITHÉRAPIQUE des troubles restrictifs :","options":["Réentraînement à l'effort","Travail de la ventilation thoraco-abdominale","Maintien des amplitudes thoraciques","Drainage bronchique si encombrement","Aucun bénéfice prouvé"],"correct":[0,1,2,3],"explanation":"Kiné restrictif : réentraînement à l'effort, ventilation dirigée (diaphragmatique), assouplissement thoracique, désencombrement, oxygénothérapie d'effort. Améliore la qualité de vie et la dyspnée."},
+    {"type":"QCS","question":"Les râles crépitants dits 'velcro' sont caractéristiques de :","options":["L'asthme","La fibrose pulmonaire (FPI, MIP)","La BPCO","Le pneumothorax"],"correct":[1],"explanation":"Crépitants 'velcro' : crépitants secs, fins, en fin d'inspiration, prédominant aux bases. Caractéristiques de la fibrose pulmonaire idiopathique et autres MIP. Évoquent une atteinte interstitielle."},
+    {"type":"QCS","question":"L'HIPPOCRATISME DIGITAL (clubbing) :","options":["Est un signe de bronchite chronique","Témoigne souvent d'une hypoxie chronique (cardio-pulmonaire) : MIP, BPCO sévère, cancer broncho-pulmonaire","N'a aucune signification","Est une malformation congénitale exclusive"],"correct":[1],"explanation":"Hippocratisme digital : déformation des doigts en baguette de tambour avec ongles bombés. Causes : hypoxémie chronique (MIP, mucoviscidose, cardiopathie cyanogène), cancer broncho-pulmonaire, MICI. Mécanisme mal compris."},
+    {"type":"QCS","question":"Le DIAGNOSTIC d'un trouble restrictif repose sur :","options":["La spirométrie seule","La pléthysmographie (mesure des volumes pulmonaires : CPT)","La radiographie seule","L'EFR avec mesure de la diffusion (DLCO) souvent abaissée"],"correct":[1],"explanation":"TVR confirmé par pléthysmographie (CPT <80% prédit). EFR complémentaires : DLCO (capacité de diffusion CO) souvent ↓ dans les MIP. Spirométrie seule insuffisante (mesure VEMS/CV)."},
+    {"type":"QCM","question":"Causes IATROGÈNES de fibrose pulmonaire :","options":["Amiodarone","Méthotrexate","Bléomycine (chimiothérapie)","Radiothérapie thoracique","Antibiotiques courants"],"correct":[0,1,2,3],"explanation":"Médicaments pneumotoxiques : amiodarone (cordarone), méthotrexate (PR), bléomycine (cancer testiculaire), radiothérapie. Toujours évoquer en cas de toux/dyspnée chez patient sous ces traitements."},
+    {"type":"QCS","question":"Une PLEURÉSIE est :","options":["Une inflammation/épanchement de la plèvre","Une infection bronchique","Un trouble alvéolaire","Un cancer pulmonaire"],"correct":[0],"explanation":"Pleurésie = inflammation de la plèvre, souvent associée à un épanchement liquidien. Causes : infectieuses (pneumonie, TB), tumorales, cardiaques (transsudat ICC), inflammatoires (PR, lupus)."},
+    {"type":"QCS","question":"Le rôle du KINÉSITHÉRAPEUTE dans la PLEURÉSIE est :","options":["Drainer chirurgicalement la plèvre","Faciliter la réexpansion pulmonaire (incitation à l'inspiration), prévenir la pachypleurite (synéchies)","Prescrire des antibiotiques","Inactiver"],"correct":[1],"explanation":"Kiné post-pleurésie : ventilation dirigée pour réexpansion pulmonaire, mobilisation thoracique, prévention des séquelles fibrotiques (pachypleurite). Ne réalise pas le drainage chirurgical."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 13 — Maladies Obstructives</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 13 — <span>Maladies Obstructives</span></h1>
+  <div class="hero-sub">Fiche TP 13 · BPCO, asthme, bronchiectasie · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 13 — Maladies Obstructives"</strong> (BPCO, asthme, bronchiectasie, GOLD).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 13 — Maladies Obstructives",
+  questions: [
+    {"type":"QCS","question":"Un trouble ventilatoire OBSTRUCTIF se définit en spirométrie par :","options":["Un VEMS/CV (Tiffeneau) > 80%","Un VEMS/CV < 70%","Une CV diminuée seule","Une diffusion alvéolo-capillaire diminuée seule"],"correct":[1],"explanation":"Trouble ventilatoire obstructif (TVO) : VEMS/CV (rapport de Tiffeneau) <70% (post-bronchodilatateur). Caractérise BPCO, asthme, bronchectasies, mucoviscidose."},
+    {"type":"QCS","question":"La BPCO est caractérisée par :","options":["Une obstruction bronchique TOTALEMENT réversible","Une obstruction bronchique NON ENTIÈREMENT réversible, avec inflammation chronique liée au tabac","Une infection chronique","Une auto-immunité"],"correct":[1],"explanation":"BPCO = trouble ventilatoire obstructif PERSISTANT, NON entièrement réversible (vs asthme), inflammatoire chronique des bronches/poumons, principalement liée au tabac. Évolution progressive avec exacerbations."},
+    {"type":"QCM","question":"Quels sont les facteurs DE RISQUE de la BPCO ?","options":["Tabagisme actif","Tabagisme passif","Pollution atmosphérique / professionnelle","Déficit en α1-antitrypsine (génétique)","Activité physique régulière"],"correct":[0,1,2,3],"explanation":"FdR BPCO : tabac (~90% des cas), tabac passif, pollution (extérieure et intérieure : biomasse), expositions professionnelles (silice, poussières), déficit en α1-antitrypsine. L'activité physique est protectrice."},
+    {"type":"QCS","question":"La classification GOLD de la BPCO repose principalement sur :","options":["L'âge du patient","Le VEMS post-bronchodilatateur (% prédit) + symptômes + exacerbations","La radiographie","La SpO2 uniquement"],"correct":[1],"explanation":"Classification GOLD : sévérité spirométrique (GOLD 1 ≥80%, 2 50-79%, 3 30-49%, 4 <30% du VEMS prédit) + groupes symptômes/exacerbations (A, B, E)."},
+    {"type":"QCM","question":"Symptômes typiques de la BPCO :","options":["Dyspnée d'effort (puis de repos en évoluant)","Toux chronique productive (bronchite chronique)","Expectoration","Sibilants à l'auscultation","Apparition aiguë sans antécédent tabagique"],"correct":[0,1,2,3],"explanation":"Symptômes BPCO : dyspnée chronique progressive, toux + expectoration (>3 mois/an, 2 ans = bronchite chronique), sibilants, distension thoracique. Évolution INSIDIEUSE chez fumeur (≥10 paquets-année)."},
+    {"type":"QCM","question":"Quels TRAITEMENTS sont utilisés dans la BPCO stable ?","options":["Sevrage tabagique (mesure essentielle)","Bronchodilatateurs (β2 mimétiques, anticholinergiques) longue/courte durée","Corticoïdes inhalés (selon profil)","Réhabilitation respiratoire (kinésithérapie)","Antibiotiques systématiques au long cours"],"correct":[0,1,2,3],"explanation":"Tx BPCO : sevrage tabagique (le PLUS efficace), bronchodilatateurs LABA/LAMA, ICS si éosinophilie/exacerbations, vaccination grippe + pneumocoque, oxygénothérapie longue durée si IRC, kiné/réhabilitation respiratoire. Antibiotiques uniquement en exacerbation."},
+    {"type":"QCS","question":"L'ASTHME se distingue de la BPCO par :","options":["Une obstruction COMPLÈTEMENT réversible (sous bronchodilatateurs)","Une obstruction non réversible","Une absence d'inflammation","Une cause exclusivement tabagique"],"correct":[0],"explanation":"Asthme = obstruction RÉVERSIBLE (totalement ou partiellement) sous bronchodilatateurs ou spontanément. BPCO = obstruction non/peu réversible. Asthme : inflammation à éosinophiles, allergique souvent."},
+    {"type":"QCM","question":"Quels sont les SYMPTÔMES typiques de l'ASTHME ?","options":["Dyspnée variable / paroxystique","Sibilants","Toux (souvent nocturne)","Oppression thoracique","Stable et constante"],"correct":[0,1,2,3],"explanation":"Asthme : symptômes VARIABLES dans le temps, ↑ la nuit / au petit matin, déclenchés par allergènes, effort, infection, froid, irritants. Typiquement : dyspnée + sibilants + toux + oppression thoracique."},
+    {"type":"QCM","question":"Concernant la PHYSIOPATHOLOGIE de l'asthme :","options":["Inflammation chronique des bronches","Hyperréactivité bronchique","Bronchospasme (contraction muscle lisse)","Hypersécrétion de mucus","Lésion alvéolaire avec emphysème"],"correct":[0,1,2,3],"explanation":"Asthme = triade : inflammation chronique (éosinophiles, IgE), hyperréactivité bronchique, obstruction (bronchospasme + œdème + mucus). L'emphysème est une caractéristique de la BPCO, pas de l'asthme."},
+    {"type":"QCM","question":"Quels FACTEURS DÉCLENCHANTS d'une crise d'asthme ?","options":["Allergènes (acariens, pollens, animaux)","Effort physique (asthme d'effort)","Infections virales","Air froid, fumée","Aspirine et AINS chez certains patients"],"correct":[0,1,2,3,4],"explanation":"Déclencheurs : allergènes, effort, infections virales (rhume), air froid, fumée, irritants chimiques, aspirine/AINS (asthme à AINS), reflux gastro-œsophagien, stress émotionnel."},
+    {"type":"QCS","question":"Le traitement de SECOURS de la crise d'asthme est :","options":["Corticoïdes inhalés","β2-mimétiques de courte durée d'action (salbutamol = Ventoline)","Antibiotiques","Antihistaminiques"],"correct":[1],"explanation":"Tx de crise : β2-mimétiques courte durée (salbutamol/Ventoline) en aérosols-doseurs ou nébulisation. Si crise sévère : corticoïdes systémiques (oraux ou IV). Bronchodilatateur d'urgence."},
+    {"type":"QCS","question":"Le traitement de FOND de l'asthme persistant repose sur :","options":["Salbutamol seul","Corticoïdes inhalés (CSI), associés à un β2 longue durée si modéré-sévère","Antibiotiques","Antihistaminiques uniquement"],"correct":[1],"explanation":"Tx de fond asthme : CSI = pierre angulaire (anti-inflammatoire), associés à un LABA (β2 longue durée) si nécessaire. Selon sévérité : palier de Salford/GINA. Éducation thérapeutique cruciale."},
+    {"type":"QCS","question":"Une BRONCHIECTASIE / DDB (dilatation des bronches) est :","options":["Une dilatation transitoire et bénigne","Une dilatation IRRÉVERSIBLE et anormale des bronches, avec destruction des parois","Une inflammation alvéolaire","Un cancer bronchique"],"correct":[1],"explanation":"DDB = dilatation IRRÉVERSIBLE et permanente des bronches avec destruction de la paroi (élastique, musculaire), entraînant accumulation de sécrétions et infections récurrentes. Causes : post-infectieuses, mucoviscidose, déficit immunitaire."},
+    {"type":"QCM","question":"Symptômes des BRONCHIECTASIES :","options":["Toux chronique productive","Bronchorrhée importante (expectoration abondante)","Hémoptysies récurrentes","Infections respiratoires à répétition","Apparition brutale en 1 jour"],"correct":[0,1,2,3],"explanation":"DDB : toux + bronchorrhée chronique (parfois plusieurs verres/jour, expectoration jaune-verte), hémoptysies fréquentes, infections récidivantes (Pseudomonas, H. influenzae). Évolution chronique progressive."},
+    {"type":"QCS","question":"L'examen de référence pour le diagnostic de BRONCHIECTASIES est :","options":["Radiographie thoracique","Scanner thoracique haute résolution (TDM HR)","ECG","IRM cardiaque"],"correct":[1],"explanation":"TDM HR thoracique = examen de référence pour DDB : visualise la dilatation bronchique (bronches > artère adjacente, image 'en bague à chaton'), épaississement pariétal, mucus, atteintes sacculaires/cylindriques."},
+    {"type":"QCS","question":"L'EMPHYSÈME pulmonaire est :","options":["Une inflammation aiguë","Une destruction des parois alvéolaires avec hyperdistension irréversible","Une infection bactérienne","Une tumeur bénigne"],"correct":[1],"explanation":"Emphysème : destruction irréversible des parois alvéolaires → hyperdistension distale, ↓ surface d'échange. Souvent associé à la BPCO. Centrolobulaire (tabac) ou panlobulaire (déficit α1-antitrypsine)."},
+    {"type":"QCS","question":"Une EXACERBATION de BPCO est définie par :","options":["Une amélioration transitoire des symptômes","Une aggravation aiguë des symptômes nécessitant un changement thérapeutique (souvent infectieuse)","Le diagnostic initial","La fin de l'évolution"],"correct":[1],"explanation":"Exacerbation BPCO = aggravation aiguë des symptômes (dyspnée, toux, expectoration ± purulence) au-delà des variations quotidiennes, nécessitant une modification du traitement. Souvent infectieuse (virale ou bactérienne)."},
+    {"type":"QCM","question":"Concernant la KINÉSITHÉRAPIE RESPIRATOIRE dans la BPCO :","options":["Désencombrement bronchique","Réentraînement à l'effort","Éducation thérapeutique (ventilation dirigée, économie d'effort)","Réhabilitation respiratoire en programme structuré","Aucun bénéfice prouvé"],"correct":[0,1,2,3],"explanation":"Kiné BPCO : désencombrement (AFE, ELTGOL), réentraînement à l'effort (vélo, marche), éducation, ventilation diaphragmatique, lèvres pincées, technique de toux. Réhabilitation respiratoire = bénéfice MAJEUR prouvé sur dyspnée et qualité de vie."},
+    {"type":"QCS","question":"Le SEVRAGE TABAGIQUE est :","options":["Inutile car les lésions sont irréversibles","La mesure la plus efficace pour ralentir l'évolution de la BPCO et réduire la mortalité","Réservé aux jeunes","Recommandé uniquement après 70 ans"],"correct":[1],"explanation":"Le sevrage tabagique est LA SEULE intervention qui ralentit le déclin du VEMS et améliore la survie en BPCO. À tout âge ! Outils : substitution nicotinique, varénicline, bupropion, accompagnement psychologique."},
+    {"type":"QCS","question":"L'OXYGÉNOTHÉRAPIE de longue durée (OLD) en BPCO est indiquée si :","options":["SpO2 normale","PaO2 ≤ 55 mmHg (ou 56-59 si HTAP/œdème) en air ambiant à l'état stable, ≥15h/jour","Dyspnée légère sans hypoxémie","Toujours en cas de BPCO"],"correct":[1],"explanation":"OLD : indiquée si PaO2 ≤55 mmHg en AA à l'état stable (ou 56-59 + HTAP, polyglobulie, ICD), ≥15h/jour (idéalement 18h+). Améliore la survie chez insuffisant respiratoire chronique hypoxémique."},
+    {"type":"QCS","question":"Le tableau du « PINK PUFFER » (BPCO emphysémateuse) typique :","options":["Cyanosé, en surcharge, polypnée minimale","Maigre, dyspnée importante, peu cyanosé, distension thoracique","Obèse, somnolent, cyanosé","Asymptomatique au repos sans signes"],"correct":[1],"explanation":"Pink puffer (souffleur rose) : type EMPHYSÉMATEUX → maigre, distension thoracique majeure, dyspnée +++, peu cyanosé (PaO2 préservée par hyperventilation). Vs blue bloater (bronchitique chronique : obèse, cyanose, ICD)."},
+    {"type":"QCS","question":"Un signe de DÉTRESSE RESPIRATOIRE majeur lors d'une crise d'asthme grave est :","options":["Sibilants intenses","Cyanose, mise en jeu des muscles inspiratoires accessoires, FR>30, silence auscultatoire","Toux légère","FC normale"],"correct":[1],"explanation":"Crise d'asthme grave : tachycardie, polypnée, tirage, cyanose, difficulté à parler, agitation. SILENCE AUSCULTATOIRE = très grave (obstruction quasi-totale, plus de sibilants !). Urgence vitale → réa."},
+    {"type":"QCM","question":"Concernant la MUCOVISCIDOSE :","options":["Maladie génétique (autosomique récessive, gène CFTR)","Mucus épais, encombrement bronchique chronique","Atteinte multiviscérale (poumons, pancréas, intestins, foie)","Diagnostic par test de la sueur (chlorures sudoraux ↑)","Maladie acquise par tabac"],"correct":[0,1,2,3],"explanation":"Mucoviscidose : maladie génétique (CFTR), mucus visqueux → encombrement bronchique chronique, infections récurrentes (Pseudomonas, S. aureus), insuffisance pancréatique. Diagnostic : test sueur, génétique. Pas tabac."},
+    {"type":"QCS","question":"L'ASTHME D'EFFORT (AIE) :","options":["Survient au repos","Apparaît typiquement 5-15 minutes après le début/fin d'un effort intense","Ne peut être prévenu","N'est pas un asthme vrai"],"correct":[1],"explanation":"Asthme d'effort : bronchospasme post-effort (5-15 min après), surtout après effort intense en air froid/sec. Prévention : β2-CDA 15 min avant l'effort, échauffement progressif, contrôle de l'asthme de fond."},
+    {"type":"QCS","question":"Le rôle des CORTICOSTÉROÏDES INHALÉS (CSI) dans l'asthme est :","options":["Bronchodilatateur","Anti-inflammatoire (réduit l'inflammation chronique des bronches)","Antibiotique","Antitussif"],"correct":[1],"explanation":"CSI (béclométhasone, fluticasone, budésonide) : effet ANTI-INFLAMMATOIRE local. Pierre angulaire du Tx de fond. PAS de bronchodilatation immédiate (vs β2). À prendre quotidiennement même asymptomatique. Rincer la bouche après."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

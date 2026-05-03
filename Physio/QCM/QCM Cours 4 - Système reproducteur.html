@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM – Système Reproducteur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1117;
+    --bg2: #161b25;
+    --card: #1b2030;
+    --card2: #252b3f;
+    --ink: #e8eaf0;
+    --muted: #8a93a8;
+    --border: rgba(255,255,255,0.07);
+    --accent: #f472b6;
+    --accent2: #fbbf24;
+    --accent3: #2dd4bf;
+    --accent4: #4f9cf9;
+    --accent5: #a78bfa;
+    --correct: #3dd68c;
+    --wrong: #ff5c6b;
+    --shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: radial-gradient(ellipse at top, #1b2030 0%, #0e1117 60%); color: var(--ink); min-height: 100vh; line-height: 1.6; padding: 24px 16px 60px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 32px; padding: 28px 20px; background: linear-gradient(135deg, rgba(244,114,182,0.12), rgba(167,139,250,0.08)); border: 1px solid var(--border); border-radius: 16px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: radial-gradient(circle, var(--accent2), transparent 70%); opacity: 0.2; border-radius: 50%; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1.1; margin-bottom: 6px; background: linear-gradient(135deg, #f472b6, #a78bfa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .header .subtitle { color: var(--muted); font-size: 14px; letter-spacing: 0.5px; }
+  .header .meta { margin-top: 12px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .header .meta span { background: rgba(255,255,255,0.04); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); }
+  .mode-selector { display: flex; gap: 12px; margin-bottom: 24px; background: var(--card); padding: 6px; border-radius: 14px; border: 1px solid var(--border); }
+  .mode-btn { flex: 1; padding: 14px 16px; background: transparent; border: none; color: var(--muted); cursor: pointer; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .mode-btn .ic { font-size: 18px; }
+  .mode-btn:hover { color: var(--ink); background: rgba(255,255,255,0.04); }
+  .mode-btn.active { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .mode-btn small { font-weight: 400; opacity: 0.85; font-size: 11px; margin-top: 2px; }
+  .progress { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .progress-text { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .progress-text strong { color: var(--ink); font-size: 14px; }
+  .progress-bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent3), var(--accent4)); border-radius: 4px; width: 0%; transition: width 0.4s ease; }
+  .score-pill { background: linear-gradient(135deg, var(--accent3), var(--accent4)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .question-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .q-num { display: inline-block; background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .q-difficulty { display: inline-block; margin-left: 6px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+  .q-difficulty.easy { background: rgba(61,214,140,0.15); color: var(--correct); border: 1px solid rgba(61,214,140,0.3); }
+  .q-difficulty.medium { background: rgba(255,159,67,0.15); color: var(--accent2); border: 1px solid rgba(255,159,67,0.3); }
+  .q-difficulty.hard { background: rgba(255,92,107,0.15); color: var(--wrong); border: 1px solid rgba(255,92,107,0.3); }
+  .q-text { font-size: 18px; font-weight: 600; line-height: 1.5; margin-bottom: 18px; color: var(--ink); }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { background: var(--bg2); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; font-size: 14.5px; user-select: none; }
+  .option:hover { border-color: var(--accent4); background: rgba(74,158,255,0.05); transform: translateY(-1px); }
+  .option.selected { border-color: var(--accent4); background: rgba(74,158,255,0.10); box-shadow: 0 0 0 3px rgba(74,158,255,0.15); }
+  .option .marker { width: 28px; height: 28px; border-radius: 50%; background: var(--card2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all 0.2s; }
+  .option.selected .marker { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; border-color: transparent; }
+  .option.correct { border-color: var(--correct); background: rgba(61,214,140,0.10); }
+  .option.correct .marker { background: var(--correct); color: #0a0c14; border-color: transparent; }
+  .option.wrong { border-color: var(--wrong); background: rgba(255,92,107,0.10); }
+  .option.wrong .marker { background: var(--wrong); color: #fff; border-color: transparent; }
+  .option.disabled { cursor: default; pointer-events: none; opacity: 0.85; }
+  .option.disabled:hover { transform: none; }
+  .feedback { margin-top: 18px; padding: 14px 16px; border-radius: 10px; border-left: 4px solid; font-size: 14px; line-height: 1.55; display: none; }
+  .feedback.show { display: block; animation: slideIn 0.3s ease; }
+  .feedback.correct { background: rgba(61,214,140,0.08); border-color: var(--correct); }
+  .feedback.wrong { background: rgba(255,92,107,0.08); border-color: var(--wrong); }
+  .feedback .verdict { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .feedback.correct .verdict { color: var(--correct); }
+  .feedback.wrong .verdict { color: var(--wrong); }
+  .feedback .explanation { color: var(--ink); font-size: 13.5px; }
+  .feedback .explanation strong { color: var(--accent2); }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .controls { display: flex; gap: 12px; justify-content: space-between; margin-top: 22px; }
+  .btn { padding: 12px 22px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-secondary { background: var(--card2); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--card); border-color: var(--accent4); }
+  .results { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; text-align: center; box-shadow: var(--shadow); }
+  .results h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+  .results .final-score { font-size: 64px; font-weight: 900; margin: 18px 0; background: linear-gradient(135deg, var(--accent3), var(--accent4)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .final-score.bad { background: linear-gradient(135deg, var(--wrong), var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .verdict-msg { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 30px; }
+  .stat { background: var(--bg2); padding: 16px 10px; border-radius: 10px; border: 1px solid var(--border); }
+  .stat .num { font-size: 22px; font-weight: 800; }
+  .stat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+  .stat.correct .num { color: var(--correct); }
+  .stat.wrong .num { color: var(--wrong); }
+  .stat.total .num { color: var(--accent4); }
+  .review-section { margin-top: 24px; text-align: left; }
+  .review-section h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .review-q { background: var(--bg2); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border-left: 3px solid var(--correct); }
+  .review-q.wrong { border-left-color: var(--wrong); }
+  .review-q .rq-title { font-weight: 600; margin-bottom: 6px; font-size: 13.5px; }
+  .review-q .rq-ans { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .review-q .rq-ans strong { color: var(--ink); }
+  .review-q .rq-correct { color: var(--correct); font-size: 12.5px; }
+  .review-q .rq-explain { font-size: 12.5px; color: var(--muted); margin-top: 6px; font-style: italic; }
+  .hidden { display: none !important; }
+  @media (max-width: 600px) {
+    body { padding: 14px 8px 40px; }
+    .header h1 { font-size: 24px; }
+    .question-card { padding: 18px; }
+    .q-text { font-size: 16px; }
+    .option { padding: 11px 12px; font-size: 13.5px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .mode-btn { padding: 10px 8px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="wrap">
+  <div class="header">
+    <h1>QCM – Système Reproducteur</h1>
+    <div class="subtitle">Cours 4 · Physiologie II</div>
+    <div class="meta"><span>📚 30 questions</span><span>⏱️ ~15 min</span><span>🎯 Niveau mixte</span></div>
+  </div>
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="revision"><span class="ic">📖</span><span>Révision<small style="display:block">Correction immédiate</small></span></button>
+    <button class="mode-btn" data-mode="exam"><span class="ic">🎓</span><span>Examen<small style="display:block">Score à la fin</small></span></button>
+  </div>
+  <div class="progress" id="progressBar">
+    <div class="progress-text">Question <strong id="currentQ">1</strong> / <strong id="totalQ">30</strong></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="score-pill" id="scorePill">0 / 0</div>
+  </div>
+  <div id="quizArea"></div>
+  <div class="results hidden" id="results">
+    <h2>🏆 Résultats</h2>
+    <div class="final-score" id="finalScore">0%</div>
+    <div class="verdict-msg" id="verdictMsg"></div>
+    <div class="stats-grid">
+      <div class="stat correct"><div class="num" id="statCorrect">0</div><div class="lbl">Correctes</div></div>
+      <div class="stat wrong"><div class="num" id="statWrong">0</div><div class="lbl">Incorrectes</div></div>
+      <div class="stat total"><div class="num" id="statTotal">0</div><div class="lbl">Total</div></div>
+    </div>
+    <div class="controls" style="justify-content:center;"><button class="btn btn-secondary" onclick="restart()">🔄 Recommencer</button></div>
+    <div class="review-section"><h3>📋 Révision détaillée</h3><div id="reviewList"></div></div>
+  </div>
+</div>
+<script>
+const questions = [{"q": "Combien de chromosomes contient une cellule somatique humaine ?", "difficulty": "easy", "options": ["23 (haploïde)", "46 (diploïde, 23 paires)", "92", "44 sans chromosomes sexuels"], "correct": 1, "explanation": "Cellule somatique = 2n = 46 chromosomes (22 paires d'autosomes + 1 paire sexuelle XX/XY). Gamètes haploïdes n=23."}, {"q": "Combien de chromosomes contient un gamète humain ?", "difficulty": "easy", "options": ["23 (haploïde)", "46", "92", "44"], "correct": 0, "explanation": "Les gamètes (spermatozoïde, ovule) sont haploïdes : n = 23 chromosomes (issus de la méiose)."}, {"q": "Le caryotype féminin est :", "difficulty": "easy", "options": ["46, XY", "46, XX", "47, XXY", "45, X"], "correct": 1, "explanation": "Caryotype féminin normal = 46, XX. Caryotype masculin = 46, XY. Anomalies : Klinefelter (47, XXY), Turner (45, X)."}, {"q": "Combien de jours dure le cycle menstruel typique ?", "difficulty": "easy", "options": ["~14 jours", "~21 jours", "~28 jours", "~35 jours"], "correct": 2, "explanation": "Cycle menstruel typique : ~28 jours (variable de 21 à 35 jours)."}, {"q": "Quand a lieu l'ovulation lors d'un cycle de 28 jours ?", "difficulty": "easy", "options": ["Jour 7", "Jour 14 (après le pic de LH)", "Jour 21", "Jour 1"], "correct": 1, "explanation": "Ovulation ~24h après le pic de LH, généralement vers le jour 14 du cycle."}, {"q": "Où a lieu la spermatogenèse ?", "difficulty": "easy", "options": ["Cellules de Leydig", "Tubes séminifères des testicules", "Épididyme", "Prostate"], "correct": 1, "explanation": "Spermatogenèse = tubes séminifères des testicules. Maturation finale dans l'épididyme."}, {"q": "Quelles cellules produisent la testostérone ?", "difficulty": "easy", "options": ["Cellules de Sertoli", "Cellules de Leydig (interstitielles, sous LH)", "Cellules de Kupffer", "Cellules béta"], "correct": 1, "explanation": "Cellules de Leydig = cellules interstitielles testiculaires, sous contrôle de la LH, produisent la testostérone."}, {"q": "Quel est le rôle des cellules de Sertoli ?", "difficulty": "easy", "options": ["Produire la testostérone", "Soutenir la spermatogenèse, sécréter l'inhibine, sous FSH", "Fabriquer le sperme", "Sécréter le mucus"], "correct": 1, "explanation": "Cellules de Sertoli (sous FSH) : nourrissent et soutiennent les cellules germinales, sécrètent l'inhibine (rétroaction négative sur FSH)."}, {"q": "L'âge moyen de la puberté chez la fille est :", "difficulty": "easy", "options": ["6–8 ans", "11–13 ans", "16–18 ans", "20–22 ans"], "correct": 1, "explanation": "Puberté féminine : 11–13 ans (↑ œstrogènes + progestérone). Ménarche entre 11 et 16 ans typiquement."}, {"q": "Quel est le rôle de la FSH chez l'homme ?", "difficulty": "medium", "options": ["Stimuler la testostérone", "Stimuler la spermatogenèse via les cellules de Sertoli", "Inhiber la GnRH", "Réguler l'érection"], "correct": 1, "explanation": "FSH ♂ : agit sur les cellules de Sertoli → spermatogenèse. LH ♂ : agit sur cellules de Leydig → testostérone."}, {"q": "L'hormone produite par le corps jaune après l'ovulation est :", "difficulty": "medium", "options": ["Œstrogènes seuls", "Progestérone (et un peu d'œstrogènes)", "FSH/LH", "Inhibine seule"], "correct": 1, "explanation": "Corps jaune (corpus luteum) sécrète principalement de la progestérone (et œstrogènes) pour préparer l'endomètre à une éventuelle nidation."}, {"q": "Si la fécondation n'a pas lieu, que devient le corps jaune ?", "difficulty": "medium", "options": ["Continue à produire de la progestérone", "Dégénère (corpus albicans) → ↓ progestérone → menstruation", "Devient un nouveau follicule", "Libère un autre ovocyte"], "correct": 1, "explanation": "Sans fécondation, le corps jaune dégénère vers J24-26 → corpus albicans → ↓ progestérone et œstrogènes → desquamation endométriale = règles."}, {"q": "Où se déroule la fécondation ?", "difficulty": "medium", "options": ["Utérus", "Ovaire", "Ampoule de la trompe de Fallope (1/3 externe)", "Vagin"], "correct": 2, "explanation": "Fécondation dans l'ampoule de la trompe de Fallope. L'œuf migre ensuite vers l'utérus où il s'implante (~J6-7)."}, {"q": "Quelle est la durée de vie d'un spermatozoïde dans les voies féminines ?", "difficulty": "medium", "options": ["1 heure", "12 heures", "3 à 5 jours", "1 mois"], "correct": 2, "explanation": "Spermatozoïde survit 3–5 jours dans les voies féminines. Ovocyte fécondable ~24h. Fenêtre de fertilité : ~6 jours autour de l'ovulation."}, {"q": "L'hCG est sécrétée par :", "difficulty": "medium", "options": ["L'hypophyse", "Le trophoblaste embryonnaire dès l'implantation", "L'ovaire", "L'hypothalamus"], "correct": 1, "explanation": "hCG = gonadotrophine chorionique humaine, sécrétée par le trophoblaste/placenta dès l'implantation. Maintient le corps jaune jusqu'à ~10-12 SA. Détectée par les tests de grossesse."}, {"q": "Quel est le rôle principal de la testostérone ?", "difficulty": "medium", "options": ["Régule la glycémie", "Caractères sexuels masculins, spermatogenèse, libido, masse musculaire, érythropoïèse", "Production de bile", "Croissance osseuse uniquement"], "correct": 1, "explanation": "Testostérone : caractères sexuels secondaires masculins, soutient la spermatogenèse, libido, masse musculaire (anabolisant), érythropoïèse, voix grave, pilosité, métabolisme."}, {"q": "Le pic de LH déclenche :", "difficulty": "medium", "options": ["La menstruation", "L'ovulation (rupture du follicule de De Graaf)", "La fécondation", "La nidation"], "correct": 1, "explanation": "Pic de LH (déclenché par rétroaction positive des œstrogènes) → rupture du follicule de De Graaf → ovulation (~24h après le pic)."}, {"q": "Quel est le pic d'hormone qui déclenche le pic de LH ?", "difficulty": "medium", "options": ["Progestérone", "Œstrogènes (rétroaction positive en fin de phase folliculaire)", "Inhibine", "FSH"], "correct": 1, "explanation": "En fin de phase folliculaire, les œstrogènes deviennent très élevés → bascule de rétroaction négative vers positive → pic de GnRH → pic de LH (et FSH)."}, {"q": "La phase folliculaire dure :", "difficulty": "medium", "options": ["Toujours 14 jours fixes", "Variable (6–16 jours selon la longueur du cycle)", "Toujours 21 jours", "1 mois"], "correct": 1, "explanation": "Phase folliculaire = variable. C'est elle qui détermine la longueur du cycle. Phase lutéale = constante 14 jours."}, {"q": "La phase lutéale dure :", "difficulty": "medium", "options": ["Variable", "Constante = 14 jours", "21 jours", "7 jours"], "correct": 1, "explanation": "Phase lutéale = TOUJOURS 14 jours (durée de vie du corps jaune en l'absence de grossesse). C'est la phase folliculaire qui varie."}, {"q": "L'inhibine est sécrétée par :", "difficulty": "medium", "options": ["Hypothalamus", "Cellules de Sertoli (♂) / cellules de la granulosa (♀)", "Cellules de Leydig", "Hypophyse"], "correct": 1, "explanation": "Inhibine : ♂ Sertoli, ♀ granulosa → rétroaction négative spécifique sur la FSH (sans agir sur la LH)."}, {"q": "Le follicule de De Graaf correspond au :", "difficulty": "medium", "options": ["Follicule primordial", "Follicule mature/tertiaire prêt à ovuler", "Corps jaune", "Corps albicans"], "correct": 1, "explanation": "Follicule de De Graaf = follicule mature (tertiaire/antral), volumineux, prêt à se rompre lors de l'ovulation."}, {"q": "L'ovogenèse commence :", "difficulty": "medium", "options": ["À la puberté", "Avant la naissance (méiose I bloquée en prophase I)", "Après la ménopause", "À 20 ans"], "correct": 1, "explanation": "L'ovogenèse débute pendant la vie fœtale, méiose I bloquée en prophase I jusqu'à la puberté. Stock fixe d'ovocytes à la naissance (~400 000)."}, {"q": "Quand la méiose II est-elle complétée chez la femme ?", "difficulty": "medium", "options": ["Avant la naissance", "À la puberté", "Au moment du pic de LH", "Après la pénétration du spermatozoïde (fécondation)"], "correct": 3, "explanation": "Méiose II est bloquée en métaphase II et n'est complétée qu'APRÈS la pénétration du spermatozoïde dans l'ovocyte II."}, {"q": "Le clivage de l'angiotensinogène par la rénine produit :", "difficulty": "hard", "options": ["Aldostérone", "Angiotensine I (qui sera ensuite convertie en Ang II par l'ECA)", "Hormone hypothalamique", "Calcitonine"], "correct": 1, "explanation": "Note : ce concept appartient au Cours 2. Pour le système reproducteur, retenir que les axes hormonaux sont précisément régulés par cascades enzymatiques similaires."}, {"q": "Le 1er corps polaire est libéré :", "difficulty": "hard", "options": ["Avant la naissance", "Au moment du pic de LH (achèvement méiose I, juste avant ovulation)", "Après la fécondation", "Pendant la nidation"], "correct": 1, "explanation": "Pic de LH → achèvement de la méiose I → libération du 1er globule polaire et formation de l'ovocyte II. Méiose II reprendra qu'à la fécondation."}, {"q": "L'implantation a lieu vers :", "difficulty": "hard", "options": ["Le jour de la fécondation", "Jour 6-7 post-fécondation (blastocyste)", "Jour 14", "Jour 28"], "correct": 1, "explanation": "Après fécondation, l'œuf se divise en cheminant dans la trompe → blastocyste → implantation dans l'endomètre vers J6-7 post-fécondation."}, {"q": "Le placenta prend le relais du corps jaune vers :", "difficulty": "hard", "options": ["1 SA", "10–12 SA", "20 SA", "À l'accouchement"], "correct": 1, "explanation": "L'hCG maintient le corps jaune jusqu'à ~10-12 SA. Ensuite, le placenta produit suffisamment de progestérone pour maintenir la grossesse."}, {"q": "La barrière hémato-testiculaire est formée par :", "difficulty": "hard", "options": ["Cellules de Leydig", "Jonctions serrées entre cellules de Sertoli", "Tunique albuginée", "Endothélium"], "correct": 1, "explanation": "La barrière hémato-testiculaire (jonctions serrées entre cellules de Sertoli) protège les spermatozoïdes (cellules haploïdes étrangères au système immunitaire) d'une réaction auto-immune."}, {"q": "L'aromatase :", "difficulty": "hard", "options": ["Convertit le glucose en glycogène", "Convertit les androgènes en œstrogènes (cellules de la granulosa, tissu adipeux)", "Détruit les œstrogènes", "Active la testostérone"], "correct": 1, "explanation": "Aromatase : enzyme qui convertit androgènes (testostérone, androstènedione) → œstrogènes (E2, E1). Présente dans granulosa, tissu adipeux, etc. Cible des inhibiteurs (cancer du sein hormonodépendant)."}];
+let currentIndex = 0, score = 0, mode = 'revision', answers = [];
+const quizArea = document.getElementById('quizArea');
+const resultsEl = document.getElementById('results');
+document.getElementById('totalQ').textContent = questions.length;
+function init() {
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      restart();
+    });
+  });
+  renderQuestion();
+}
+function renderQuestion() {
+  if (currentIndex >= questions.length) return showResults();
+  const q = questions[currentIndex];
+  document.getElementById('currentQ').textContent = currentIndex + 1;
+  document.getElementById('progressFill').style.width = ((currentIndex) / questions.length * 100) + '%';
+  document.getElementById('scorePill').textContent = score + ' / ' + currentIndex;
+  const difLabel = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' }[q.difficulty];
+  let optsHTML = q.options.map((opt, i) => '<div class="option" data-i="' + i + '"><div class="marker">' + String.fromCharCode(65+i) + '</div><div>' + opt + '</div></div>').join('');
+  quizArea.innerHTML =
+    '<div class="question-card">' +
+      '<div><span class="q-num">Question ' + (currentIndex + 1) + '</span><span class="q-difficulty ' + q.difficulty + '">' + difLabel + '</span></div>' +
+      '<div class="q-text">' + q.q + '</div>' +
+      '<div class="options" id="optList">' + optsHTML + '</div>' +
+      '<div class="feedback" id="feedback"></div>' +
+      '<div class="controls">' +
+        '<button class="btn btn-secondary" id="prevBtn" ' + (currentIndex === 0 ? 'disabled style="opacity:0.3"' : '') + '>← Précédent</button>' +
+        '<button class="btn btn-primary" id="nextBtn" disabled>Valider →</button>' +
+      '</div>' +
+    '</div>';
+  let selected = null, answered = false;
+  const opts = quizArea.querySelectorAll('.option');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const feedback = document.getElementById('feedback');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (answered) return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selected = parseInt(opt.dataset.i);
+      nextBtn.disabled = false;
+      nextBtn.textContent = mode === 'revision' ? 'Valider →' : 'Suivant →';
+    });
+  });
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      const prevAnswer = answers[currentIndex - 1];
+      if (prevAnswer && prevAnswer.isCorrect) score--;
+      answers.pop();
+      currentIndex--;
+      renderQuestion();
+    }
+  });
+  nextBtn.addEventListener('click', () => {
+    if (selected === null) return;
+    if (mode === 'revision' && !answered) {
+      answered = true;
+      const isCorrect = selected === q.correct;
+      if (isCorrect) score++;
+      answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      opts.forEach((o, i) => {
+        o.classList.add('disabled');
+        if (i === q.correct) o.classList.add('correct');
+        else if (i === selected) o.classList.add('wrong');
+      });
+      feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+      feedback.innerHTML = '<div class="verdict">' + (isCorrect ? '✓ Correct !' : '✗ Incorrect') + '</div><div class="explanation">' + q.explanation + '</div>';
+      nextBtn.textContent = currentIndex === questions.length - 1 ? '🏆 Voir les résultats →' : 'Question suivante →';
+      document.getElementById('scorePill').textContent = score + ' / ' + (currentIndex + 1);
+    } else {
+      if (mode === 'exam') {
+        const isCorrect = selected === q.correct;
+        if (isCorrect) score++;
+        answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      }
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+function showResults() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('scorePill').textContent = score + ' / ' + questions.length;
+  quizArea.classList.add('hidden');
+  resultsEl.classList.remove('hidden');
+  const pct = Math.round(score / questions.length * 100);
+  const finalScoreEl = document.getElementById('finalScore');
+  finalScoreEl.textContent = pct + '%';
+  finalScoreEl.classList.toggle('bad', pct < 50);
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = questions.length - score;
+  document.getElementById('statTotal').textContent = questions.length;
+  let msg;
+  if (pct >= 90) msg = "🌟 Excellent ! Tu maîtrises parfaitement le chapitre.";
+  else if (pct >= 75) msg = "👏 Très bien ! Quelques détails à revoir.";
+  else if (pct >= 60) msg = "👍 Bonne base, mais il reste des points à consolider.";
+  else if (pct >= 40) msg = "📚 Il faut retravailler le cours pour progresser.";
+  else msg = "💪 Courage, reprends la fiche et retente !";
+  document.getElementById('verdictMsg').textContent = msg;
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = answers.map((a, i) => {
+    const q = questions[a.questionIndex];
+    const userAns = a.selected !== null ? '<strong>' + String.fromCharCode(65 + a.selected) + '.</strong> ' + q.options[a.selected] : 'Aucune réponse';
+    const correctBlock = !a.isCorrect ? '<div class="rq-correct">Bonne réponse : <strong>' + String.fromCharCode(65 + q.correct) + '.</strong> ' + q.options[q.correct] + '</div>' : '';
+    return '<div class="review-q ' + (a.isCorrect ? '' : 'wrong') + '">' +
+           '<div class="rq-title">Q' + (a.questionIndex + 1) + '. ' + q.q + '</div>' +
+           '<div class="rq-ans">Ta réponse : ' + userAns + ' ' + (a.isCorrect ? '✓' : '✗') + '</div>' +
+           correctBlock +
+           '<div class="rq-explain">' + q.explanation + '</div>' +
+           '</div>';
+  }).join('');
+}
+function restart() {
+  currentIndex = 0; score = 0; answers = [];
+  resultsEl.classList.add('hidden');
+  quizArea.classList.remove('hidden');
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('scorePill').textContent = '0 / 0';
+  renderQuestion();
+}
+init();
+</script>
+</body>
+</html>

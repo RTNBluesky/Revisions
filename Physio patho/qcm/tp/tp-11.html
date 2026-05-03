@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 11 — Voies respiratoires supérieures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 11 — <span>Voies respiratoires supérieures</span></h1>
+  <div class="hero-sub">Fiche TP 11 · Rhume, sinusite, pharyngite, grippe, COVID · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 11 — Maladies des voies respiratoires supérieures"</strong> (rhume, sinusite, pharyngite, laryngite, grippe, COVID).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 11 — Voies Respiratoires Supérieures",
+  questions: [
+    {"type":"QCM","question":"Les VOIES RESPIRATOIRES SUPÉRIEURES comprennent :","options":["Nez et fosses nasales","Pharynx","Larynx","Sinus paranasaux","Bronches"],"correct":[0,1,2,3],"explanation":"VRS : nez/fosses nasales, sinus paranasaux, pharynx, larynx (jusqu'aux cordes vocales). Les bronches font partie des VRI (voies respiratoires inférieures)."},
+    {"type":"QCS","question":"Le RHUME (rhinite aiguë) est principalement d'origine :","options":["Bactérienne (streptocoque)","Virale (rhinovirus surtout, coronavirus, adénovirus)","Allergique","Mycosique"],"correct":[1],"explanation":"Le rhume est principalement viral : rhinovirus (>50%), coronavirus, adénovirus, VRS, parainfluenza. Pas d'antibiothérapie indiquée. Auto-résolutif en 7-10 jours."},
+    {"type":"QCM","question":"Symptômes typiques du RHUME :","options":["Rhinorrhée (claire puis muqueuse)","Obstruction nasale","Éternuements","Maux de gorge","Fièvre élevée >39°C systématique"],"correct":[0,1,2,3],"explanation":"Rhume : rhinorrhée, obstruction nasale, éternuements, irritation pharyngée, parfois fébricule (faible). Une fièvre élevée doit faire suspecter une grippe ou une surinfection bactérienne."},
+    {"type":"QCS","question":"La SINUSITE BACTÉRIENNE aiguë est suspectée si :","options":["Symptômes de rhume durant <3 jours","Persistance/aggravation des symptômes >10 jours, fièvre >39°C, douleur faciale, écoulement purulent","Toujours après un rhume sans complication","Sans aucun signe clinique"],"correct":[1],"explanation":"Sinusite bactérienne : symptômes >10 jours sans amélioration, ou aggravation après amélioration initiale, douleur faciale, fièvre >39°C, rhinorrhée purulente. Sinusite virale = la majorité, auto-résolutive."},
+    {"type":"QCM","question":"Quels SINUS sont concernés par la sinusite ?","options":["Maxillaires (les plus fréquents)","Frontaux","Ethmoïdaux","Sphénoïdaux","Mastoïdiens (sinus crâniens)"],"correct":[0,1,2,3],"explanation":"4 paires de sinus paranasaux : maxillaires (+ fréquents en sinusite), frontaux, ethmoïdaux, sphénoïdaux. Les sinus mastoïdiens font partie de l'oreille moyenne (mastoïdite)."},
+    {"type":"QCS","question":"La PHARYNGITE STREPTOCOCCIQUE (à streptocoque β-hémolytique du groupe A) doit être traitée par :","options":["Antiviraux","Antibiotiques (amoxicilline) pendant 6 jours","Aucun traitement","Antifongiques"],"correct":[1],"explanation":"Pharyngite à SBHA : antibiothérapie obligatoire pour prévenir les complications post-streptococciques (RAA, glomérulonéphrite). Amoxicilline 6 jours en France. Diagnostic : TROD streptococcique ou culture."},
+    {"type":"QCM","question":"Concernant les complications post-streptococciques de la pharyngite à SBHA :","options":["Rhumatisme articulaire aigu (RAA)","Glomérulonéphrite aiguë post-streptococcique","Phlegmon péri-amygdalien","Otite moyenne aiguë","Diabète"],"correct":[0,1,2,3],"explanation":"Complications : précoces (phlegmon, OMA, sinusite, abcès rétropharyngé), tardives non suppuratives = RAA (cardite, polyarthrite, chorée) et GN aiguë. Le diabète n'a pas de lien direct."},
+    {"type":"QCS","question":"La LARYNGITE aiguë chez l'adulte est principalement :","options":["Virale","Bactérienne","Toujours mycosique","Auto-immune"],"correct":[0],"explanation":"Laryngite aiguë = principalement virale (suite d'une infection des VRS). Symptômes : dysphonie/aphonie, toux sèche. Auto-résolutive en quelques jours. Tx : repos vocal, hydratation."},
+    {"type":"QCS","question":"La LARYNGITE SOUS-GLOTTIQUE de l'enfant (croup) :","options":["Provoque une dyspnée laryngée avec stridor inspiratoire et toux aboyante","Est une urgence respiratoire potentielle","Est principalement virale (parainfluenza)","Toutes les propositions ci-dessus"],"correct":[3],"explanation":"Croup : laryngite sous-glottique virale (parainfluenza) chez 6 mois-3 ans. Triade : toux aboyante (rauque), stridor inspiratoire, dyspnée. Tx = corticoïdes (dexaméthasone) ± adrénaline en aérosol si grave."},
+    {"type":"QCS","question":"La GRIPPE (influenza) est causée par :","options":["Un virus à ADN","Le virus Influenza (A, B, C — virus à ARN segmenté)","Une bactérie","Un champignon"],"correct":[1],"explanation":"Grippe = virus Influenza, ARN segmenté (Orthomyxoviridae). 3 types : A (le + grave, pandémies, épidémies, animal+humain), B (épidémies humaines), C (formes bénignes)."},
+    {"type":"QCM","question":"Symptômes typiques de la GRIPPE :","options":["Début brutal","Fièvre élevée (>39°C)","Myalgies, arthralgies, asthénie marquée","Céphalées","Rhinorrhée abondante isolée sans autre symptôme"],"correct":[0,1,2,3],"explanation":"Grippe : début BRUTAL, fièvre élevée, frissons, myalgies/arthralgies, céphalées, asthénie majeure ('sentiment d'être passé sous un camion'), toux sèche. Distinct du rhume (progressif, peu fébrile)."},
+    {"type":"QCM","question":"Concernant les COMPLICATIONS de la grippe :","options":["Pneumonie virale","Surinfection bactérienne (pneumonie à pneumocoque ou staphylocoque)","Décompensation de comorbidités (insuffisance cardiaque, BPCO)","Sd de Reye chez l'enfant traité par aspirine","Aucune complication possible"],"correct":[0,1,2,3],"explanation":"Complications : pneumonie virale primaire, surinfection bactérienne (pneumocoque, staph), décompensation cardio-respiratoire, encéphalite, péricardite, syndrome de Reye (enfant + aspirine = CONTRE-INDIQUÉ)."},
+    {"type":"QCS","question":"Le VACCIN antigrippal est :","options":["À ARN messager","Inactivé (saisonnier, recomposé chaque année)","Vivant atténué uniquement","Inutile"],"correct":[1],"explanation":"Vaccin antigrippal saisonnier : inactivé (injection IM), recomposé chaque année selon les souches OMS prédites (3 ou 4 souches : A/H1N1, A/H3N2, B). Recommandé : >65 ans, malades chroniques, soignants, enceintes."},
+    {"type":"QCS","question":"Le COVID-19 est causé par :","options":["Le virus Influenza","Le SARS-CoV-2 (coronavirus à ARN)","Une bactérie","Un parasite"],"correct":[1],"explanation":"COVID-19 = SARS-CoV-2 : coronavirus à ARN simple brin positif. Famille Coronaviridae. Découvert fin 2019, pandémie déclarée mars 2020."},
+    {"type":"QCM","question":"Symptômes possibles du COVID-19 :","options":["Fièvre","Toux","Anosmie / agueusie (très évocatrices)","Dyspnée","Diarrhées"],"correct":[0,1,2,3,4],"explanation":"COVID-19 : très polymorphe. Fièvre, toux, anosmie/agueusie (très évocateurs), dyspnée, asthénie, myalgies, céphalées, troubles digestifs, formes asymptomatiques fréquentes. Formes graves = SDRA."},
+    {"type":"QCS","question":"La voie d'entrée principale du SARS-CoV-2 dans les cellules est le récepteur :","options":["ACE2","Hémagglutinine","CD4","TLR4"],"correct":[0],"explanation":"Le SARS-CoV-2 utilise la protéine spike (S) pour se lier au récepteur ACE2 (Angiotensin Converting Enzyme 2) sur les cellules épithéliales (poumon, intestin, vaisseaux). Activation par TMPRSS2."},
+    {"type":"QCM","question":"Concernant la PRÉVENTION des infections respiratoires saisonnières :","options":["Lavage des mains","Port du masque en cas de symptômes","Hygiène respiratoire (tousser dans le coude)","Vaccination (grippe, COVID, pneumocoque)","Antibiothérapie systématique"],"correct":[0,1,2,3],"explanation":"Prévention : hygiène (mains, masque, hygiène respiratoire), vaccination, distanciation. L'antibiothérapie systématique est INUTILE et néfaste (résistances, déséquilibre microbiote) pour les infections virales."},
+    {"type":"QCS","question":"Une OTITE MOYENNE AIGUË (OMA) est :","options":["Une inflammation/infection de l'oreille externe","Une inflammation/infection de l'oreille moyenne (caisse du tympan)","Une atteinte cochléaire","Une atteinte vestibulaire"],"correct":[1],"explanation":"OMA = inflammation de l'oreille moyenne, fréquemment chez l'enfant. Souvent bactérienne (pneumocoque, Haemophilus, Moraxella) compliquant un rhume. Symptômes : otalgie, fièvre, parfois écoulement (perforation)."},
+    {"type":"QCS","question":"La principale étiologie BACTÉRIENNE des sinusites aiguës est :","options":["Streptococcus pneumoniae","Mycobacterium tuberculosis","Pseudomonas","E. coli"],"correct":[0],"explanation":"Sinusites bactériennes (rares vs virales) : Streptococcus pneumoniae +++, Haemophilus influenzae, Moraxella catarrhalis. Tx = amoxicilline (souvent + acide clavulanique)."},
+    {"type":"QCM","question":"Concernant le DRAINAGE BRONCHIQUE / kinésithérapie respiratoire :","options":["Aide à mobiliser les sécrétions","Indiquée dans la bronchiolite, mucoviscidose, BPCO décompensée","Techniques : AFE, désencombrement, drainage autogène","Toujours indiquée dans le rhume","Indiquée en post-opératoire pulmonaire"],"correct":[0,1,2,4],"explanation":"Kiné respi : mobilise les sécrétions (techniques expiratoires lentes ou rapides). Indications : encombrement (bronchiolite, BPCO, mucoviscidose, post-op). Le rhume ne nécessite pas de kiné respi."},
+    {"type":"QCS","question":"Le mécanisme de transmission majeur des virus respiratoires est :","options":["Voie sanguine","Voie sexuelle","Goutelettes (toux, éternuements) + contact avec surfaces contaminées + aérosols","Voie digestive uniquement"],"correct":[2],"explanation":"Virus respiratoires : transmission par gouttelettes (>5µm, courte distance), aérosols (<5µm, longue distance, surtout en milieu fermé), contact direct ou indirect (mains, surfaces, fomites)."},
+    {"type":"QCS","question":"Les ANTIVIRAUX antigrippaux (oseltamivir = Tamiflu) :","options":["Tuent le virus","Inhibent la neuraminidase virale → ↓ libération virale","Sont efficaces sur tous les virus","Doivent être donnés au stade tardif"],"correct":[1],"explanation":"Oseltamivir/zanamivir : inhibiteurs de la neuraminidase. Efficacité optimale si donnés dans les 48h après le début des symptômes. Réduisent la durée et la sévérité des symptômes. Indiqués chez les patients à risque."},
+    {"type":"QCS","question":"L'incubation du COVID-19 est en moyenne de :","options":["1 jour","3-5 jours (jusqu'à 14 jours)","3 semaines","2 mois"],"correct":[1],"explanation":"COVID-19 : incubation médiane 5 jours, possible 1-14 jours. Période de contagion : commence ~2 jours avant les symptômes, max le jour des symptômes, dure ~7-10 jours en cas léger."},
+    {"type":"QCS","question":"Concernant l'évolution naturelle du rhume :","options":["Toujours grave avec hospitalisation","Auto-résolutive en 7-10 jours","Nécessite des antibiotiques systématiques","Ne se résout jamais"],"correct":[1],"explanation":"Rhume : évolution bénigne, auto-résolutive en 7-10 jours. Tx symptomatique uniquement (antalgiques, antipyrétiques, désinfection nasale). Pas d'antibiotiques (virus). Surveillance d'éventuelles complications (sinusite, OMA)."},
+    {"type":"QCS","question":"Les facteurs FAVORISANT les infections des VRS chez l'adulte :","options":["Alimentation équilibrée","Tabagisme actif (paralyse les cils, altère muqueuse)","Immunité optimale","Sport modéré"],"correct":[1],"explanation":"Facteurs de risque : tabac (paralyse les cils muco-ciliaires, altère la muqueuse), pollution, immunodépression, allergies, RGO, déviation septale, terrain ORL (amygdales hypertrophiées). Le sport modéré PROTÈGE."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

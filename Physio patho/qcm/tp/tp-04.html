@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 4 — Inflammation & Réparation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 4 — <span>Inflammation & Réparation</span></h1>
+  <div class="hero-sub">Fiche TP 4 · Inflammation aiguë/chronique, cicatrisation · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 4 — Inflammation & Réparation"</strong> (signes cardinaux, phases, médiateurs, cicatrisation).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 4 — Inflammation & Réparation",
+  questions: [
+    {"type":"QCM","question":"Quels sont les SIGNES CARDINAUX de l'inflammation aiguë (4 signes de Celse + 1 de Galien) ?","options":["Rougeur (rubor)","Chaleur (calor)","Tuméfaction / œdème (tumor)","Douleur (dolor)","Perte de fonction (functio laesa)"],"correct":[0,1,2,3,4],"explanation":"5 signes cardinaux : rubor (rougeur), calor (chaleur), tumor (œdème), dolor (douleur), functio laesa (perte de fonction). Les 4 premiers décrits par Celse, le 5e ajouté par Galien/Virchow."},
+    {"type":"QCS","question":"L'inflammation AIGUË :","options":["Dure plusieurs mois","Est de courte durée (heures à jours)","Est dominée par les lymphocytes","Implique toujours une fibrose"],"correct":[1],"explanation":"Inflammation aiguë : durée courte (minutes-jours), prédominance de PNN (polynucléaires neutrophiles), réversible. Chronique : durée prolongée, lymphocytes/macrophages, fibrose."},
+    {"type":"QCM","question":"L'inflammation CHRONIQUE est caractérisée par :","options":["Prédominance de macrophages et lymphocytes","Persistance dans le temps","Souvent accompagnée de fibrose","Prédominance de polynucléaires neutrophiles","Réponse adaptative"],"correct":[0,1,2,4],"explanation":"Chronique : durée prolongée, macrophages + lymphocytes (réponse adaptative), fibrose, néoangiogenèse. Les PNN sont des cellules de l'aiguë."},
+    {"type":"QCS","question":"Lors de la phase VASCULAIRE de l'inflammation aiguë, quelle est la première modification ?","options":["Vasoconstriction puis vasodilatation","Vasodilatation immédiate puis vasoconstriction","Vasoconstriction prolongée","Aucune modification vasculaire"],"correct":[0],"explanation":"Phase vasculaire : courte vasoconstriction réflexe → vasodilatation marquée → ↑ flux sanguin (rougeur, chaleur) → ↑ perméabilité (œdème)."},
+    {"type":"QCS","question":"Un EXSUDAT inflammatoire se distingue d'un transsudat par :","options":["Une teneur en protéines basse","Une teneur en protéines élevée et présence de cellules","Une couleur claire et limpide","Une absence de fibrine"],"correct":[1],"explanation":"Exsudat : ↑ protéines (>30 g/L), riche en cellules, fibrine — signe d'INFLAMMATION (perméabilité ↑). Transsudat : pauvre en protéines, sans cellules — origine MÉCANIQUE (insuffisance cardiaque, hypoalbuminémie)."},
+    {"type":"QCM","question":"Quels types d'EXSUDATS existent ?","options":["Séreux","Fibrineux","Purulent","Hémorragique","Lymphatique"],"correct":[0,1,2,3],"explanation":"Exsudats : séreux (clair, brûlure), fibrineux (péricardite), purulent (pus, pyogènes), hémorragique (très inflammatoire). Pas d'exsudat lymphatique en tant que catégorie."},
+    {"type":"QCM","question":"Concernant le RECRUTEMENT LEUCOCYTAIRE (étapes), elles incluent :","options":["Margination","Roulement","Adhésion","Transmigration / diapédèse","Chimiotactisme"],"correct":[0,1,2,3,4],"explanation":"Étapes du recrutement leucocytaire (MRATCH) : Margination → Roulement → Adhésion → Transmigration → Chimiotactisme → Phagocytose. Sélectines pour le roulement, intégrines pour l'adhésion."},
+    {"type":"QCS","question":"Le PHÉNOMÈNE de PHAGOCYTOSE comprend :","options":["1 étape","2 étapes","3 étapes (reconnaissance, ingestion, dégradation)","5 étapes"],"correct":[2],"explanation":"Phagocytose en 3 étapes : 1) reconnaissance (opsonines : IgG, C3b) ; 2) ingestion (pseudopodes, phagosome) ; 3) dégradation (fusion lysosome → phagolysosome → enzymes + ROS)."},
+    {"type":"QCS","question":"Quel est le LEUCOCYTE prédominant dans les premières heures de l'inflammation aiguë ?","options":["Lymphocyte","Macrophage","Polynucléaire neutrophile (PNN)","Éosinophile"],"correct":[2],"explanation":"PNN = première cellule à arriver (premières 24h). Puis macrophages prennent le relais (24-48h). Lymphocytes en cas d'inflammation chronique ou virale."},
+    {"type":"QCM","question":"Parmi les médiateurs chimiques de l'inflammation, on trouve :","options":["Histamine (mastocytes)","Prostaglandines","Leucotriènes","Cytokines (TNF, IL-1)","Insuline"],"correct":[0,1,2,3],"explanation":"Médiateurs : histamine (vasodilatation, perméabilité), prostaglandines/leucotriènes (douleur, fièvre), cytokines (TNF, IL-1, IL-6), complément, NO. L'insuline est une hormone métabolique, pas un médiateur inflammatoire."},
+    {"type":"QCS","question":"Les AINS (anti-inflammatoires non stéroïdiens) inhibent principalement :","options":["L'histamine","Les cyclo-oxygénases (COX 1 et 2) → ↓ prostaglandines","Le complément","Les caspases"],"correct":[1],"explanation":"AINS = inhibiteurs des COX → ↓ synthèse de prostaglandines → effet anti-inflammatoire, antalgique, antipyrétique. Effet indésirable digestif (COX-1)."},
+    {"type":"QCM","question":"Concernant les EFFETS SYSTÉMIQUES de l'inflammation (réponse de phase aiguë) :","options":["Fièvre","Leucocytose","↑ protéines de phase aiguë (CRP, fibrinogène)","Augmentation de la VS","Hypothermie"],"correct":[0,1,2,3],"explanation":"Réponse phase aiguë : fièvre (IL-1, IL-6, TNF), leucocytose, ↑ CRP/fibrinogène, ↑ VS, fatigue. L'hypothermie peut survenir en cas de SEPSIS sévère mais ce n'est pas typique."},
+    {"type":"QCS","question":"Un GRANULOME est :","options":["Un type de cellule cancéreuse","Une accumulation focale de macrophages activés (cellules épithélioïdes)","Une bactérie","Une cytokine"],"correct":[1],"explanation":"Granulome = lésion d'inflammation chronique : macrophages activés (cellules épithélioïdes), parfois cellules géantes, lymphocytes. Typique : tuberculose, sarcoïdose, mycoses, corps étrangers."},
+    {"type":"QCM","question":"Quelles maladies sont caractérisées par une inflammation GRANULOMATEUSE ?","options":["Tuberculose","Sarcoïdose","Maladie de Crohn","Grippe","Lèpre"],"correct":[0,1,2,4],"explanation":"Inflammation granulomateuse : tuberculose (granulome caséeux), sarcoïdose (non caséeux), Crohn, lèpre, mycoses. La grippe = inflammation aiguë virale, pas granulomateuse."},
+    {"type":"QCM","question":"Concernant la classification des tissus selon leur capacité de prolifération :","options":["Tissus labiles : se renouvellent en permanence (épithéliums, moelle)","Tissus stables : peuvent proliférer si stimulus (foie, rein)","Tissus permanents : ne se divisent pas (neurones, cardiomyocytes)","Tous les tissus se régénèrent à l'identique","Les neurones se régénèrent comme la peau"],"correct":[0,1,2],"explanation":"3 catégories : labiles (renouvellement constant), stables (quiescents mais capables de proliférer), permanents (post-mitotiques : neurones, myocytes cardiaques → pas de régénération vraie)."},
+    {"type":"QCS","question":"La cicatrisation par PREMIÈRE INTENTION concerne :","options":["Les plaies à bords nets, peu de perte de substance","Les plaies larges avec perte de substance","Les plaies infectées uniquement","Les brûlures profondes"],"correct":[0],"explanation":"1ère intention : plaies bords nets, rapprochés, peu de perte (ex : sutures chirurgicales) → cicatrice fine. 2e intention : perte de substance importante → bourgeon charnu, cicatrice large."},
+    {"type":"QCM","question":"Quels facteurs ALTÈRENT la réparation tissulaire ?","options":["Diabète (hyperglycémie)","Tabagisme","Malnutrition","Infection","Jeune âge"],"correct":[0,1,2,3],"explanation":"Altèrent : diabète, tabac (vasoconstriction), malnutrition (protéines, vitamine C), infections, corticothérapie, ischémie, corps étrangers. Le jeune âge FAVORISE la réparation."},
+    {"type":"QCS","question":"Une cicatrice CHÉLOÏDE est :","options":["Une cicatrice fine et discrète","Une cicatrice hypertrophique débordant les limites de la plaie","Une absence de cicatrice","Une cicatrice rouge mais qui s'estompe rapidement"],"correct":[1],"explanation":"Chéloïde : cicatrice hypertrophique qui DÉBORDE les limites initiales de la plaie (excès de collagène). Plus fréquente chez les peaux foncées. Différente de l'hypertrophie simple (limitée à la plaie)."},
+    {"type":"QCM","question":"Concernant la réparation tissulaire, quelles affirmations sont vraies ?","options":["Régénération = remplacement par le même tissu","Cicatrisation = remplacement par tissu fibreux","La régénération est possible pour les tissus labiles et stables","Les neurones du SNC se régénèrent facilement","La fibrose excessive peut altérer la fonction"],"correct":[0,1,2,4],"explanation":"Régénération (à l'identique) possible pour tissus labiles/stables. Cicatrisation = fibrose (collagène) si la régénération ne suffit pas. Le SNC ne se régénère pas (cicatrice gliale)."},
+    {"type":"QCM","question":"Concernant la réaction des 5 R en inflammation :","options":["Reconnaissance de l'agent","Recrutement des leucocytes","Reconnaissance de l'antigène","Régulation de la réponse","Résolution"],"correct":[0,1,3,4],"explanation":"5 R : Reconnaissance de l'agent → Recrutement leucocytaire → Removal/élimination → Régulation → Résolution. Pas de 'reconnaissance d'antigène' en tant qu'étape (c'est plutôt l'immunité adaptative)."},
+    {"type":"QCS","question":"Le médiateur clé de la VASODILATATION précoce est :","options":["L'IL-1","L'histamine","Le TNF-α","La fibrine"],"correct":[1],"explanation":"Histamine (mastocytes, basophiles) = médiateur précoce de la vasodilatation et de l'augmentation de perméabilité vasculaire (œdème). Action rapide, courte durée."},
+    {"type":"QCS","question":"La FIÈVRE est principalement provoquée par :","options":["L'histamine","La sérotonine","Les cytokines pyrogènes (IL-1, IL-6, TNF) → prostaglandines E2","Le calcium"],"correct":[2],"explanation":"Fièvre : cytokines pyrogènes endogènes (IL-1, IL-6, TNF) → ↑ PGE2 → centre thermorégulateur hypothalamique → augmentation du point de consigne thermique."},
+    {"type":"QCS","question":"Le BOURGEON CHARNU est constitué de :","options":["Cellules cancéreuses","Tissu de granulation : néovaisseaux + fibroblastes + collagène + leucocytes","Pus seul","Tissu nécrotique seul"],"correct":[1],"explanation":"Bourgeon charnu = tissu de granulation : néoangiogenèse + fibroblastes + collagène + cellules inflammatoires. Étape clé de la cicatrisation par 2e intention. Aspect rouge framboise."},
+    {"type":"QCM","question":"Quels sont des effets du TNF-α ?","options":["Activation de l'endothélium","Stimulation de la production de cytokines","Cachexie (en chronique)","Apoptose dans certaines cellules","Diminution de la fièvre"],"correct":[0,1,2,3],"explanation":"TNF-α : active endothélium (adhésion leucocytes), stimule production de cytokines, cause cachexie (terme = 'cachectine'), peut induire apoptose. Il PARTICIPE à la fièvre, ne la diminue pas."},
+    {"type":"QCS","question":"Une perte de fonction (functio laesa) est typiquement liée à :","options":["L'état général excellent","La douleur + œdème + altération tissulaire","L'absence d'inflammation","Une cicatrice mature"],"correct":[1],"explanation":"Functio laesa : perte de fonction de la zone enflammée, liée à la douleur (limitation volontaire du mouvement), l'œdème (ankylose), et l'altération tissulaire. C'est le 5e signe cardinal."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

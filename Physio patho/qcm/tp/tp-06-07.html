@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 6-7 — Troubles musculo-squelettiques</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 6-7 — <span>Troubles musculo-squelettiques</span></h1>
+  <div class="hero-sub">Fiche TP 6-7 · Synthèse fractures, rhumatismes, métaboliques · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 6-7 — Troubles musculo-squelettiques"</strong> (synthèse : traumatismes, infections, tumeurs, rhumatismes : PR, arthrose, goutte, lupus).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 6-7 — Troubles musculo-squelettiques",
+  questions: [
+    {"type":"QCS","question":"La POLYARTHRITE RHUMATOÏDE (PR) est :","options":["Une maladie dégénérative","Une maladie auto-immune chronique inflammatoire","Une maladie infectieuse","Une fracture pathologique"],"correct":[1],"explanation":"PR = polyarthrite chronique inflammatoire AUTO-IMMUNE. Atteinte symétrique, prédominant aux petites articulations (mains, pieds), avec destruction articulaire progressive et manifestations extra-articulaires."},
+    {"type":"QCM","question":"Quels sont les signes typiques de la PR ?","options":["Atteinte symétrique","Polyarthrite des petites articulations (mains, poignets, pieds)","Raideur matinale > 30-60 min","Signes radiographiques : pincement articulaire, érosions","Déformations en col de cygne / boutonnière"],"correct":[0,1,2,3,4],"explanation":"PR typique : symétrique, petites articulations (MCP, IPP, poignets, MTP), raideur matinale prolongée (>30-60 min, vs arthrose <15 min), déformations caractéristiques (col de cygne, boutonnière), signes biologiques (FR, anti-CCP)."},
+    {"type":"QCS","question":"L'ARTHROSE est :","options":["Une maladie auto-immune","Une maladie dégénérative du cartilage articulaire","Une fracture","Une infection"],"correct":[1],"explanation":"Arthrose (osteoarthritis) = maladie DÉGÉNÉRATIVE du cartilage articulaire, avec remaniement de l'os sous-chondral, ostéophytes, et inflammation modérée. Pas auto-immune. Très fréquente avec l'âge."},
+    {"type":"QCM","question":"Quels sont les signes radiologiques typiques de l'ARTHROSE ?","options":["Pincement articulaire","Ostéophytes (becs)","Sclérose sous-chondrale","Géodes (kystes sous-chondraux)","Érosions marginales"],"correct":[0,1,2,3],"explanation":"Arthrose RX : 'POSG' = Pincement articulaire, Ostéophytes, Sclérose sous-chondrale, Géodes. Les ÉROSIONS marginales sont signes de POLYARTHRITE inflammatoire (PR)."},
+    {"type":"QCS","question":"La douleur d'ARTHROSE est typiquement :","options":["Inflammatoire (matinale, prolongée)","Mécanique (calmée par le repos, augmentée à l'effort)","Permanente sans facteur déclenchant","Aiguë avec fièvre"],"correct":[1],"explanation":"Douleur arthrosique = MÉCANIQUE : ↑ à l'effort/marche, calmée par le repos, raideur matinale courte (<15 min, dérouillage). PR = douleur INFLAMMATOIRE : nuit, raideur matinale prolongée."},
+    {"type":"QCS","question":"La GOUTTE est due à :","options":["Une infection bactérienne","Un dépôt de cristaux d'urate de sodium dans les articulations","Une auto-immunité","Une carence en calcium"],"correct":[1],"explanation":"Goutte = arthropathie microcristalline due au dépôt de cristaux d'urate monosodique liés à une hyperuricémie. Crise aiguë : monoarthrite très inflammatoire (souvent gros orteil = podagre)."},
+    {"type":"QCM","question":"Concernant la crise de GOUTTE, quelles affirmations sont vraies ?","options":["Souvent au gros orteil (1ère MTP) = podagre","Monoarthrite très inflammatoire (rouge, chaude, douloureuse)","Hyperuricémie","Traitement aigu : colchicine ou AINS","Toujours bilatérale"],"correct":[0,1,2,3],"explanation":"Goutte aiguë : podagre (50% des cas), monoarthrite intense, hyperuricémie (mais pas toujours en crise !). Tx aigu = colchicine ou AINS. Tx fond = allopurinol (inhibiteur xanthine oxydase). Souvent UNILATÉRALE."},
+    {"type":"QCS","question":"Le LUPUS érythémateux disséminé est :","options":["Une maladie infectieuse","Une maladie auto-immune systémique","Une maladie dégénérative","Une fracture pathologique"],"correct":[1],"explanation":"LED = maladie auto-immune SYSTÉMIQUE (multi-organique : peau, articulations, rein, SNC, cœur, sang). Plus fréquent chez les femmes jeunes. Anticorps caractéristiques : anti-ADN natif, anti-Sm."},
+    {"type":"QCM","question":"Manifestations classiques du LUPUS :","options":["Érythème en ailes de papillon (vespertilio) sur le visage","Photosensibilité","Atteinte rénale (glomérulonéphrite lupique)","Polyarthrite non érosive","Tassements vertébraux ostéoporotiques"],"correct":[0,1,2,3],"explanation":"LED : rash malaire en ailes de papillon, photosensibilité, atteinte rénale (souvent grave), polyarthrite non érosive (vs PR), atteinte hématologique, sérites, neurologiques. Tassements ostéoporotiques = autre pathologie."},
+    {"type":"QCS","question":"La SCLÉRODERMIE (sclérose systémique) est caractérisée par :","options":["Une démyélinisation du SNC","Une fibrose excessive de la peau et des organes internes","Une infection chronique","Une carence vitaminique"],"correct":[1],"explanation":"Sclérodermie = maladie auto-immune avec FIBROSE excessive de la peau (scléroderme) et des organes (poumons, rein, œsophage, cœur). Peut être limitée (CREST) ou diffuse. Phénomène de Raynaud quasi constant."},
+    {"type":"QCM","question":"Concernant les SPONDYLARTHROPATHIES, quelles affirmations sont vraies ?","options":["Atteinte préférentielle du squelette axial (rachis, sacro-iliaques)","Inflammation des enthèses (enthésites)","Souvent associées au HLA-B27","La spondylarthrite ankylosante en fait partie","Atteignent surtout les femmes âgées"],"correct":[0,1,2,3],"explanation":"Spondylarthropathies : atteinte axiale (rachis, SI), enthésites, dactylites, association HLA-B27, exemples = spondylarthrite ankylosante, rhumatisme psoriasique, arthrite réactionnelle, MICI. Touchent l'adulte jeune (homme +)."},
+    {"type":"QCS","question":"Une OSTÉOMYÉLITE est :","options":["Une infection osseuse","Une tumeur","Une carence vitaminique","Une malformation congénitale"],"correct":[0],"explanation":"Ostéomyélite = infection bactérienne de l'os (Staphylococcus aureus +++). Voie hématogène (enfant, métaphyse) ou contiguïté/inoculation (adulte). Peut chroniciser → séquestre osseux."},
+    {"type":"QCS","question":"L'OSTÉONÉCROSE aseptique correspond à :","options":["Une infection sans germe","Une mort osseuse par défaut de vascularisation","Une fracture pathologique","Une décalcification"],"correct":[1],"explanation":"Ostéonécrose aseptique = mort osseuse par interruption de la vascularisation. Site classique : tête fémorale. FdR : corticoïdes, alcool, traumatisme (fracture col), drépanocytose, lupus."},
+    {"type":"QCM","question":"Quels sont des facteurs de risque d'OSTÉONÉCROSE de la tête fémorale ?","options":["Corticothérapie au long cours","Alcoolisme chronique","Drépanocytose","Traumatisme (fracture du col)","Hypertension"],"correct":[0,1,2,3],"explanation":"FdR ostéonécrose tête fémorale : corticoïdes, alcool, drépanocytose, fracture du col, lupus, plongée (maladie des caissons), idiopathique. L'HTA n'est pas un FdR direct."},
+    {"type":"QCS","question":"Les TUMEURS osseuses les plus fréquentes chez l'adulte sont :","options":["Les tumeurs primaires","Les MÉTASTASES osseuses","Les ostéosarcomes","Les chondromes"],"correct":[1],"explanation":"Chez l'adulte, les tumeurs osseuses sont surtout des MÉTASTASES (sein, poumon, prostate, rein, thyroïde — moyen mnémo : 'PSPRT' ou 'RPS'). Les tumeurs primaires sont plus rares."},
+    {"type":"QCS","question":"L'OSTÉOSARCOME est :","options":["Une tumeur bénigne","Une tumeur osseuse maligne primitive de l'adolescent / adulte jeune","Une métastase","Un kyste osseux"],"correct":[1],"explanation":"Ostéosarcome = tumeur osseuse PRIMITIVE MALIGNE la plus fréquente, pic à l'adolescence (10-20 ans), localisation classique : métaphyse des os longs (fémur distal, tibia proximal). Pronostic amélioré (chimio + chirurgie)."},
+    {"type":"QCM","question":"Quels critères différencient PR et ARTHROSE ?","options":["PR = inflammatoire, arthrose = mécanique","PR = symétrique, arthrose = souvent asymétrique (sauf nodale)","PR = raideur matinale longue, arthrose = courte","PR = érosions, arthrose = ostéophytes","PR et arthrose ont les mêmes traitements"],"correct":[0,1,2,3],"explanation":"PR : auto-immune, symétrique, raideur matinale >60 min, érosions, FR/anti-CCP. Arthrose : dégénérative, asymétrique, douleur mécanique, ostéophytes. Traitements TRÈS différents (DMARDs vs antalgiques + kiné)."},
+    {"type":"QCS","question":"L'ankylose articulaire correspond à :","options":["Une raideur passagère","Une perte définitive de la mobilité articulaire (fusion)","Une inflammation aiguë","Une luxation"],"correct":[1],"explanation":"Ankylose = perte définitive de la mobilité articulaire par fusion fibreuse ou osseuse des surfaces articulaires. Peut compliquer une PR sévère, une spondylarthrite ankylosante, une arthrose terminale."},
+    {"type":"QCS","question":"Le syndrome du CANAL CARPIEN est dû à :","options":["Une compression du nerf médian au poignet","Une compression du nerf ulnaire au coude","Une compression du nerf radial au bras","Une rupture du tendon fléchisseur"],"correct":[0],"explanation":"Canal carpien = compression du nerf MÉDIAN dans le canal carpien au poignet. Paresthésies des 3 premiers doigts + bord radial du 4e, recrudescence nocturne, faiblesse de l'opposition du pouce."},
+    {"type":"QCS","question":"L'arthrose des doigts (nodale) se caractérise par :","options":["Atteinte des MCP en priorité","Nodules d'Heberden (IPD) et de Bouchard (IPP)","Pannus synovial érosif","Symétrique avec raideur matinale prolongée"],"correct":[1],"explanation":"Arthrose digitale nodale : nodules d'Heberden (IPD), Bouchard (IPP). PAS d'atteinte des MCP (sinon évoquer PR). Touche surtout les femmes ménopausées, souvent familial."},
+    {"type":"QCM","question":"Quels examens biologiques sont utiles dans la PR ?","options":["Facteur Rhumatoïde (FR)","Anticorps anti-CCP (anti-peptides citrullinés)","CRP / VS","ASLO","HLA-B27"],"correct":[0,1,2],"explanation":"PR : FR (peu spécifique), anti-CCP (très spécifique +++), CRP/VS (inflammation). HLA-B27 = spondylarthrite. ASLO = streptocoque (RAA). Anti-ADN natif = lupus."},
+    {"type":"QCS","question":"Le pannus synovial est typique de :","options":["L'arthrose","La polyarthrite rhumatoïde","La goutte","L'ostéoporose"],"correct":[1],"explanation":"Pannus = tissu synovial inflammatoire prolifératif et invasif qui érode l'os et le cartilage dans la PR. Responsable de la destruction articulaire (érosions, géodes, déformations)."},
+    {"type":"QCM","question":"Concernant les MALADIES MÉTABOLIQUES osseuses, on retrouve :","options":["Ostéoporose","Ostéomalacie / rachitisme","Maladie de Paget","Hyperparathyroïdie","Polyarthrite rhumatoïde"],"correct":[0,1,2,3],"explanation":"Maladies métaboliques osseuses : ostéoporose (↓ masse), ostéomalacie/rachitisme (↓ minéralisation), Paget (remodelage anarchique), hyperparathyroïdie (résorption excessive), ostéogenèse imparfaite. La PR est rhumatismale, pas métabolique."},
+    {"type":"QCS","question":"Le RHUMATISME ARTICULAIRE AIGU (RAA) est une complication :","options":["D'une infection à staphylocoque","D'une infection à streptocoque β-hémolytique du groupe A","D'une infection virale","D'une carence vitaminique"],"correct":[1],"explanation":"RAA : complication post-infectieuse d'une angine à streptocoque β-hémolytique A. Survient 2-3 semaines après. Atteinte articulaire (polyarthrite), cardiaque (cardite ++ valvulaire) et neurologique (chorée). Critères de Jones."},
+    {"type":"QCS","question":"La maladie de PAGET est :","options":["Une infection","Un trouble du remodelage osseux avec hyperactivité ostéoclastique puis ostéoblastique anarchique","Une carence en calcium","Une auto-immunité"],"correct":[1],"explanation":"Paget : trouble localisé du remodelage avec phase ostéoclastique excessive puis phase ostéoblastique désorganisée → os hypertrophique mais fragile. Sites : bassin, vertèbres, crâne, fémur. Souvent asymptomatique."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

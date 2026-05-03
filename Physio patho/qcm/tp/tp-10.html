@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 10 — Sepsie & Choc Septique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 10 — <span>Sepsie & Choc Septique</span></h1>
+  <div class="hero-sub">Fiche TP 10 · Continuum infection-choc, types de choc · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 10 — Sepsie & Choc Septique"</strong> (sepsie, choc, types de choc, complications, prise en charge).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 10 — Sepsie & Choc Septique",
+  questions: [
+    {"type":"QCS","question":"La SEPSIE (sepsis) est définie comme :","options":["Une infection localisée sans gravité","Une infection avec dysfonction d'organes potentiellement mortelle (réponse dysrégulée de l'hôte)","Une bactériémie isolée sans symptômes","Une simple fièvre"],"correct":[1],"explanation":"Sepsis (Sepsis-3) = dysfonction d'organes potentiellement létale due à une réponse DYSRÉGULÉE de l'hôte à une infection. Plus grave que l'infection simple, moins que le choc septique."},
+    {"type":"QCS","question":"Le CHOC SEPTIQUE est :","options":["Une infection sans retentissement","Un sepsis avec hypotension persistante nécessitant des vasopresseurs malgré le remplissage + lactates >2 mmol/L","Une simple fièvre","Une infection bactérienne urinaire"],"correct":[1],"explanation":"Choc septique = sepsis avec hypotension persistante nécessitant amines vasopressives pour maintenir PAM ≥65 mmHg + lactates >2 mmol/L malgré remplissage adéquat. Mortalité élevée (>40%)."},
+    {"type":"QCM","question":"Concernant le CONTINUUM INFECTION → CHOC SEPTIQUE :","options":["Infection localisée → bactériémie","Sepsis (dysfonction d'organes)","Choc septique (hypotension réfractaire + hyperlactatémie)","Défaillance multi-organique (MODS) possible","Régression spontanée garantie"],"correct":[0,1,2,3],"explanation":"Continuum : infection → bactériémie → sepsis → choc septique → MODS (défaillance multi-organique) → décès. Aggravation progressive si non traité, mortalité croissante."},
+    {"type":"QCS","question":"Le CHOC se définit par :","options":["Une augmentation de la pression artérielle","Une insuffisance circulatoire aiguë avec hypoperfusion tissulaire et hypoxie cellulaire","Une fièvre élevée isolée","Une douleur intense"],"correct":[1],"explanation":"Choc = défaillance circulatoire aiguë → ↓ perfusion tissulaire → hypoxie cellulaire → métabolisme anaérobie → acidose lactique → dysfonction d'organes. Urgence vitale absolue."},
+    {"type":"QCM","question":"Quels sont les TYPES DE CHOC ?","options":["Choc hypovolémique","Choc cardiogénique","Choc obstructif","Choc distributif (septique, anaphylactique, neurogénique)","Choc artérithérapique"],"correct":[0,1,2,3],"explanation":"4 types principaux : hypovolémique (perte volémique : hémorragie, brûlure), cardiogénique (défaillance pompe : IDM), obstructif (obstacle au remplissage : EP, tamponnade, pneumothorax), distributif (vasodilatation : sepsis, anaphylaxie, neurogénique)."},
+    {"type":"QCS","question":"Le choc HYPOVOLÉMIQUE est typiquement causé par :","options":["Une infection","Une perte de volume circulant (hémorragie, brûlures, déshydratation)","Une défaillance cardiaque","Une réaction allergique"],"correct":[1],"explanation":"Choc hypovolémique = ↓ volume sanguin circulant : hémorragie (intra/extra-corporelle), brûlures étendues, déshydratation sévère, 3e secteur (péritonite). Tx = REMPLISSAGE rapide."},
+    {"type":"QCS","question":"Le choc ANAPHYLACTIQUE est :","options":["Un choc cardiogénique","Un choc DISTRIBUTIF allergique avec vasodilatation massive et bronchoconstriction","Un choc hypovolémique","Un choc obstructif"],"correct":[1],"explanation":"Choc anaphylactique = choc distributif d'origine immunoallergique. Histamine massive → vasodilatation, ↑ perméabilité, bronchoconstriction. Tx urgence = ADRÉNALINE IM (cuisse) + remplissage + corticoïdes/antihistaminiques."},
+    {"type":"QCM","question":"Concernant le CHOC CARDIOGÉNIQUE :","options":["Défaillance de la pompe cardiaque","Cause typique : infarctus du myocarde","↓ débit cardiaque malgré remplissage normal","Hypoxie tissulaire","Bénin sans séquelles"],"correct":[0,1,2,3],"explanation":"Choc cardiogénique : défaillance ventriculaire (IDM, myocardite, arythmies, valvulopathies). Mortalité élevée. Tx = inotropes, support mécanique (BCPIA, ECMO), revascularisation."},
+    {"type":"QCS","question":"Une CIVD (Coagulation Intra-Vasculaire Disséminée) :","options":["Augmente la formation de thrombus partout dans le corps puis épuise les facteurs → saignements","Empêche tout saignement","Est bénigne","Améliore la coagulation"],"correct":[0],"explanation":"CIVD : activation diffuse de la coagulation → microthrombi → consommation des facteurs et plaquettes → SAIGNEMENTS paradoxaux. Complication majeure du sepsis. Diagnostic : ↓ plaquettes, ↑ D-dimères, ↓ fibrinogène, ↑ TP/TCA."},
+    {"type":"QCS","question":"Le SDRA / ARDS / 'poumon de choc' correspond à :","options":["Un poumon hyperventilé physiologiquement","Une atteinte alvéolo-capillaire diffuse → œdème non cardiogénique → hypoxémie sévère","Une infection bronchique simple","Une tumeur pulmonaire"],"correct":[1],"explanation":"SDRA (Syndrome de détresse respiratoire aiguë) : lésion alvéolo-capillaire diffuse → œdème lésionnel non cardiogénique → hypoxémie réfractaire (PaO2/FiO2 ≤300). Complication majeure du sepsis. Tx = ventilation protectrice."},
+    {"type":"QCM","question":"Concernant l'INSUFFISANCE RÉNALE AIGUË (IRA) lors du choc :","options":["Souvent due à une nécrose tubulaire aiguë (NTA)","↓ diurèse (oligurie/anurie)","↑ créatinine","Souvent réversible si traitement précoce","Sans gravité"],"correct":[0,1,2,3],"explanation":"IRA septique : NTA par hypoperfusion + toxicité. Oligurie (<400 mL/24h) ou anurie, ↑ créatinine. Réversible si pris à temps mais peut nécessiter dialyse temporaire. Mortalité élevée si MODS."},
+    {"type":"QCS","question":"Le MODS (Multi-Organ Dysfunction Syndrome) :","options":["Atteinte d'un seul organe","Défaillance progressive de PLUSIEURS organes (rein, foie, cœur, poumon, cerveau)","Toujours réversible","Une simple fièvre"],"correct":[1],"explanation":"MODS = défaillance simultanée ou successive de plusieurs systèmes (≥2 organes). Mortalité augmente avec le nombre d'organes touchés. Complication terminale fréquente du sepsis non contrôlé."},
+    {"type":"QCM","question":"Concernant la PHYSIOPATHOLOGIE du choc septique :","options":["Réaction inflammatoire systémique excessive","Vasodilatation périphérique massive","Augmentation de la perméabilité capillaire (œdèmes, hypovolémie relative)","Dépression myocardique secondaire","Augmentation des résistances vasculaires"],"correct":[0,1,2,3],"explanation":"Choc septique : libération massive de cytokines (TNF, IL-1, IL-6) → vasodilatation (NO), ↑ perméabilité, dépression myocardique, microthrombi (CIVD), ↓ extraction d'oxygène. Résistances vasculaires DIMINUENT (vasodilatation)."},
+    {"type":"QCS","question":"Le score qSOFA permet :","options":["Le diagnostic d'infection","Le dépistage rapide de sepsis (FR≥22, conscience altérée, PAS≤100)","La mesure de la glycémie","L'évaluation cardiologique"],"correct":[1],"explanation":"qSOFA (quick SOFA) : 3 critères au lit du patient (Glasgow <15, PA syst ≤100, FR ≥22). ≥2 critères positifs → suspicion de sepsis avec mortalité élevée → urgence."},
+    {"type":"QCM","question":"Concernant la PRISE EN CHARGE du choc septique, dans la 1ère heure ('bundle 1h') :","options":["Lactates","Hémocultures avant antibiothérapie","Antibiotiques à large spectre","Remplissage cristalloïde (30 mL/kg si hypotension/lactates)","Vasopresseurs si PAM <65 mmHg malgré remplissage"],"correct":[0,1,2,3,4],"explanation":"Bundle 1 heure (Surviving Sepsis Campaign) : 1) lactates, 2) hémocultures, 3) antibiothérapie large spectre rapide, 4) remplissage cristalloïde 30 mL/kg, 5) vasopresseurs si hypotension persistante (NORADRÉNALINE en 1ère ligne)."},
+    {"type":"QCS","question":"Le vasopresseur de PREMIÈRE LIGNE dans le choc septique est :","options":["L'adrénaline","La noradrénaline","La dobutamine","La dopamine"],"correct":[1],"explanation":"Noradrénaline = vasopresseur de 1ère ligne dans le choc septique (vasoconstriction α-adrénergique). Adrénaline en 2e ligne. Dobutamine si dysfonction cardiaque associée."},
+    {"type":"QCM","question":"Quels sont des AGENTS BACTÉRIENS classiques de sepsie ?","options":["E. coli (BGN)","Staphylococcus aureus","Streptococcus pneumoniae","Klebsiella","Aucune bactérie ne provoque de sepsis"],"correct":[0,1,2,3],"explanation":"Sepsis communautaire : E. coli, S. pneumoniae, S. aureus, Streptococcus, méningocoque. Sepsis nosocomial : Pseudomonas, Klebsiella, Enterobacter, S. aureus résistant (MRSA). Champignons aussi (Candida)."},
+    {"type":"QCS","question":"Le SIRS (Systemic Inflammatory Response Syndrome) inclut :","options":["Un seul critère","≥2 critères : T° anormale, FC>90, FR>20, GB anormaux","Uniquement la fièvre","Uniquement la tachycardie"],"correct":[1],"explanation":"SIRS = ≥2 critères parmi : T°<36 ou >38°C, FC>90/min, FR>20/min ou PaCO2<32, leucocytes <4 ou >12×10⁹/L (ou >10% de formes immatures). Réponse inflammatoire pas nécessairement infectieuse."},
+    {"type":"QCS","question":"L'hyperlactatémie (>2 mmol/L) en contexte de choc traduit :","options":["Une bonne perfusion","Une hypoxie tissulaire avec métabolisme anaérobie (acidose lactique)","Une hypoglycémie","Une hypoxie cellulaire absente"],"correct":[1],"explanation":"Hyperlactatémie = marqueur d'hypoxie tissulaire (passage en glycolyse anaérobie). >2 mmol/L = signe de gravité (sepsis). >4 mmol/L = très sévère. Suivi du lactate = indicateur de réponse au traitement."},
+    {"type":"QCM","question":"Concernant le RÔLE DU KINÉSITHÉRAPEUTE en réanimation auprès du patient septique :","options":["Mobilisation précoce (lutte contre la fonte musculaire ICU-AW)","Kinésithérapie respiratoire (drainage, mobilisation thoracique)","Prévention des escarres (positionnement)","Verticalisation progressive","Initier l'antibiothérapie"],"correct":[0,1,2,3],"explanation":"Le kiné en réa : mobilisation précoce (ICU-AW = ICU acquired weakness), kiné respiratoire, prévention escarres/TVP, verticalisation. NE prescrit PAS d'antibiotiques (rôle médical)."},
+    {"type":"QCS","question":"L'ICU-AW (faiblesse acquise en réanimation) :","options":["Est rare et bénigne","Est fréquente et causes : alitement, sepsis, corticoïdes, curare → polyneuromyopathie","Régresse spontanément en 24h","Est exclusivement neurologique"],"correct":[1],"explanation":"ICU-AW : faiblesse musculaire généralisée acquise en réanimation (polyneuromyopathie de réa). Causes : sepsis, immobilité, corticoïdes, curares, hyperglycémie. Récupération longue (mois). Prévention : mobilisation précoce."},
+    {"type":"QCS","question":"Le choc OBSTRUCTIF est typiquement causé par :","options":["Une infection","Un obstacle au remplissage cardiaque (embolie pulmonaire massive, tamponnade péricardique, pneumothorax compressif)","Une perte de sang","Une défaillance ventriculaire intrinsèque"],"correct":[1],"explanation":"Choc obstructif : obstacle au remplissage ou à l'éjection cardiaque. Causes : EP massive, tamponnade, pneumothorax compressif, dissection aortique. Tx = lever l'obstacle (drainage, fibrinolyse...)."},
+    {"type":"QCM","question":"Concernant les COMPLICATIONS du choc septique :","options":["SDRA (poumon de choc)","Insuffisance rénale aiguë","CIVD","MODS / défaillance multi-organique","Rémission immédiate sans séquelle"],"correct":[0,1,2,3],"explanation":"Complications : SDRA, IRA (NTA), CIVD, MODS, ictère cholestatique, choc cardiogénique secondaire, syndrome post-réanimation (cognitif, ICU-AW, troubles psy). Mortalité élevée (>40%)."},
+    {"type":"QCS","question":"La PORTE D'ENTRÉE la plus fréquente d'un sepsis chez l'adulte est :","options":["Cutanée","Pulmonaire (pneumonie)","Méningée","Articulaire"],"correct":[1],"explanation":"Portes d'entrée : pulmonaire (~50%, pneumonie), urinaire, abdominale (péritonite), cutanée (DHBN), cathéters (nosocomial). Toujours rechercher et traiter le foyer primaire (drainage si pertinent)."},
+    {"type":"QCM","question":"Les SIGNES CLINIQUES classiques du choc à un stade avancé incluent :","options":["Hypotension","Tachycardie","Marbrures cutanées (peau froide, livide)","Oligurie","Altération de la conscience"],"correct":[0,1,2,3,4],"explanation":"Signes de choc : hypotension, tachycardie, peau froide pâle marbrée (sauf phase chaude initiale du choc septique : peau chaude rouge), oligurie, polypnée, troubles de conscience (somnolence à coma), acidose lactique."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

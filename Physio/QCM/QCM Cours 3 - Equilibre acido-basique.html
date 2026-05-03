@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM – Equilibre Acido-Basique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161922;
+    --card: #1a1d2a;
+    --card2: #20243a;
+    --ink: #e8eaf0;
+    --muted: #8a93a8;
+    --border: #2a3050;
+    --accent: #ff5c6b;
+    --accent2: #f5c842;
+    --accent3: #3dd68c;
+    --accent4: #4a9eff;
+    --accent5: #b57cf6;
+    --correct: #3dd68c;
+    --wrong: #ff5c6b;
+    --shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: radial-gradient(ellipse at top, #1a1d2a 0%, #0f1117 60%); color: var(--ink); min-height: 100vh; line-height: 1.6; padding: 24px 16px 60px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 32px; padding: 28px 20px; background: linear-gradient(135deg, rgba(74,158,255,0.10), rgba(181,124,246,0.08)); border: 1px solid var(--border); border-radius: 16px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: radial-gradient(circle, var(--accent2), transparent 70%); opacity: 0.2; border-radius: 50%; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1.1; margin-bottom: 6px; background: linear-gradient(135deg, #4a9eff, #b57cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .header .subtitle { color: var(--muted); font-size: 14px; letter-spacing: 0.5px; }
+  .header .meta { margin-top: 12px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .header .meta span { background: rgba(255,255,255,0.04); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); }
+  .mode-selector { display: flex; gap: 12px; margin-bottom: 24px; background: var(--card); padding: 6px; border-radius: 14px; border: 1px solid var(--border); }
+  .mode-btn { flex: 1; padding: 14px 16px; background: transparent; border: none; color: var(--muted); cursor: pointer; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .mode-btn .ic { font-size: 18px; }
+  .mode-btn:hover { color: var(--ink); background: rgba(255,255,255,0.04); }
+  .mode-btn.active { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .mode-btn small { font-weight: 400; opacity: 0.85; font-size: 11px; margin-top: 2px; }
+  .progress { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .progress-text { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .progress-text strong { color: var(--ink); font-size: 14px; }
+  .progress-bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent3), var(--accent4)); border-radius: 4px; width: 0%; transition: width 0.4s ease; }
+  .score-pill { background: linear-gradient(135deg, var(--accent3), var(--accent4)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .question-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .q-num { display: inline-block; background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .q-difficulty { display: inline-block; margin-left: 6px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+  .q-difficulty.easy { background: rgba(61,214,140,0.15); color: var(--correct); border: 1px solid rgba(61,214,140,0.3); }
+  .q-difficulty.medium { background: rgba(255,159,67,0.15); color: var(--accent2); border: 1px solid rgba(255,159,67,0.3); }
+  .q-difficulty.hard { background: rgba(255,92,107,0.15); color: var(--wrong); border: 1px solid rgba(255,92,107,0.3); }
+  .q-text { font-size: 18px; font-weight: 600; line-height: 1.5; margin-bottom: 18px; color: var(--ink); }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { background: var(--bg2); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; font-size: 14.5px; user-select: none; }
+  .option:hover { border-color: var(--accent4); background: rgba(74,158,255,0.05); transform: translateY(-1px); }
+  .option.selected { border-color: var(--accent4); background: rgba(74,158,255,0.10); box-shadow: 0 0 0 3px rgba(74,158,255,0.15); }
+  .option .marker { width: 28px; height: 28px; border-radius: 50%; background: var(--card2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all 0.2s; }
+  .option.selected .marker { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; border-color: transparent; }
+  .option.correct { border-color: var(--correct); background: rgba(61,214,140,0.10); }
+  .option.correct .marker { background: var(--correct); color: #0a0c14; border-color: transparent; }
+  .option.wrong { border-color: var(--wrong); background: rgba(255,92,107,0.10); }
+  .option.wrong .marker { background: var(--wrong); color: #fff; border-color: transparent; }
+  .option.disabled { cursor: default; pointer-events: none; opacity: 0.85; }
+  .option.disabled:hover { transform: none; }
+  .feedback { margin-top: 18px; padding: 14px 16px; border-radius: 10px; border-left: 4px solid; font-size: 14px; line-height: 1.55; display: none; }
+  .feedback.show { display: block; animation: slideIn 0.3s ease; }
+  .feedback.correct { background: rgba(61,214,140,0.08); border-color: var(--correct); }
+  .feedback.wrong { background: rgba(255,92,107,0.08); border-color: var(--wrong); }
+  .feedback .verdict { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .feedback.correct .verdict { color: var(--correct); }
+  .feedback.wrong .verdict { color: var(--wrong); }
+  .feedback .explanation { color: var(--ink); font-size: 13.5px; }
+  .feedback .explanation strong { color: var(--accent2); }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .controls { display: flex; gap: 12px; justify-content: space-between; margin-top: 22px; }
+  .btn { padding: 12px 22px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-secondary { background: var(--card2); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--card); border-color: var(--accent4); }
+  .results { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; text-align: center; box-shadow: var(--shadow); }
+  .results h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+  .results .final-score { font-size: 64px; font-weight: 900; margin: 18px 0; background: linear-gradient(135deg, var(--accent3), var(--accent4)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .final-score.bad { background: linear-gradient(135deg, var(--wrong), var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .verdict-msg { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 30px; }
+  .stat { background: var(--bg2); padding: 16px 10px; border-radius: 10px; border: 1px solid var(--border); }
+  .stat .num { font-size: 22px; font-weight: 800; }
+  .stat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+  .stat.correct .num { color: var(--correct); }
+  .stat.wrong .num { color: var(--wrong); }
+  .stat.total .num { color: var(--accent4); }
+  .review-section { margin-top: 24px; text-align: left; }
+  .review-section h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .review-q { background: var(--bg2); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border-left: 3px solid var(--correct); }
+  .review-q.wrong { border-left-color: var(--wrong); }
+  .review-q .rq-title { font-weight: 600; margin-bottom: 6px; font-size: 13.5px; }
+  .review-q .rq-ans { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .review-q .rq-ans strong { color: var(--ink); }
+  .review-q .rq-correct { color: var(--correct); font-size: 12.5px; }
+  .review-q .rq-explain { font-size: 12.5px; color: var(--muted); margin-top: 6px; font-style: italic; }
+  .hidden { display: none !important; }
+  @media (max-width: 600px) {
+    body { padding: 14px 8px 40px; }
+    .header h1 { font-size: 24px; }
+    .question-card { padding: 18px; }
+    .q-text { font-size: 16px; }
+    .option { padding: 11px 12px; font-size: 13.5px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .mode-btn { padding: 10px 8px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="wrap">
+  <div class="header">
+    <h1>QCM – Équilibre Acido-Basique</h1>
+    <div class="subtitle">Cours 3 · Physiologie II</div>
+    <div class="meta"><span>📚 30 questions</span><span>⏱️ ~15 min</span><span>🎯 Niveau mixte</span></div>
+  </div>
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="revision"><span class="ic">📖</span><span>Révision<small style="display:block">Correction immédiate</small></span></button>
+    <button class="mode-btn" data-mode="exam"><span class="ic">🎓</span><span>Examen<small style="display:block">Score à la fin</small></span></button>
+  </div>
+  <div class="progress" id="progressBar">
+    <div class="progress-text">Question <strong id="currentQ">1</strong> / <strong id="totalQ">30</strong></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="score-pill" id="scorePill">0 / 0</div>
+  </div>
+  <div id="quizArea"></div>
+  <div class="results hidden" id="results">
+    <h2>🏆 Résultats</h2>
+    <div class="final-score" id="finalScore">0%</div>
+    <div class="verdict-msg" id="verdictMsg"></div>
+    <div class="stats-grid">
+      <div class="stat correct"><div class="num" id="statCorrect">0</div><div class="lbl">Correctes</div></div>
+      <div class="stat wrong"><div class="num" id="statWrong">0</div><div class="lbl">Incorrectes</div></div>
+      <div class="stat total"><div class="num" id="statTotal">0</div><div class="lbl">Total</div></div>
+    </div>
+    <div class="controls" style="justify-content:center;"><button class="btn btn-secondary" onclick="restart()">🔄 Recommencer</button></div>
+    <div class="review-section"><h3>📋 Révision détaillée</h3><div id="reviewList"></div></div>
+  </div>
+</div>
+<script>
+const questions = [{"q": "Quel est le pH normal du sang artériel ?", "difficulty": "easy", "options": ["7,00 – 7,15", "7,35 – 7,45", "7,55 – 7,65", "7,80 – 8,00"], "correct": 1, "explanation": "pH artériel normal = 7,35–7,45 (≈ 7,40). En dessous = acidémie ; au-dessus = alcalémie."}, {"q": "Le pH se calcule par :", "difficulty": "easy", "options": ["log [OH⁻]", "−log [H⁺]", "[H⁺] × 10", "[H⁺]/[OH⁻]"], "correct": 1, "explanation": "pH = −log [H⁺]. Une variation de 1 unité pH = variation × 10 de [H⁺]."}, {"q": "Une acidose correspond à :", "difficulty": "easy", "options": ["pH > 7,45", "pH < 7,35", "pH = 7,40", "pH = 7,00"], "correct": 1, "explanation": "Acidose = pH < 7,35. Alcalose = pH > 7,45. Variation de 1 pH = ×10 [H⁺]."}, {"q": "Quels sont les 6 électrolytes clés ?", "difficulty": "easy", "options": ["Na⁺, K⁺, Cl⁻, HCO₃⁻, Ca²⁺, PO₄³⁻", "C, H, N, O, P, S", "Fe, Cu, Zn, Mg, Mn, Se", "Vit A, B, C, D, E, K"], "correct": 0, "explanation": "Les 6 électrolytes principaux : sodium, potassium, chlorure, bicarbonate, calcium, phosphate."}, {"q": "Le fluide intracellulaire représente environ :", "difficulty": "easy", "options": ["20% de l'eau totale", "60% de l'eau totale (~25 L)", "100%", "5%"], "correct": 1, "explanation": "Le LIC ≈ 60% de l'eau corporelle totale (~25 L chez l'adulte). Le LEC = 1/3 (plasma 20% + interstitiel 80%)."}, {"q": "L'apport hydrique quotidien est environ :", "difficulty": "easy", "options": ["500 ml", "1 000 ml", "2 500 ml", "10 000 ml"], "correct": 2, "explanation": "Apport hydrique ≈ 2 500 ml/j : boissons (1 600) + aliments (700) + eau métabolique (200)."}, {"q": "Le pH cytoplasmique cellulaire est :", "difficulty": "easy", "options": ["7,40 (= sang)", "≈ 6,8 (légèrement plus acide que le sang)", "8,5", "5,0"], "correct": 1, "explanation": "Le pH intracellulaire (~6,8) est légèrement plus acide que le pH sanguin (~7,40). Production constante de CO₂ et acides métaboliques."}, {"q": "Un acide est une substance qui :", "difficulty": "easy", "options": ["Capte les H⁺", "Libère des H⁺ en solution", "Libère des OH⁻", "Ne fait rien"], "correct": 1, "explanation": "Acide (Brønsted) = donneur de H⁺. Base = accepteur de H⁺. HCl → H⁺ + Cl⁻."}, {"q": "Le HCl est un :", "difficulty": "easy", "options": ["Acide faible", "Acide fort (entièrement dissocié)", "Base forte", "Tampon"], "correct": 1, "explanation": "HCl est un acide fort entièrement dissocié en H⁺ + Cl⁻. C'est l'acide gastrique."}, {"q": "Une acidose métabolique est caractérisée par :", "difficulty": "medium", "options": ["pH > 7,45 et HCO₃⁻ ↑", "pH < 7,35 et HCO₃⁻ ↓ (<22 mEq/L)", "pH < 7,35 et pCO₂ ↑", "pH > 7,45 et pCO₂ ↓"], "correct": 1, "explanation": "Acidose métabolique = pH < 7,35 et HCO₃⁻ ↓. Causes : acidose lactique, cétoacidose diabétique, insuffisance rénale, diarrhée."}, {"q": "Une acidose respiratoire est caractérisée par :", "difficulty": "medium", "options": ["pH < 7,35 et pCO₂ ↑ (>45 mmHg)", "pH > 7,45 et pCO₂ ↓", "pH < 7,35 et HCO₃⁻ ↓", "pH normal"], "correct": 0, "explanation": "Acidose respiratoire = pH < 7,35 et pCO₂ > 45 mmHg. Causes : hypoventilation (BPCO, emphysème, dépression respiratoire)."}, {"q": "Une alcalose respiratoire est caractérisée par :", "difficulty": "medium", "options": ["pH < 7,35 et pCO₂ ↑", "pH > 7,45 et pCO₂ ↓ (<35 mmHg)", "pH > 7,45 et HCO₃⁻ ↑", "Aucun de ces"], "correct": 1, "explanation": "Alcalose respiratoire = hyperventilation → pCO₂ ↓ < 35 mmHg → pH > 7,45. Causes : anxiété, altitude, AVC."}, {"q": "Une alcalose métabolique est caractérisée par :", "difficulty": "medium", "options": ["pH > 7,45 et HCO₃⁻ ↑", "pH > 7,45 et pCO₂ ↓", "pH < 7,35 et HCO₃⁻ ↓", "Aucun"], "correct": 0, "explanation": "Alcalose métabolique = pH > 7,45 et HCO₃⁻ ↑. Causes : vomissements répétés (perte d'HCl), ingestion d'alcalins, hypokaliémie."}, {"q": "Quelle situation provoque une alcalose respiratoire ?", "difficulty": "medium", "options": ["Hypoventilation", "Hyperventilation (anxiété, altitude)", "Vomissements répétés", "Diarrhée sévère"], "correct": 1, "explanation": "L'hyperventilation élimine trop de CO₂ → pCO₂ ↓ → pH ↑. Causes typiques : crise d'angoisse, altitude, AVC."}, {"q": "Quel est le tampon principal du plasma ?", "difficulty": "medium", "options": ["Tampon protéique", "Tampon hémoglobine", "Tampon bicarbonate (HCO₃⁻/H₂CO₃)", "Tampon phosphate"], "correct": 2, "explanation": "Le couple HCO₃⁻/H₂CO₃ est le tampon principal extracellulaire (plasma + liquide interstitiel). Régulé par poumons (CO₂) et reins (HCO₃⁻)."}, {"q": "Le tampon le plus abondant (3/4 de la capacité tampon totale) est :", "difficulty": "medium", "options": ["Bicarbonate", "Phosphate", "Protéique (intra et extracellulaire, dont l'hémoglobine)", "Ammoniac"], "correct": 2, "explanation": "Les protéines (groupements –COOH/–NH₂ ionisables) représentent ~75% de la capacité tampon totale, en intra et extracellulaire."}, {"q": "Le tampon bicarbonate en cas d'acidose réagit ainsi :", "difficulty": "medium", "options": ["HCO₃⁻ + H⁺ → H₂CO₃ → CO₂ + H₂O (CO₂ éliminé par les poumons)", "H₂CO₃ → H⁺ + HCO₃⁻", "Na⁺ + Cl⁻ → NaCl", "OH⁻ → H₂O"], "correct": 0, "explanation": "En acidose, HCO₃⁻ capte H⁺ → H₂CO₃ → CO₂ + H₂O. Le CO₂ est éliminé par les poumons (réponse rapide)."}, {"q": "Quel est le rôle du tampon hémoglobine ?", "difficulty": "medium", "options": ["Tampon plasmatique principal", "Tampon intracellulaire des érythrocytes (capte H⁺ libéré par CO₂)", "Tampon dans le foie", "Tampon urinaire"], "correct": 1, "explanation": "Hb capte H⁺ libéré par la dissociation H₂CO₃ → H⁺ + HCO₃⁻. ~70-80% du CO₂ tissulaire est transporté sous forme HCO₃⁻ via l'anhydrase carbonique érythrocytaire."}, {"q": "Le tampon ammoniac (NH₃/NH₄⁺) agit principalement :", "difficulty": "medium", "options": ["Dans le plasma", "Dans les érythrocytes", "Dans les tubules rénaux distaux", "Dans le foie"], "correct": 2, "explanation": "NH₃ + H⁺ → NH₄⁺ excrété dans l'urine. Permet d'éliminer H⁺ tout en préservant le HCO₃⁻ plasmatique."}, {"q": "Le tampon phosphate agit principalement :", "difficulty": "medium", "options": ["Dans le plasma uniquement", "Dans le cytoplasme cellulaire et les tubules rénaux", "Dans les voies digestives", "Dans la bile"], "correct": 1, "explanation": "Le tampon phosphate (HPO₄²⁻/H₂PO₄⁻) est principalement intracellulaire et tubulaire rénal. Concentration trop faible dans le LEC pour y être important."}, {"q": "Pendant un effort intense (anaérobie), l'acide produit est :", "difficulty": "medium", "options": ["Acide carbonique", "Acide lactique", "Acide phosphorique", "Acide sulfurique"], "correct": 1, "explanation": "Glycolyse anaérobie : glucose → pyruvate → lactate (acide lactique). Source de H⁺ qui doit être tamponnée."}, {"q": "Le métabolisme aérobie produit comme acide :", "difficulty": "medium", "options": ["Acide lactique", "Acide carbonique (CO₂ + H₂O → H₂CO₃)", "Acide sulfurique", "Acide phosphorique"], "correct": 1, "explanation": "Le CO₂ produit par le métabolisme aérobie + H₂O → H₂CO₃ → H⁺ + HCO₃⁻. C'est la source principale (normale) de H⁺."}, {"q": "L'oxydation des AA soufrés (méthionine, cystéine) produit :", "difficulty": "medium", "options": ["Acide acétique", "Acide sulfurique (H₂SO₄)", "Acide lactique", "CO₂"], "correct": 1, "explanation": "L'oxydation des AA soufrés produit H₂SO₄, acide non volatil qui doit être éliminé par les reins (sous forme de SO₄²⁻ urinaire)."}, {"q": "Une respiration de Kussmaul est typique de :", "difficulty": "medium", "options": ["Alcalose métabolique", "Alcalose respiratoire", "Acidose métabolique sévère", "Acidose respiratoire"], "correct": 2, "explanation": "Respiration de Kussmaul = hyperventilation rapide et profonde, compensation respiratoire d'une acidose métabolique sévère (ex : acidocétose diabétique)."}, {"q": "L'équation de Henderson-Hasselbalch pour le système bicarbonate est :", "difficulty": "hard", "options": ["pH = pKa + log ([HCO₃⁻] / [H₂CO₃])", "pH = [H⁺] × [OH⁻]", "pH = log([H⁺] / [OH⁻])", "pH = HCO₃⁻ × CO₂"], "correct": 0, "explanation": "Henderson-Hasselbalch : pH = pKa + log([HCO₃⁻]/[H₂CO₃]). pKa = 6,1. [HCO₃⁻] / [CO₂ × 0,03] doit ≈ 20 pour pH = 7,40."}, {"q": "Le rapport HCO₃⁻ / H₂CO₃ normal est :", "difficulty": "hard", "options": ["1/1", "20/1 (pour pH = 7,40)", "100/1", "1/20"], "correct": 1, "explanation": "Pour un pH = 7,40, [HCO₃⁻]/[H₂CO₃] = 20/1 (24 mmol/L / 1,2 mmol/L). Tout déséquilibre de ce ratio entraîne acidose/alcalose."}, {"q": "L'anhydrase carbonique catalyse :", "difficulty": "hard", "options": ["HCl → H⁺ + Cl⁻", "CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻", "Na⁺ + Cl⁻ → NaCl", "Hb + O₂ → HbO₂"], "correct": 1, "explanation": "Anhydrase carbonique catalyse l'hydratation rapide du CO₂ en H₂CO₃ (et réaction inverse). Présente dans érythrocytes, cellules tubulaires rénales, estomac. Cible des inhibiteurs (acétazolamide)."}, {"q": "Le trou anionique (anion gap) est calculé par :", "difficulty": "hard", "options": ["[Na⁺] − ([Cl⁻] + [HCO₃⁻]) (normal ~12)", "[K⁺] + [Cl⁻]", "[HCO₃⁻] − [pCO₂]", "pH × pCO₂"], "correct": 0, "explanation": "Anion gap = [Na⁺] − ([Cl⁻] + [HCO₃⁻]) ≈ 8–12 mEq/L. Augmenté dans acidoses métaboliques avec accumulation d'acides organiques (lactate, cétones, salicylates)."}, {"q": "Une acidose métabolique avec anion gap élevé suggère :", "difficulty": "hard", "options": ["Diarrhée", "Acidocétose, acidose lactique, intoxication (méthanol, éthylène glycol)", "Vomissements", "Hyperventilation"], "correct": 1, "explanation": "Anion gap élevé → accumulation d'acides organiques non-mesurés : MUDPILES (Méthanol, Urémie, Diabétique cétoacidose, Propylène/Paraldéhyde, Iron/Isoniazide, Lactate, Éthylène glycol, Salicylates)."}, {"q": "Une compensation respiratoire d'acidose métabolique se traduit par :", "difficulty": "hard", "options": ["↑ ventilation → ↓ pCO₂ (Kussmaul)", "↓ ventilation → ↑ pCO₂", "↑ HCO₃⁻ rénal seul", "Aucune compensation"], "correct": 0, "explanation": "Acidose métabolique → chémorécepteurs périphériques détectent ↓ pH → ↑ ventilation → pCO₂ ↓ → ramène le pH vers la normale (compensation rapide, partielle)."}];
+let currentIndex = 0, score = 0, mode = 'revision', answers = [];
+const quizArea = document.getElementById('quizArea');
+const resultsEl = document.getElementById('results');
+document.getElementById('totalQ').textContent = questions.length;
+function init() {
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      restart();
+    });
+  });
+  renderQuestion();
+}
+function renderQuestion() {
+  if (currentIndex >= questions.length) return showResults();
+  const q = questions[currentIndex];
+  document.getElementById('currentQ').textContent = currentIndex + 1;
+  document.getElementById('progressFill').style.width = ((currentIndex) / questions.length * 100) + '%';
+  document.getElementById('scorePill').textContent = score + ' / ' + currentIndex;
+  const difLabel = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' }[q.difficulty];
+  let optsHTML = q.options.map((opt, i) => '<div class="option" data-i="' + i + '"><div class="marker">' + String.fromCharCode(65+i) + '</div><div>' + opt + '</div></div>').join('');
+  quizArea.innerHTML =
+    '<div class="question-card">' +
+      '<div><span class="q-num">Question ' + (currentIndex + 1) + '</span><span class="q-difficulty ' + q.difficulty + '">' + difLabel + '</span></div>' +
+      '<div class="q-text">' + q.q + '</div>' +
+      '<div class="options" id="optList">' + optsHTML + '</div>' +
+      '<div class="feedback" id="feedback"></div>' +
+      '<div class="controls">' +
+        '<button class="btn btn-secondary" id="prevBtn" ' + (currentIndex === 0 ? 'disabled style="opacity:0.3"' : '') + '>← Précédent</button>' +
+        '<button class="btn btn-primary" id="nextBtn" disabled>Valider →</button>' +
+      '</div>' +
+    '</div>';
+  let selected = null, answered = false;
+  const opts = quizArea.querySelectorAll('.option');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const feedback = document.getElementById('feedback');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (answered) return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selected = parseInt(opt.dataset.i);
+      nextBtn.disabled = false;
+      nextBtn.textContent = mode === 'revision' ? 'Valider →' : 'Suivant →';
+    });
+  });
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      const prevAnswer = answers[currentIndex - 1];
+      if (prevAnswer && prevAnswer.isCorrect) score--;
+      answers.pop();
+      currentIndex--;
+      renderQuestion();
+    }
+  });
+  nextBtn.addEventListener('click', () => {
+    if (selected === null) return;
+    if (mode === 'revision' && !answered) {
+      answered = true;
+      const isCorrect = selected === q.correct;
+      if (isCorrect) score++;
+      answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      opts.forEach((o, i) => {
+        o.classList.add('disabled');
+        if (i === q.correct) o.classList.add('correct');
+        else if (i === selected) o.classList.add('wrong');
+      });
+      feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+      feedback.innerHTML = '<div class="verdict">' + (isCorrect ? '✓ Correct !' : '✗ Incorrect') + '</div><div class="explanation">' + q.explanation + '</div>';
+      nextBtn.textContent = currentIndex === questions.length - 1 ? '🏆 Voir les résultats →' : 'Question suivante →';
+      document.getElementById('scorePill').textContent = score + ' / ' + (currentIndex + 1);
+    } else {
+      if (mode === 'exam') {
+        const isCorrect = selected === q.correct;
+        if (isCorrect) score++;
+        answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      }
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+function showResults() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('scorePill').textContent = score + ' / ' + questions.length;
+  quizArea.classList.add('hidden');
+  resultsEl.classList.remove('hidden');
+  const pct = Math.round(score / questions.length * 100);
+  const finalScoreEl = document.getElementById('finalScore');
+  finalScoreEl.textContent = pct + '%';
+  finalScoreEl.classList.toggle('bad', pct < 50);
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = questions.length - score;
+  document.getElementById('statTotal').textContent = questions.length;
+  let msg;
+  if (pct >= 90) msg = "🌟 Excellent ! Tu maîtrises parfaitement le chapitre.";
+  else if (pct >= 75) msg = "👏 Très bien ! Quelques détails à revoir.";
+  else if (pct >= 60) msg = "👍 Bonne base, mais il reste des points à consolider.";
+  else if (pct >= 40) msg = "📚 Il faut retravailler le cours pour progresser.";
+  else msg = "💪 Courage, reprends la fiche et retente !";
+  document.getElementById('verdictMsg').textContent = msg;
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = answers.map((a, i) => {
+    const q = questions[a.questionIndex];
+    const userAns = a.selected !== null ? '<strong>' + String.fromCharCode(65 + a.selected) + '.</strong> ' + q.options[a.selected] : 'Aucune réponse';
+    const correctBlock = !a.isCorrect ? '<div class="rq-correct">Bonne réponse : <strong>' + String.fromCharCode(65 + q.correct) + '.</strong> ' + q.options[q.correct] + '</div>' : '';
+    return '<div class="review-q ' + (a.isCorrect ? '' : 'wrong') + '">' +
+           '<div class="rq-title">Q' + (a.questionIndex + 1) + '. ' + q.q + '</div>' +
+           '<div class="rq-ans">Ta réponse : ' + userAns + ' ' + (a.isCorrect ? '✓' : '✗') + '</div>' +
+           correctBlock +
+           '<div class="rq-explain">' + q.explanation + '</div>' +
+           '</div>';
+  }).join('');
+}
+function restart() {
+  currentIndex = 0; score = 0; answers = [];
+  resultsEl.classList.add('hidden');
+  quizArea.classList.remove('hidden');
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('scorePill').textContent = '0 / 0';
+  renderQuestion();
+}
+init();
+</script>
+</body>
+</html>

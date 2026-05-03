@@ -1,0 +1,234 @@
+/* ============================================================
+   DARK MODE — Override universel pour les fiches de révision
+   À injecter en dernier dans <head> pour passer toute fiche
+   en mode sombre, peu importe son CSS d'origine.
+   ============================================================ */
+
+/* Override des variables CSS communes */
+:root {
+  /* Backgrounds clairs → sombres */
+  --white: #1A1612 !important;
+  --bg: #0F0E0C !important;
+  --background: #0F0E0C !important;
+  --surface: #221C16 !important;
+  --cream: #221C16 !important;
+  --paper: #1A1612 !important;
+  --light: #221C16 !important;
+  --offwhite: #1A1612 !important;
+
+  /* Textes sombres → clairs */
+  --text: #E8DFD4 !important;
+  --text-light: #E8DFD4 !important;
+  --text-dark: #FEFCFA !important;
+  --text-muted: #A39788 !important;
+  --text-dim: #8A7E70 !important;
+  --ink: #E8DFD4 !important;
+  --heading: #FEFCFA !important;
+  --mid: #C9BFB3 !important;
+  --gray: #A39788 !important;
+  --muted: #A39788 !important;
+  --dark: #FEFCFA !important;
+  --black: #FEFCFA !important;
+
+  /* Bordures claires → sombres */
+  --border: #3D3129 !important;
+  --border-light: #2D241D !important;
+  --divider: #3D3129 !important;
+
+  /* Pales (orange-pale, etc.) → versions sombres tintées */
+  --orange-pale: #2A1F14 !important;
+  --orange-light-bg: #2A1F14 !important;
+  --teal-light: #163530 !important;
+  --teal-pale: #163530 !important;
+  --green-light: #1A2E1F !important;
+  --green-pale: #1A2E1F !important;
+  --red-light: #2D1816 !important;
+  --red-pale: #2D1816 !important;
+  --blue-light: #142640 !important;
+  --blue-pale: #142640 !important;
+  --purple-light: #2A1840 !important;
+  --purple-pale: #2A1840 !important;
+  --gold-light: #2D2410 !important;
+  --gold-pale: #2D2410 !important;
+  --yellow-light: #2D2410 !important;
+  --pink-light: #2D1822 !important;
+  --pink-pale: #2D1822 !important;
+}
+
+/* Body de base */
+html, body {
+  background: #0F0E0C !important;
+  color: #E8DFD4 !important;
+}
+
+/* Conteneurs principaux */
+main, article, .container, .content, .wrapper, .main, .page {
+  background: transparent !important;
+  color: #E8DFD4 !important;
+}
+
+/* Cartes / boîtes claires */
+.card, [class*="card-"], .box, .panel, .info-box, .summary-strip,
+.def-box, .highlight, .highlight-box, .callout, .compare-col,
+.feedback-box, .key-block, .key-item, .lesion-card, .syndrome-block,
+.patho-block, .level-row, .level-bar, .step, .step-content,
+.timeline-item, .timeline-content, .stat-box, .niveau-item,
+.asia-card, .memory-card, .mc-content, .mnemonic, .sym-item,
+.warning-box, .success-box, .danger-box {
+  background: #221C16 !important;
+  border-color: #3D3129 !important;
+  color: #E8DFD4 !important;
+}
+
+/* Pour les éléments qui ont une couleur de fond inline blanche/cream */
+[style*="background:#fff"],
+[style*="background: #fff"],
+[style*="background:#FFF"],
+[style*="background: #FFF"],
+[style*="background:white"],
+[style*="background: white"],
+[style*="background:#FEFCFA"],
+[style*="background: #FEFCFA"],
+[style*="background:#FAF8F4"],
+[style*="background: #FAF8F4"] {
+  background: #221C16 !important;
+}
+
+/* Tableaux */
+table { background: transparent !important; color: #E8DFD4 !important; }
+table thead, table thead tr, table th { background: #1A1612 !important; color: #FEFCFA !important; border-color: #3D3129 !important; }
+table tbody tr { background: transparent !important; color: #E8DFD4 !important; }
+table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02) !important; }
+table tbody tr:hover { background: rgba(255,138,46,0.06) !important; }
+table td { color: #E8DFD4 !important; border-color: #3D3129 !important; }
+table tr { border-color: #3D3129 !important; }
+
+/* Compare table : cellules colorées (td-blue, td-green, td-pink, td-gold) */
+.td-blue, td.td-blue { background: #142640 !important; color: #88B5FF !important; }
+.td-green, td.td-green { background: #1A2E1F !important; color: #6FCB8E !important; }
+.td-pink, td.td-pink { background: #2D1822 !important; color: #FF99C0 !important; }
+.td-gold, td.td-gold { background: #2D2410 !important; color: #E5BA3A !important; }
+.td-purple, td.td-purple { background: #2A1840 !important; color: #BC8CFF !important; }
+.td-red, td.td-red { background: #2D1816 !important; color: #FF8A7E !important; }
+.td-orange, td.td-orange { background: #2A1F14 !important; color: #FFA866 !important; }
+
+/* Navigation */
+nav, .nav, .toc, .nav-inner {
+  background: #1A1612 !important;
+  border-color: #3D3129 !important;
+}
+nav a, .nav a, .toc a {
+  color: #C9BFB3 !important;
+}
+nav a:hover, .nav a:hover, .toc a:hover { color: #FF8A2E !important; }
+.nav-btn { background: transparent !important; color: #C9BFB3 !important; border-color: #3D3129 !important; }
+.nav-btn:hover, .nav-btn.active { background: #FF8A2E !important; color: #1A1612 !important; }
+
+/* Footer */
+footer, .footnote, .footer {
+  background: #050403 !important;
+  color: #A39788 !important;
+  border-color: #3D3129 !important;
+}
+
+/* Tags / badges - fond pâle → fond sombre tinté */
+.tag, .badge, .chip, .pill {
+  background: rgba(255,138,46,0.15) !important;
+  color: #FFA866 !important;
+  border-color: #3D3129 !important;
+}
+.tag.blue, .badge.blue, .badge-blue, .pill-blue { background: rgba(88,166,255,0.18) !important; color: #88B5FF !important; }
+.tag.green, .badge.green, .badge-green, .pill-green { background: rgba(111,203,142,0.18) !important; color: #6FCB8E !important; }
+.tag.red, .badge.red, .badge-red, .pill-red { background: rgba(242,107,94,0.18) !important; color: #FF8A7E !important; }
+.tag.purple, .badge.purple, .badge-purple, .pill-purple { background: rgba(188,140,255,0.18) !important; color: #BC8CFF !important; }
+.tag.orange, .badge.orange, .badge-orange, .pill-orange { background: rgba(255,138,46,0.18) !important; color: #FFA866 !important; }
+.tag.gold, .badge.gold, .badge-gold { background: rgba(229,186,58,0.18) !important; color: #E5BA3A !important; }
+.tag.teal, .badge.teal, .badge-teal { background: rgba(79,193,176,0.18) !important; color: #4FC1B0 !important; }
+
+/* Listes */
+ul.clean li, ul.styled li, ul li { color: #C9BFB3 !important; }
+ul.clean li strong, ul li strong { color: #FEFCFA !important; }
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 { color: #FEFCFA !important; }
+h1 span, h2 span, h3 span, h4 span { color: inherit; } /* préserver les highlights */
+
+/* Sections */
+section { background: transparent !important; }
+.section-title, .section-header { color: #FEFCFA !important; border-color: #3D3129 !important; }
+.section-num, .section-number { color: #FF8A2E !important; }
+
+/* Définitions / mises en évidence */
+.def-term, .def-content, em { color: #C9BFB3 !important; }
+.highlight strong, .highlight-box strong { color: #FFA866 !important; }
+.highlight-blue strong { color: #88B5FF !important; }
+.highlight-teal strong { color: #4FC1B0 !important; }
+.highlight-green strong { color: #6FCB8E !important; }
+.highlight-red strong { color: #FF8A7E !important; }
+.highlight-purple strong { color: #BC8CFF !important; }
+.highlight-gold strong { color: #E5BA3A !important; }
+
+/* Mémo / mnémoniques */
+.memo, .memory-card, .mc-content {
+  background: #050403 !important;
+  color: #FEFCFA !important;
+  border: 1px solid #3D3129 !important;
+}
+.memo span, .memory-card .mc-content span { color: #FFA866 !important; }
+
+/* Inputs / boutons (peu utilisés dans les fiches mais au cas où) */
+input, select, textarea, button {
+  background: #221C16 !important;
+  color: #E8DFD4 !important;
+  border-color: #3D3129 !important;
+}
+
+/* Inline code */
+code, pre {
+  background: #050403 !important;
+  color: #FFA866 !important;
+  border: 1px solid #3D3129 !important;
+}
+
+/* Dégradés colorés conservés mais ajustés (level-bars, etc.) - on garde leurs gradients */
+.level-bar { color: #FEFCFA !important; }
+
+/* Zones spéciales souvent jaunes/vertes/etc dans les fiches */
+.callout-info, .callout.callout-info { background: rgba(88,166,255,0.1) !important; border-color: #88B5FF !important; color: #C5DDFF !important; }
+.callout-warn, .callout.callout-warn { background: rgba(229,186,58,0.1) !important; border-color: #E5BA3A !important; color: #F0DA94 !important; }
+.callout-success, .callout.callout-success { background: rgba(111,203,142,0.1) !important; border-color: #6FCB8E !important; color: #B8E4C5 !important; }
+.callout-danger, .callout.callout-danger { background: rgba(242,107,94,0.1) !important; border-color: #F26B5E !important; color: #FFB8B0 !important; }
+
+/* Scroll button */
+#scrollTop {
+  background: #1A1612 !important;
+  border-color: #3D3129 !important;
+  color: #C9BFB3 !important;
+}
+#scrollTop:hover { background: rgba(255,138,46,0.15) !important; color: #FF8A2E !important; }
+
+/* Hero/header sections - les fiches en ont déjà mais on s'assure */
+.hero, header, .header {
+  background: linear-gradient(135deg, #1A1612 0%, #0F0E0C 100%) !important;
+  color: #FEFCFA !important;
+  border-color: #3D3129 !important;
+}
+.hero h1, header h1, .header h1 { color: #FEFCFA !important; }
+.hero p, .hero-sub, .hero-meta, header p { color: rgba(254,252,250,0.7) !important; }
+
+/* Texte par défaut pour paragraphes sans classe */
+p { color: #C9BFB3; }
+p strong { color: #FEFCFA; }
+
+/* Liens */
+a { color: #FFA866; }
+a:hover { color: #FF8A2E; }
+
+/* Scrollbar custom (Webkit) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0F0E0C; }
+::-webkit-scrollbar-thumb { background: #3D3129; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #5A4A3D; }
+
+/* Body color scheme pour autoriser les inputs natifs sombres */
+:root { color-scheme: dark; }

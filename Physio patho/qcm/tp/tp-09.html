@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 9 — Réparation Tissulaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 9 — <span>Réparation Tissulaire</span></h1>
+  <div class="hero-sub">Fiche TP 9 · Régénération, cicatrisation, chéloïde · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 9 — Réparation Tissulaire"</strong> (régénération vs cicatrisation, types cellulaires, facteurs).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 9 — Réparation Tissulaire",
+  questions: [
+    {"type":"QCS","question":"La RÉGÉNÉRATION tissulaire correspond à :","options":["Le remplacement par un tissu fibreux cicatriciel","Le remplacement à l'identique du tissu lésé","Une mort cellulaire","Une fibrose excessive"],"correct":[1],"explanation":"Régénération = remplacement à l'identique du tissu lésé (restitution ad integrum). Possible pour les tissus à fort potentiel prolifératif (labiles, stables). La cicatrisation = remplacement par tissu fibreux."},
+    {"type":"QCS","question":"La CICATRISATION tissulaire correspond à :","options":["Le remplacement à l'identique","Le remplacement du tissu détruit par un tissu conjonctif fibreux (cicatrice)","Une infection chronique","Un cancer"],"correct":[1],"explanation":"Cicatrisation = remplacement par tissu conjonctif fibreux (collagène) lorsque la régénération est insuffisante ou impossible. Survient quand l'agression est sévère ou que le tissu est à faible potentiel régénératif."},
+    {"type":"QCM","question":"Concernant les CELLULES LABILES :","options":["Se renouvellent en permanence","Exemples : épithéliums, moelle hématopoïétique","Capacité régénérative très bonne","Exemples : neurones, cardiomyocytes","Cellules en G0 quiescentes"],"correct":[0,1,2],"explanation":"Cellules labiles : renouvellement permanent (cycle continu) → épiderme, épithélium digestif, moelle, gamètes. Excellente régénération. Les neurones/cardiomyocytes = cellules permanentes (post-mitotiques)."},
+    {"type":"QCM","question":"Concernant les CELLULES STABLES :","options":["Quiescentes en G0","Capables de se diviser en cas de stimulation","Foie, rein, cellules endothéliales","Cardiomyocytes","Régénération possible si stimulus"],"correct":[0,1,2,4],"explanation":"Cellules stables : quiescentes (G0), prolifèrent si stimulus (lésion). Foie, rein, glandes endocrines, endothélium, fibroblastes. Le foie a une remarquable capacité de régénération. Cardiomyocytes = permanents."},
+    {"type":"QCS","question":"Les CELLULES PERMANENTES :","options":["Se renouvellent en permanence","Ne se divisent plus chez l'adulte (post-mitotiques) : neurones, cardiomyocytes","Sont identiques aux cellules labiles","Régénèrent facilement"],"correct":[1],"explanation":"Cellules permanentes : post-mitotiques, ne se divisent plus chez l'adulte. Neurones, cardiomyocytes, myocytes squelettiques. Lésion → cicatrisation par tissu fibreux (gliose pour SNC, cicatrice fibreuse pour le cœur)."},
+    {"type":"QCM","question":"Quelles sont les ÉTAPES classiques de la cicatrisation cutanée ?","options":["1. Hémostase (coagulation, plaquettes)","2. Inflammation (PNN puis macrophages)","3. Prolifération (fibroblastes, néoangiogenèse, bourgeon charnu)","4. Remodelage (maturation collagène, contraction)","5. Métaplasie obligatoire"],"correct":[0,1,2,3],"explanation":"4 étapes de la cicatrisation : 1) hémostase (clou plaquettaire, coagulation) → 2) inflammation (PNN, macrophages) → 3) prolifération (fibroblastes, angiogenèse, tissu de granulation) → 4) remodelage (maturation collagène). La métaplasie n'est PAS une étape normale."},
+    {"type":"QCM","question":"Concernant le tissu de GRANULATION (bourgeon charnu) :","options":["Apparaît durant la phase proliférative","Néovaisseaux + fibroblastes + matrice extracellulaire + cellules inflammatoires","Aspect rouge framboise","Caractéristique de la cicatrisation par 2e intention","Composé uniquement de collagène mature"],"correct":[0,1,2,3],"explanation":"Bourgeon charnu : apparaît en phase proliférative, mélange de néovaisseaux, fibroblastes (myofibroblastes), matrice (collagène jeune type III), cellules inflammatoires. Aspect rouge granulaire. Sera remodelé en cicatrice mature."},
+    {"type":"QCS","question":"La cicatrisation par PREMIÈRE INTENTION concerne :","options":["Les plaies à bords nets, peu de perte de substance","Les plaies infectées avec perte importante","Les brûlures profondes","Les plaies chroniques"],"correct":[0],"explanation":"1ère intention : plaies bords nets, rapprochés (sutures chirurgicales), peu de perte de substance → cicatrice fine et rapide. 2e intention : plaies béantes, perte de substance → bourgeon charnu, cicatrice large."},
+    {"type":"QCS","question":"La cicatrisation par DEUXIÈME INTENTION :","options":["Concerne les plaies suturées","Implique la formation d'un bourgeon charnu volumineux","Donne une cicatrice toujours invisible","Est plus rapide que la 1ère intention"],"correct":[1],"explanation":"2e intention : plaie béante avec perte de substance importante → bourgeon charnu volumineux, comblement progressif, contraction des berges, cicatrice plus large et plus longue. Plus risquée (infection, fibrose excessive)."},
+    {"type":"QCM","question":"Quels FACTEURS EXTRINSÈQUES retardent la cicatrisation ?","options":["Infection","Corps étranger","Déshydratation de la plaie","Mobilisation excessive","Tabac"],"correct":[0,1,2,3,4],"explanation":"Facteurs extrinsèques : infection, corps étranger, déshydratation, mobilité excessive de la plaie, tabac (vasoconstriction), traumatisme répété, mauvaise hygiène. Tous retardent la cicatrisation."},
+    {"type":"QCM","question":"Quels FACTEURS INTRINSÈQUES retardent la cicatrisation ?","options":["Diabète (hyperglycémie chronique)","Carences nutritionnelles (protéines, vitamines C, A, zinc)","Âge avancé","Anémie / hypoxie","Corticothérapie au long cours"],"correct":[0,1,2,3,4],"explanation":"Facteurs intrinsèques : diabète, malnutrition (protéines, Vit C/A, zinc), âge, anémie, hypoxie, corticothérapie (↓ inflammation utile, ↓ collagène), immunosuppresseurs, maladies chroniques."},
+    {"type":"QCS","question":"Une CHÉLOÏDE est :","options":["Une cicatrice fine et discrète","Une cicatrice hypertrophique qui DÉBORDE les limites de la plaie initiale","Une absence de cicatrice","Une infection cicatricielle"],"correct":[1],"explanation":"Chéloïde : cicatrice exubérante qui DÉBORDE les limites de la plaie d'origine, par excès de production de collagène. Plus fréquente sur peaux foncées, en zones spécifiques (sternum, épaule, lobes d'oreille)."},
+    {"type":"QCS","question":"Une cicatrice HYPERTROPHIQUE se distingue d'une chéloïde par :","options":["Elle dépasse les limites de la plaie","Elle reste limitée à la plaie initiale (mais épaisse et rouge)","Elle disparaît spontanément en quelques jours","Elle ne saigne jamais"],"correct":[1],"explanation":"Hypertrophique : épaisse, rouge, mais limitée aux contours de la plaie. Chéloïde : déborde les limites. Hypertrophique tend à régresser dans le temps ; chéloïde persiste, voire s'étend."},
+    {"type":"QCM","question":"Concernant le COLLAGÈNE de cicatrisation :","options":["Type III (immature) prédomine au début","Type I (mature) prédomine en fin de remodelage","La cicatrice n'atteint jamais 100% de la résistance du tissu original (~70-80% maximum)","Le remodelage peut durer plusieurs mois à un an","Aucun changement dans le temps"],"correct":[0,1,2,3],"explanation":"Cicatrisation : phase proliférative = collagène III (jeune, désorganisé) → remodelage = collagène I (mature, organisé). La cicatrice atteint ~80% de la résistance du tissu sain au mieux. Remodelage ~6-12 mois."},
+    {"type":"QCS","question":"Le rôle du MYOFIBROBLASTE est :","options":["Synthétiser du collagène uniquement","Combiner les fonctions de fibroblaste (collagène) ET de cellule musculaire lisse (CONTRACTION) → contraction de la plaie","Phagocyter les débris","Produire des anticorps"],"correct":[1],"explanation":"Myofibroblaste = fibroblaste différencié exprimant l'α-actine musculaire lisse. Synthétise le collagène ET contracte → rapprochement des berges (contraction de la plaie) durant la phase proliférative."},
+    {"type":"QCM","question":"Quels sont des MODES DE COMMUNICATION cellulaire impliqués dans la réparation ?","options":["Autocrine (la cellule agit sur elle-même)","Paracrine (cellules voisines)","Endocrine (à distance via le sang)","Synaptique (cellules nerveuses)","Aucune communication"],"correct":[0,1,2,3],"explanation":"Modes : autocrine (la cellule sur elle-même), paracrine (voisinage, ex : facteurs de croissance), endocrine (à distance, hormones), juxtacrine (contact direct), synaptique (neurones). Tous interviennent dans la réparation."},
+    {"type":"QCM","question":"Parmi les FACTEURS DE CROISSANCE impliqués dans la réparation, on trouve :","options":["PDGF (Platelet-Derived Growth Factor)","FGF (Fibroblast Growth Factor)","TGF-β (Transforming Growth Factor)","VEGF (Vascular Endothelial GF)","ATP"],"correct":[0,1,2,3],"explanation":"Facteurs de croissance : PDGF (plaquettes, recrute fibroblastes), FGF (prolifération), TGF-β (production de collagène, fibrose), VEGF (angiogenèse), EGF, IGF. ATP n'est pas un facteur de croissance mais une source d'énergie."},
+    {"type":"QCS","question":"L'ANGIOGENÈSE durant la cicatrisation est :","options":["Inutile","Indispensable pour apporter oxygène et nutriments au tissu en formation","Pathologique","Spontanément délétère"],"correct":[1],"explanation":"L'angiogenèse (formation de nouveaux vaisseaux à partir de vaisseaux existants) est CRUCIALE : apporte O₂ et nutriments, permet la migration cellulaire, stimule la prolifération. Médiée par VEGF, FGF."},
+    {"type":"QCM","question":"Concernant le BOURGEON CHARNU pathologique (excessif) :","options":["Aspect framboisé exubérant","Saigne facilement","Ralentit l'épithélialisation","Traitement : nitrate d'argent ou ablation","Toujours inoffensif"],"correct":[0,1,2,3],"explanation":"Bourgeonnement excessif : framboisé, fragile, saignant, déborde de la plaie, retarde l'épithélialisation (les kératinocytes ne peuvent pas migrer). Tx : nitrate d'argent, corticoïdes locaux, ablation chirurgicale."},
+    {"type":"QCS","question":"L'ÉPITHÉLIALISATION d'une plaie cutanée se fait :","options":["Par migration de kératinocytes des berges","Par division des cellules fibroblastiques","Par migration des macrophages","Par formation de tissu osseux"],"correct":[0],"explanation":"Épithélialisation : kératinocytes des berges (et des annexes pilo-sébacées) prolifèrent et migrent pour recouvrir la plaie. Nécessite un lit de plaie propre, humide, sans infection."},
+    {"type":"QCS","question":"La CONTRACTION de la plaie est due principalement à :","options":["Aux fibroblastes seuls","Aux myofibroblastes (contractiles)","Aux PNN","Aux mastocytes"],"correct":[1],"explanation":"La contraction de la plaie (réduction de la surface) est due à l'action contractile des myofibroblastes (fibroblastes exprimant l'α-actine de muscle lisse). Très importante pour les plaies de 2e intention."},
+    {"type":"QCM","question":"Concernant les CICATRICES PATHOLOGIQUES (anomalies) :","options":["Cicatrice hypertrophique","Cicatrice chéloïde","Cicatrice atrophique (déprimée)","Cicatrice rétractile (limitant le mouvement)","Cicatrice toujours esthétique"],"correct":[0,1,2,3],"explanation":"Anomalies cicatricielles : hypertrophique (limitée), chéloïde (déborde), atrophique (déprimée, ex : varicelle, acné), rétractile (limite la mobilité, ex : brûlures). Toutes peuvent altérer la fonction et l'esthétique."},
+    {"type":"QCS","question":"L'ÉCHEC complet de cicatrisation aboutit à :","options":["Une cicatrice normale","Une PLAIE CHRONIQUE (ex : ulcère)","Une régénération parfaite","Une chéloïde toujours"],"correct":[1],"explanation":"Échec de cicatrisation = plaie chronique (>4-6 semaines sans cicatrisation). Exemples : ulcères veineux/artériels/diabétiques, escarres. Causes multiples : infection, ischémie, diabète, malnutrition."},
+    {"type":"QCS","question":"La cicatrisation OPTIMALE nécessite un environnement :","options":["Sec","Humide et chaud","Stérile glacial","Acide"],"correct":[1],"explanation":"Cicatrisation idéale : milieu HUMIDE et chaud (favorise la migration cellulaire, l'angiogenèse, et limite la formation de croûtes qui ralentissent). Principe des pansements modernes (hydrocolloïdes, hydrogels)."},
+    {"type":"QCS","question":"La FIBROSE EXCESSIVE post-cicatricielle peut entraîner :","options":["Une amélioration fonctionnelle","Une perte de fonction (rétraction, ankylose, organe non fonctionnel)","Une régénération améliorée","Aucune conséquence"],"correct":[1],"explanation":"Fibrose excessive : remplace le tissu fonctionnel → perte de fonction. Ex : cirrhose hépatique (hépatocytes → fibrose), fibrose pulmonaire (alvéoles → fibrose), rétractions cutanées post-brûlures."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

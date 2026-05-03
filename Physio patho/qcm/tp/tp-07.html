@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 7 — Posture & Scoliose</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 7 — <span>Posture & Scoliose</span></h1>
+  <div class="hero-sub">Fiche TP 7 · Changements posturaux, courbures, scoliose · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 7 — Changements posturaux"</strong> (posture, courbures rachidiennes, scoliose, malformations).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 7 — Posture & Scoliose",
+  questions: [
+    {"type":"QCS","question":"La POSTURE est définie comme :","options":["Une position figée prise par le corps","La position relative des différentes parties du corps les unes par rapport aux autres et à la gravité","Une réflexe inné permanent","Un trouble musculo-squelettique"],"correct":[1],"explanation":"Posture = position relative des segments corporels les uns par rapport aux autres ET à la gravité. Elle implique un équilibre tonique entre muscles agonistes et antagonistes."},
+    {"type":"QCM","question":"Concernant les COURBURES RACHIDIENNES, quelles affirmations sont vraies ?","options":["Cyphose dorsale = courbure primaire","Lordose lombaire = courbure secondaire","Lordose cervicale = courbure secondaire","Cyphose sacrée = courbure primaire","Toutes les courbures sont primaires"],"correct":[0,1,2,3],"explanation":"Courbures primaires (présentes à la naissance, à concavité antérieure) : dorsale + sacrée. Secondaires (apparaissent avec la mise en charge, à concavité postérieure) : cervicale (port de tête) + lombaire (marche)."},
+    {"type":"QCS","question":"À quel âge apparaît la lordose CERVICALE ?","options":["À la naissance","Quand l'enfant tient sa tête (~3 mois)","Quand l'enfant marche (~12 mois)","À l'adolescence"],"correct":[1],"explanation":"La lordose cervicale apparaît vers 3 mois quand le nourrisson commence à tenir sa tête. La lordose lombaire apparaît plus tard, lors de la station debout/marche."},
+    {"type":"QCS","question":"À quel âge apparaît la lordose LOMBAIRE ?","options":["À la naissance","Quand l'enfant tient sa tête (~3 mois)","Quand l'enfant marche (~12 mois)","À l'adolescence"],"correct":[2],"explanation":"La lordose lombaire apparaît avec l'acquisition de la marche (~12 mois), en réponse à la verticalisation du corps."},
+    {"type":"QCS","question":"La SCOLIOSE est :","options":["Une courbure normale du rachis","Une déviation TRIDIMENSIONNELLE du rachis (frontale + sagittale + rotation vertébrale)","Une simple inclinaison latérale réversible","Une fracture vertébrale"],"correct":[1],"explanation":"Scoliose = déformation 3D du rachis : déviation latérale (frontale) + modification de courbure sagittale + ROTATION vertébrale (gibbosité). Différent de l'attitude scoliotique (réversible, sans rotation)."},
+    {"type":"QCM","question":"Quels signes différencient la SCOLIOSE STRUCTURELLE de l'attitude scoliotique ?","options":["Présence d'une rotation vertébrale (gibbosité au test d'Adams)","Réversibilité en position couchée","Persistance en flexion antérieure","Évolutivité possible","Toujours indolore"],"correct":[0,2,3],"explanation":"Scoliose vraie : NON réversible, gibbosité au test d'Adams (flexion ant.), évolutive (surtout durant croissance). Attitude scoliotique : réversible, pas de rotation, sans gibbosité."},
+    {"type":"QCS","question":"Le test d'ADAMS consiste à :","options":["Toucher ses pieds en flexion latérale","Faire fléchir le patient vers l'avant pour rechercher une gibbosité","Mesurer la lordose lombaire","Vérifier l'équilibre debout"],"correct":[1],"explanation":"Test d'Adams : patient debout, flexion antérieure du tronc bras pendants. On observe par derrière → recherche d'une GIBBOSITÉ (saillie costale ou paravertébrale signant la rotation vertébrale)."},
+    {"type":"QCS","question":"L'angle de COBB permet de :","options":["Mesurer la longueur des membres","Mesurer l'angle de la courbure scoliotique sur radiographie","Évaluer la force musculaire","Quantifier la lordose lombaire seulement"],"correct":[1],"explanation":"Angle de Cobb : mesure radiologique de la courbure scoliotique (frontale). Définit la sévérité : <10° pas de scoliose, 10-25° légère, 25-40° modérée, >40° sévère (chirurgie envisagée)."},
+    {"type":"QCM","question":"Concernant la SCOLIOSE IDIOPATHIQUE de l'adolescent (SIA) :","options":["Cause inconnue","Plus fréquente chez les filles","Risque évolutif maximal pendant la croissance pubertaire","Toujours douloureuse","Disparaît à l'âge adulte"],"correct":[0,1,2],"explanation":"SIA : étiologie inconnue (idiopathique), prédominance féminine (4-7:1 pour formes évolutives), pic évolutif lors du pic de croissance pubertaire. Souvent INDOLORE chez l'ado. Persiste à l'âge adulte."},
+    {"type":"QCS","question":"Une CYPHOSE pathologique correspond à :","options":["Une courbure cervicale exagérée","Une augmentation de la convexité postérieure du rachis dorsal (dos rond)","Une lordose lombaire excessive","Une scoliose sévère"],"correct":[1],"explanation":"Hypercyphose dorsale = accentuation pathologique de la courbure dorsale → 'dos rond'. Causes : posturale, congénitale (Scheuermann), ostéoporose (tassements), ankylosante."},
+    {"type":"QCS","question":"Une HYPERLORDOSE LOMBAIRE est :","options":["Une perte de la courbure lombaire","Une accentuation de la lordose lombaire","Une cyphose cervicale","Une scoliose"],"correct":[1],"explanation":"Hyperlordose lombaire = augmentation de la concavité postérieure lombaire (creux du dos accentué). Causes : faiblesse abdominale, antéversion bassin, grossesse, obésité abdominale."},
+    {"type":"QCM","question":"Concernant la maladie de SCHEUERMANN :","options":["Affecte les adolescents","Hypercyphose dorsale rigide","Aspect cunéiforme des vertèbres","Souvent indolore","Toujours d'origine traumatique"],"correct":[0,1,2,3],"explanation":"Scheuermann (cyphose juvénile) : ostéochondrose vertébrale de l'adolescent, hypercyphose dorsale rigide, vertèbres cunéiformes (≥5° d'angulation sur 3 vertèbres consécutives), nodules de Schmorl. Souvent indolore."},
+    {"type":"QCS","question":"Le GENU VARUM correspond à :","options":["Genoux qui se touchent en X","Genoux écartés en O","Genoux normalement alignés","Une luxation patellaire"],"correct":[1],"explanation":"Genu varum = jambes en O (genoux écartés). Genu valgum = jambes en X (genoux rapprochés). Physiologique chez nourrisson (varum) puis valgum vers 3-4 ans, normal vers 7 ans."},
+    {"type":"QCS","question":"Le GENU VALGUM correspond à :","options":["Genoux en O","Genoux en X (rapprochés)","Hyperextension","Hyperflexion"],"correct":[1],"explanation":"Genu valgum = genoux qui se touchent (en X), pieds écartés. Physiologique entre 2 et 4 ans, mais pathologique si persistant ou asymétrique chez l'enfant plus grand."},
+    {"type":"QCM","question":"Parmi les facteurs influençant la POSTURE, on retrouve :","options":["Anatomiques (longueur des membres, structure osseuse)","Physiologiques (tonus musculaire, équilibre)","Psychologiques (confiance, dépression)","Pathologiques (douleur, déformations)","Habitudes professionnelles"],"correct":[0,1,2,3,4],"explanation":"La posture est influencée par : facteurs anatomiques, physiologiques, psychologiques, pathologiques, habitudes (poste de travail, sports), âge, état émotionnel. Approche multifactorielle."},
+    {"type":"QCS","question":"La LIGNE DE GRAVITÉ idéale (vue latérale) passe par :","options":["L'oreille, l'épaule, le grand trochanter, le genou et l'avant de la malléole externe","Le nez, le sternum et le pubis","La colonne vertébrale uniquement","L'arrière du crâne et les talons"],"correct":[0],"explanation":"Ligne de gravité idéale (latérale) : conduit auditif externe → acromion → grand trochanter → légèrement en avant du genou → légèrement en avant de la malléole externe."},
+    {"type":"QCS","question":"Une HALLUX VALGUS correspond à :","options":["Une déviation latérale (en valgus) du gros orteil","Une griffe d'orteils","Une fasciite plantaire","Un pied creux"],"correct":[0],"explanation":"Hallux valgus ('oignon') : déviation latérale (vers le 2e orteil) de la phalange du gros orteil avec saillie médiale de la 1ère articulation métatarso-phalangienne. Plus fréquent chez la femme."},
+    {"type":"QCM","question":"Quelles sont des OSTÉOCHONDROSES juvéniles ?","options":["Maladie d'Osgood-Schlatter (tubérosité tibiale)","Maladie de Sever (calcanéum)","Maladie de Scheuermann (rachis)","Maladie de Legg-Calvé-Perthes (tête fémorale)","Polyarthrite rhumatoïde"],"correct":[0,1,2,3],"explanation":"Ostéochondroses juvéniles : Osgood-Schlatter (tubérosité tibiale, ado sportif), Sever (calcanéum), Scheuermann (rachis), Legg-Calvé-Perthes (tête fémorale, garçon 4-8 ans), Köhler (os naviculaire). PR = adulte, auto-immune."},
+    {"type":"QCS","question":"La maladie d'OSGOOD-SCHLATTER touche :","options":["L'épaule du nageur","La tubérosité tibiale antérieure de l'adolescent sportif","Le rachis lombaire","La tête humérale"],"correct":[1],"explanation":"Osgood-Schlatter : ostéochondrose de l'apophyse tibiale antérieure (insertion du tendon rotulien), chez l'adolescent sportif (10-15 ans). Douleur antérieure du genou, aggravée à l'effort. Évolution favorable à la fin de la croissance."},
+    {"type":"QCM","question":"Concernant le PIED PLAT :","options":["Affaissement de la voûte longitudinale interne","Physiologique chez le jeune enfant (<3-4 ans)","Souvent associé à un valgus calcanéen","Toujours pathologique","Peut être souple ou rigide"],"correct":[0,1,2,4],"explanation":"Pied plat = affaissement de l'arche médiale, valgus calcanéen. Physiologique chez le jeune enfant (la voûte se forme vers 5-6 ans). Pathologique si persistant, douloureux ou rigide."},
+    {"type":"QCS","question":"Une POLYDACTYLIE est :","options":["Une absence de doigt(s)","La présence d'un nombre supérieur de doigts/orteils (>5)","Une fusion des doigts","Une raideur des doigts"],"correct":[1],"explanation":"Polydactylie = présence de doigts/orteils SURNUMÉRAIRES. Syndactylie = fusion entre 2 doigts/orteils. Souvent congénitales, parfois isolées ou syndromiques."},
+    {"type":"QCS","question":"Le port d'un CORSET dans la scoliose vise à :","options":["Corriger définitivement la courbure","Empêcher l'aggravation pendant la croissance","Renforcer les muscles du tronc","Soulager la douleur uniquement"],"correct":[1],"explanation":"Corset (Cheneau, Boston…) : indication pour scoliose 25-40° en croissance. Vise à PRÉVENIR l'aggravation (pas à corriger la courbure existante). Port quotidien long (16-23h/j) jusqu'à fin de croissance."},
+    {"type":"QCM","question":"Concernant le rôle du KINÉSITHÉRAPEUTE dans la scoliose :","options":["Renforcement musculaire global du tronc","Auto-allongements axiaux","Travail postural et proprioceptif","Méthodes spécifiques (Schroth, Méziere)","Réduction de la courbure structurelle à long terme"],"correct":[0,1,2,3],"explanation":"Rôle kiné : renforcement, auto-grandissement, postural, méthodes spécifiques (Schroth, RPG), respiration. Le kiné NE RÉDUIT PAS une scoliose structurelle ; il accompagne, prévient et complète corset/chirurgie."},
+    {"type":"QCS","question":"Une scoliose ≥ 40-45° d'angle de Cobb à la fin de la croissance évoque :","options":["Surveillance simple","Indication d'un corset","Indication chirurgicale (arthrodèse)","Pas de prise en charge"],"correct":[2],"explanation":"Scoliose >40-45° : indication chirurgicale (arthrodèse rachidienne avec instrumentation). En dessous : surveillance ou corset selon angle et stade de croissance."},
+    {"type":"QCS","question":"Une scoliose se définit dès une déviation latérale frontale de :","options":["≥ 5°","≥ 10° (angle de Cobb)","≥ 25°","≥ 40°"],"correct":[1],"explanation":"Définition de la scoliose : angle de Cobb ≥ 10°. En dessous : attitude scoliotique simple. La sévérité est ensuite graduée par paliers (10-25 légère, 25-40 modérée, >40 sévère)."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

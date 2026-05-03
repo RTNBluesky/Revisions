@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 1 — Introduction Physiopathologie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 1 — <span>Introduction Physiopathologie</span></h1>
+  <div class="hero-sub">Fiche TP 1 · Physiopathologie I · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>Ce QCM te fait réviser la fiche <strong>"TP 1 — Introduction à la Physiopathologie"</strong> (santé, maladie, homéostasie, rétroaction, diagnostic, épidémio).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">… questions</span>
+      <span class="info-pill teal" id="qcsPill">… QCS</span>
+      <span class="info-pill dark" id="qcmPill">… QCM</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 1 — Introduction Physiopathologie",
+  questions: [
+    {"type":"QCS","question":"La physiopathologie est définie comme :","options":["L'étude du fonctionnement normal du corps","La science qui étudie les causes des maladies et les mécanismes de leur développement","L'étude des médicaments","L'étude de la classification des maladies"],"correct":[1],"explanation":"La physiopathologie = science qui étudie les causes (étiologie) et les mécanismes (pathogenèse) des maladies, ainsi que les signes/symptômes qu'ils entraînent."},
+    {"type":"QCS","question":"Selon l'OMS (1948), la santé est :","options":["L'absence de maladie","Un état de complet bien-être physique, mental et social","Une bonne forme physique","L'absence de symptômes"],"correct":[1],"explanation":"OMS 1948 : la santé est 'un état de complet bien-être physique, mental et social, et pas seulement l'absence de maladie ou d'infirmité'."},
+    {"type":"QCM","question":"Parmi les agents pouvant déclencher une maladie, on retrouve :","options":["Agents biologiques (virus, bactéries)","Agents physiques (traumatismes, radiations)","Agents chimiques (poisons, médicaments)","Susceptibilité génétique","Mode de vie / stress"],"correct":[0,1,2,3,4],"explanation":"Les facteurs étiologiques sont multiples : biologiques, physiques, chimiques, génétiques, mode de vie/stress, et idiopathiques (cause inconnue). Toutes ces propositions sont correctes."},
+    {"type":"QCS","question":"L'étiologie d'une maladie répond à la question :","options":["Comment se développe-t-elle ?","Pourquoi survient-elle ?","Quand apparaît-elle ?","Où est-elle localisée ?"],"correct":[1],"explanation":"Étiologie = cause/origine (POURQUOI). Pathogenèse = mécanisme de développement (COMMENT)."},
+    {"type":"QCS","question":"La pathogenèse correspond à :","options":["La cause d'une maladie","Le mécanisme par lequel se déroule le développement de la maladie","La classification des symptômes","Le traitement de la maladie"],"correct":[1],"explanation":"Pathogenèse = séquence d'événements cellulaires et tissulaires depuis le contact initial avec l'agent étiologique jusqu'à l'expression finale de la maladie. Répond au COMMENT."},
+    {"type":"QCM","question":"Concernant les manifestations cliniques, quelles affirmations sont vraies ?","options":["Un symptôme est subjectif (signalé par le patient)","Un signe est objectif (observable par le clinicien)","La fièvre est un symptôme","La douleur est un symptôme","Un syndrome est un ensemble de signes et symptômes caractéristiques"],"correct":[0,1,3,4],"explanation":"Symptôme = subjectif (douleur, vertiges, céphalées). Signe = objectif (fièvre, tachycardie, œdème). La fièvre est un SIGNE (objectivable). Syndrome = ensemble caractéristique de signes/symptômes."},
+    {"type":"QCS","question":"Une maladie aiguë se caractérise par :","options":["Une longue durée (mois/années)","Un début brutal et un développement rapide","Des exacerbations et rémissions","Un début insidieux"],"correct":[1],"explanation":"Maladie aiguë : courte durée, début brutal, développement rapide, causes facilement identifiables, souvent spontanément résolutive. Chronique = mois/années, exacerbations/rémissions."},
+    {"type":"QCS","question":"Combien de niveaux d'organisation hiérarchique compte le corps humain ?","options":["3","4","5","6"],"correct":[3],"explanation":"6 niveaux : chimique → cellulaire → tissulaire → organique → systémique → organisme."},
+    {"type":"QCM","question":"Quels sont les 4 types de tissus fondamentaux du corps humain ?","options":["Épithélial","Conjonctif","Adipeux","Musculaire","Nerveux"],"correct":[0,1,3,4],"explanation":"Les 4 tissus fondamentaux : épithélial, conjonctif, musculaire, nerveux. Le tissu adipeux est un sous-type de tissu conjonctif."},
+    {"type":"QCS","question":"L'homéostasie est définie comme :","options":["Un état totalement statique du corps","Un état d'équilibre dynamique de l'environnement interne","L'absence de toute variation physiologique","Un mécanisme uniquement nerveux"],"correct":[1],"explanation":"Homéostasie = état d'équilibre DYNAMIQUE de l'environnement interne, maintenu par les processus régulateurs. Les valeurs varient dans une fourchette étroite compatible avec la vie."},
+    {"type":"QCM","question":"Quels sont les principaux systèmes régulateurs de l'homéostasie ?","options":["Système nerveux (réponse rapide)","Système endocrinien (réponse lente mais durable)","Système digestif","Système respiratoire","Système lymphatique"],"correct":[0,1],"explanation":"Les deux systèmes régulateurs principaux sont : le système nerveux (signaux électriques rapides) et le système endocrinien (hormones, plus lent mais durable)."},
+    {"type":"QCS","question":"Le syndrome général d'adaptation (de Selye) comprend, dans l'ordre :","options":["Résistance → alerte → épuisement","Alerte → résistance → épuisement","Épuisement → alerte → résistance","Alerte → épuisement → résistance"],"correct":[1],"explanation":"Syndrome général d'adaptation : 1) phase d'alerte (réactions immédiates) → 2) phase de résistance (tentative de retour à l'homéostasie) → 3) phase d'épuisement (les défenses sont dépassées, maladies)."},
+    {"type":"QCM","question":"Quels sont les 3 composants fondamentaux d'un système de rétroaction ?","options":["Récepteur","Centre de contrôle","Effecteur","Amplificateur","Mémoire"],"correct":[0,1,2],"explanation":"Système de rétroaction : récepteur (surveille) → centre de contrôle (évalue) → effecteur (répond). Voie afférente vers le centre, efférente depuis le centre."},
+    {"type":"QCS","question":"Une rétroaction NÉGATIVE :","options":["Renforce le stimulus initial","Inverse / annule le changement causé par le stimulus","Reste sans effet","Provoque toujours une pathologie"],"correct":[1],"explanation":"Rétroaction négative = inverse le changement (ramène à la normale). C'est le mécanisme le plus fréquent (PA, glycémie, température). Elle s'arrête seule quand la condition est restaurée."},
+    {"type":"QCM","question":"Parmi les exemples suivants, lesquels relèvent d'une rétroaction NÉGATIVE ?","options":["Régulation de la pression artérielle","Régulation de la glycémie (insuline/glucagon)","Régulation de la température","Accouchement","Coagulation sanguine"],"correct":[0,1,2],"explanation":"Rétroactions négatives : PA, glycémie, température (les classiques). Accouchement et coagulation = rétroactions POSITIVES (amplifient le stimulus)."},
+    {"type":"QCS","question":"L'accouchement est un exemple classique de :","options":["Rétroaction négative","Rétroaction positive","Mécanisme étiologique","Pathogenèse"],"correct":[1],"explanation":"L'accouchement = rétroaction positive : étirement du col → ocytocine → contractions plus fortes → plus d'étirement... Cycle interrompu par la naissance."},
+    {"type":"QCS","question":"Lors d'une rétroaction négative pour la glycémie élevée, quelle hormone intervient ?","options":["Glucagon","Insuline","Adrénaline","Cortisol"],"correct":[1],"explanation":"Glycémie élevée → cellules β du pancréas libèrent l'insuline → glucose entre dans les cellules + foie stocke en glycogène → glycémie ↓. Le glucagon (cellules α) fait l'inverse."},
+    {"type":"QCS","question":"Une lésion cellulaire RÉVERSIBLE survient typiquement :","options":["Après un stimulus intense et prolongé","Après un stimulus léger ou transitoire","Toujours après une lésion physique","Jamais — les lésions sont toujours irréversibles"],"correct":[1],"explanation":"Stimulus léger/transitoire → lésion réversible (la cellule peut revenir à l'homéostasie). Stimulus intense/progressif → lésion irréversible (nécrose ou apoptose)."},
+    {"type":"QCM","question":"Quelles techniques font partie de l'examen objectif non invasif ?","options":["Inspection","Palpation","Auscultation","Percussion","Biopsie"],"correct":[0,1,2,3],"explanation":"Examen objectif non invasif : inspection, palpation, auscultation, percussion + signes vitaux. La biopsie est INVASIVE (prélèvement)."},
+    {"type":"QCS","question":"La SENSIBILITÉ d'un test diagnostique correspond à :","options":["La proportion de personnes saines correctement identifiées comme négatives","La proportion de personnes malades correctement identifiées comme positives","La capacité d'un test à mesurer ce qu'il est censé mesurer","La reproductibilité du test"],"correct":[1],"explanation":"Sensibilité = vrais positifs / (vrais positifs + faux négatifs) = capacité du test à détecter les vrais malades. Spécificité = vrais négatifs / (vrais négatifs + faux positifs)."},
+    {"type":"QCS","question":"Si un test très SENSIBLE est négatif, on peut :","options":["Confirmer la maladie","Exclure la maladie (rule out)","Demander un autre examen sans plus","Annoncer une rémission"],"correct":[1],"explanation":"Test très sensible négatif → maladie exclue (rule out). Un test très spécifique positif → maladie confirmée (rule in)."},
+    {"type":"QCM","question":"Concernant la fiabilité (reliability) et la validité (validity), quelles affirmations sont vraies ?","options":["Fiabilité = répétabilité du résultat","Validité = mesurer réellement ce qu'on veut mesurer","Un test peut être fiable sans être valide","La validité dépend de la prévalence","Fiabilité et validité sont synonymes"],"correct":[0,1,2],"explanation":"Fiabilité = même résultat si on répète. Validité = mesure ce qu'elle prétend mesurer. Un test peut être très répétable mais mesurer la mauvaise chose ! Ce sont des notions distinctes."},
+    {"type":"QCS","question":"L'INCIDENCE d'une maladie correspond à :","options":["Le nombre total de cas existants à un moment donné","Le nombre de NOUVEAUX cas dans une population à risque sur une période","Le nombre de décès liés à la maladie","La proportion de population guérie"],"correct":[1],"explanation":"Incidence = NOUVEAUX cas/période (mesure le risque de développer la maladie). Prévalence = cas existants à un instant T (mesure la charge dans la population)."},
+    {"type":"QCS","question":"La prévention SECONDAIRE consiste à :","options":["Empêcher l'apparition de la maladie (vaccination)","Dépister précocement et traiter rapidement","Réhabiliter les patients atteints","Soulager les symptômes en fin de vie"],"correct":[1],"explanation":"Prévention primaire = empêcher l'apparition (vaccination, hygiène de vie). Secondaire = dépistage + traitement précoce. Tertiaire = réhabilitation, réduction des séquelles."},
+    {"type":"QCM","question":"Parmi les types d'études épidémiologiques, on retrouve :","options":["Études transversales","Études cas-témoins","Études de cohorte","Méta-analyses systématiques","Études philosophiques"],"correct":[0,1,2,3],"explanation":"Études épidémio : transversales (instantané), cas-témoins (comparaison rétrospective), cohortes (suivi prospectif), essais cliniques randomisés, méta-analyses (synthèse). Pas d'études philosophiques en épidémio !"},
+    {"type":"QCS","question":"Une maladie multifactorielle se définit par :","options":["Une seule cause clairement identifiée","L'interaction de plusieurs gènes et facteurs environnementaux","Une cause uniquement environnementale","Une cause toujours infectieuse"],"correct":[1],"explanation":"Maladie multifactorielle : interaction gènes × environnement (ex : cancer, diabète, maladies cardiovasculaires). Cause unique = monofactorielle (ex : génétique pure)."},
+    {"type":"QCM","question":"Concernant les fluides corporels, quelles affirmations sont vraies ?","options":["L'ICF est le liquide intracellulaire","L'ECF est le liquide extracellulaire","Le plasma sanguin est de l'ECF","Le LCR est dans le cerveau et la moelle","Le liquide interstitiel est intracellulaire"],"correct":[0,1,2,3],"explanation":"ICF = intracellulaire ; ECF = extracellulaire (incluant plasma, lymphe, LCR, liquide interstitiel). Le liquide interstitiel est EXTRACELLULAIRE (entre les cellules)."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

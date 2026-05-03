@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 8 — Arthrose</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 8 — <span>Arthrose</span></h1>
+  <div class="hero-sub">Fiche TP 8 · Ostéoarthrose, cartilage, prise en charge · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 8 — Arthrose"</strong> (cartilage, étiologie, clinique, diagnostic, traitement).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 8 — Arthrose",
+  questions: [
+    {"type":"QCS","question":"L'arthrose (osteoarthritis) est :","options":["Une maladie auto-immune systémique","Une maladie dégénérative et inflammatoire de l'articulation, atteignant principalement le cartilage hyalin","Une infection","Un cancer osseux"],"correct":[1],"explanation":"Arthrose = maladie articulaire dégénérative caractérisée par la dégradation progressive du cartilage hyalin, avec atteinte de l'os sous-chondral, de la synoviale et des structures péri-articulaires. Composante inflammatoire modérée."},
+    {"type":"QCS","question":"Le cartilage HYALIN articulaire est constitué essentiellement de :","options":["Chondrocytes + matrice (collagène II + protéoglycanes)","Ostéoblastes + os","Fibres élastiques","Cellules sanguines"],"correct":[0],"explanation":"Cartilage hyalin : chondrocytes (peu nombreux) + matrice extracellulaire riche en collagène de type II et protéoglycanes (agrécane = aggregat avec acide hyaluronique). NON vascularisé, NON innervé."},
+    {"type":"QCM","question":"Le cartilage articulaire est :","options":["Vascularisé","Non vascularisé","Innervé","Non innervé","Nourri par diffusion à partir du liquide synovial"],"correct":[1,3,4],"explanation":"Le cartilage hyalin est NON vascularisé et NON innervé. Sa nutrition se fait par diffusion à partir du liquide synovial (mouvement = pompe à diffusion). C'est pourquoi sa cicatrisation est très limitée."},
+    {"type":"QCM","question":"Quels sont les principaux FACTEURS DE RISQUE de l'arthrose ?","options":["Âge avancé","Surpoids / obésité","Antécédents traumatiques articulaires","Génétique","Activité physique régulière modérée"],"correct":[0,1,2,3],"explanation":"FdR : âge, sexe féminin, obésité (genou ++), traumatismes (entorse, fracture articulaire), génétique, anomalies axiales (varus, valgus), surcharge professionnelle/sportive intensive. L'activité MODÉRÉE est protectrice."},
+    {"type":"QCS","question":"Le critère DOULEUR dans l'arthrose est typiquement :","options":["Inflammatoire (nuit, raideur matinale > 1h)","Mécanique (déclenchée par l'activité, calmée par le repos)","Permanente sans relation avec l'activité","Spontanée et fébrile"],"correct":[1],"explanation":"Douleur arthrosique = MÉCANIQUE : ↑ à la mise en charge/activité, ↓ au repos, raideur matinale courte (<15-30 min, dérouillage). PR = douleur inflammatoire (nuit, raideur matinale prolongée)."},
+    {"type":"QCM","question":"Quels sont les signes RADIOLOGIQUES de l'arthrose (4 signes classiques) ?","options":["Pincement articulaire (perte de cartilage)","Ostéophytes (becs)","Sclérose sous-chondrale (condensation osseuse)","Géodes sous-chondrales","Érosions marginales"],"correct":[0,1,2,3],"explanation":"4 signes radiologiques de l'arthrose ('POSG') : Pincement, Ostéophytes, Sclérose sous-chondrale, Géodes (kystes). Les ÉROSIONS sont caractéristiques des polyarthrites inflammatoires (PR)."},
+    {"type":"QCS","question":"L'arthrose la plus fréquente du membre inférieur est :","options":["Coxarthrose (hanche)","Gonarthrose (genou)","Arthrose tibio-tarsienne","Arthrose métatarso-phalangienne"],"correct":[1],"explanation":"La GONARTHROSE (genou) est la localisation la plus fréquente d'arthrose, devant la coxarthrose (hanche). Souvent fémoro-tibiale interne (varus) ou fémoro-patellaire."},
+    {"type":"QCS","question":"L'arthrose digitale NODALE comprend les nodules de :","options":["Heberden (IPP)","Bouchard (IPD)","Heberden (IPD) et Bouchard (IPP)","Heberden (MCP) uniquement"],"correct":[2],"explanation":"Nodules d'Heberden = arthrose des IPD (inter-phalangiennes distales). Nodules de Bouchard = IPP (inter-phalangiennes proximales). Pas d'atteinte des MCP en arthrose nodale (sinon évoquer PR)."},
+    {"type":"QCM","question":"Concernant le tableau CLINIQUE de l'arthrose :","options":["Douleur mécanique","Raideur matinale courte (< 30 min)","Limitation progressive des mouvements","Crépitements articulaires possibles","Tuméfaction inflammatoire intense, rougeur, chaleur"],"correct":[0,1,2,3],"explanation":"Clinique arthrosique : douleur mécanique, raideur matinale brève, ↓ amplitude, crépitements/craquements, parfois épanchement articulaire. Inflammation locale modérée. Rougeur/chaleur intenses = arthrite (à distinguer)."},
+    {"type":"QCS","question":"La PRINCIPALE prise en charge de l'arthrose est :","options":["La chirurgie immédiate","La rééducation, exercice physique adapté + perte de poids + antalgiques","Les antibiotiques","Les corticoïdes IV au long cours"],"correct":[1],"explanation":"Prise en charge de 1ère intention : non médicamenteuse (exercice adapté +++, perte de poids, kiné, éducation), puis antalgiques (paracétamol, AINS, infiltrations), enfin chirurgie (PTH/PTG) en dernier recours."},
+    {"type":"QCM","question":"Concernant le RÔLE DU KINÉSITHÉRAPEUTE dans l'arthrose, quelles propositions sont correctes ?","options":["Renforcement musculaire (stabilisation articulaire)","Mobilisations articulaires douces","Étirements et amélioration de l'amplitude","Éducation du patient (économie articulaire)","Remplacer le cartilage perdu"],"correct":[0,1,2,3],"explanation":"Le kiné : renforce (stabilité), mobilise, étire, conseille (économie articulaire, charge, équilibre poids), travaille la proprioception, l'équilibre. Il NE PEUT PAS remplacer le cartilage (régénération limitée)."},
+    {"type":"QCS","question":"Le cartilage articulaire a une capacité de RÉGÉNÉRATION :","options":["Très bonne (totale)","Bonne","Très limitée (peu de cellules, pas de vascularisation)","Inexistante absolument"],"correct":[2],"explanation":"Le cartilage régénère TRÈS PEU : pauvre en cellules (chondrocytes), pas de vascularisation. C'est pourquoi les lésions cartilagineuses cicatrisent mal et l'arthrose est chronique et progressive."},
+    {"type":"QCM","question":"Les TRAITEMENTS médicamenteux de l'arthrose comprennent :","options":["Paracétamol","AINS (par voie générale ou topique)","Infiltrations de corticoïdes","Acide hyaluronique intra-articulaire","Antibiotiques"],"correct":[0,1,2,3],"explanation":"Médicaments : paracétamol (1ère intention), AINS, infiltrations (corticoïdes ou acide hyaluronique = visco-supplémentation). Les antibiotiques n'ont pas leur place (sauf arthrite septique surajoutée)."},
+    {"type":"QCS","question":"L'épanchement articulaire dans le genou arthrosique est :","options":["Toujours absent","Possible, souvent modéré (ponction → liquide mécanique)","Massif et purulent","Toujours hémorragique"],"correct":[1],"explanation":"Épanchement arthrosique = possible, modéré, liquide mécanique (peu cellulaire, jaune citrin). Si très inflammatoire ou purulent → suspecter arthrite septique. Hémarthrose → traumatisme ou trouble de coagulation."},
+    {"type":"QCM","question":"Concernant les MYTHES sur l'arthrose, quels sont des FAUSSES idées ?","options":["L'arthrose touche uniquement les personnes âgées","Le repos absolu est le meilleur traitement","Faire de l'exercice aggrave l'arthrose","La perte de poids améliore les symptômes du genou","La douleur est toujours proportionnelle aux lésions radiologiques"],"correct":[0,1,2,4],"explanation":"FAUX : L'arthrose peut survenir avant 65 ans (post-traumatique). Le repos AGGRAVE (atrophie). L'exercice ADAPTÉ est BÉNÉFIQUE. Perte de poids = vrai bénéfice. La douleur n'est PAS proportionnelle aux images (dissociation radio-clinique fréquente)."},
+    {"type":"QCS","question":"Le traitement chirurgical de référence dans l'arthrose AVANCÉE de la hanche/genou est :","options":["L'arthroscopie de propreté","La prothèse totale articulaire (PTH/PTG)","La greffe cartilagineuse","La désarticulation"],"correct":[1],"explanation":"Arthrose terminale invalidante (échec du traitement médical) → PTH (prothèse totale de hanche) ou PTG (prothèse totale de genou). Arthroscopie = peu d'intérêt prouvé. Greffe cartilagineuse réservée à des indications très spécifiques."},
+    {"type":"QCS","question":"L'OBÉSITÉ est un facteur de risque PARTICULIÈREMENT important pour :","options":["L'arthrose des doigts","La gonarthrose (genou)","L'arthrose temporo-mandibulaire","L'arthrose lombaire isolée"],"correct":[1],"explanation":"L'obésité augmente massivement le risque de gonarthrose (charge mécanique sur le genou). Effet majeur aussi par les adipokines (rôle inflammatoire). La perte de poids améliore significativement la douleur."},
+    {"type":"QCS","question":"L'ARTHROSE PRIMITIVE est :","options":["Toujours secondaire à un traumatisme","Sans cause identifiable, liée à l'âge et facteurs intrinsèques","Toujours d'origine génétique pure","D'origine infectieuse"],"correct":[1],"explanation":"Arthrose primitive (idiopathique) = pas de cause identifiable, multifactorielle (âge, génétique, hormonale). Arthrose secondaire = liée à une cause précise (traumatisme, malformation, surcharge pondérale, anomalie axiale)."},
+    {"type":"QCM","question":"Quels sont des EFFETS du vieillissement sur le cartilage ?","options":["↓ teneur en eau","↓ protéoglycanes","↑ rigidité","Modification du collagène","↑ prolifération chondrocytaire"],"correct":[0,1,2,3],"explanation":"Vieillissement cartilage : ↓ eau, ↓ protéoglycanes, fibres collagène modifiées, ↑ rigidité, ↓ capacité à supporter les charges. Les chondrocytes deviennent moins actifs (sénescence), ne prolifèrent pas davantage."},
+    {"type":"QCS","question":"Un OSTÉOPHYTE est :","options":["Un kyste osseux","Un bec osseux marginal résultant de la prolifération osseuse","Une zone de nécrose osseuse","Une calcification ligamentaire"],"correct":[1],"explanation":"Ostéophyte (bec, exostose) = production osseuse en périphérie de l'articulation arthrosique. Tentative d'adaptation à la perte de cartilage. Visible à la radiographie, peut limiter les amplitudes."},
+    {"type":"QCS","question":"L'ARTHROSE FÉMORO-PATELLAIRE provoque typiquement :","options":["Une douleur lors de la marche en terrain plat","Une douleur lors de la montée/descente des escaliers et station assise prolongée (signe du cinéma)","Une douleur uniquement nocturne","Pas de douleur"],"correct":[1],"explanation":"Arthrose fémoro-patellaire : douleur antérieure du genou, ↑ aux escaliers (descente +++), accroupissement, station assise prolongée (signe du cinéma/Soulier). Crépitements rotuliens fréquents."},
+    {"type":"QCM","question":"Concernant les CRITÈRES DIAGNOSTIQUES de l'arthrose du genou (ACR), on retrouve :","options":["Douleur du genou","Âge > 50 ans","Raideur matinale < 30 min","Crépitements","Œdème malléolaire"],"correct":[0,1,2,3],"explanation":"Critères ACR gonarthrose : douleur + ≥3 critères parmi (âge >50 ans, raideur matinale <30 min, crépitements, sensibilité osseuse, hypertrophie osseuse, pas de chaleur palpable). Œdème malléolaire = autre cause."},
+    {"type":"QCS","question":"Une INFILTRATION de corticoïdes intra-articulaire dans l'arthrose :","options":["Doit être faite tous les mois","Peut soulager les poussées douloureuses inflammatoires (effet de quelques semaines)","Régénère le cartilage","Est toxique systémiquement à dose locale"],"correct":[1],"explanation":"Infiltration de corticoïde : effet anti-inflammatoire local lors d'une poussée. Effet temporaire (semaines à mois), à ne pas répéter trop souvent (max 3-4/an). Pas d'effet sur le cartilage. Effet systémique faible à dose locale."},
+    {"type":"QCS","question":"L'acide HYALURONIQUE intra-articulaire vise à :","options":["Supprimer définitivement l'arthrose","Améliorer la lubrification et amortir (visco-supplémentation)","Régénérer l'os","Détruire les ostéophytes"],"correct":[1],"explanation":"Visco-supplémentation par acide hyaluronique : améliore la viscoélasticité du liquide synovial, lubrifie, amortit. Effet symptomatique (semaines à mois). Pas de régénération du cartilage."},
+    {"type":"QCM","question":"Concernant la PHYSIOPATHOLOGIE de l'arthrose, quelles affirmations sont vraies ?","options":["Déséquilibre entre dégradation et synthèse de la matrice cartilagineuse","Activation des chondrocytes (libération de cytokines, métalloprotéases)","Atteinte SECONDAIRE de l'os sous-chondral et de la synoviale","Atteinte PRIMITIVE de l'os sous-chondral","Inflammation purement systémique"],"correct":[0,1,2],"explanation":"Arthrose : déséquilibre dégradation (MMP, ADAMTS) > synthèse cartilagineuse, chondrocytes activés (IL-1, TNF), atteinte secondaire de l'os sous-chondral (sclérose, géodes) et de la synoviale (synovite modérée). Atteinte cartilagineuse primaire."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

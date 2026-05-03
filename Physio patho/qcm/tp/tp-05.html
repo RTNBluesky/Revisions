@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 5 — Système Squelettique & Tissu Osseux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 5 — <span>Squelette & Tissu Osseux</span></h1>
+  <div class="hero-sub">Fiche TP 5 · Os, ossification, remodelage, calcium · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 5 — Système squelettique & tissu osseux"</strong> (fonctions, structure, ossification, remodelage, calcémie, pathologies).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 5 — Squelette & Tissu Osseux",
+  questions: [
+    {"type":"QCM","question":"Parmi les fonctions du système squelettique, on retrouve :","options":["Soutien du corps","Protection des organes","Mouvement (insertion musculaire)","Stockage minéral (Ca, P)","Hématopoïèse"],"correct":[0,1,2,3,4],"explanation":"Fonctions de l'os : soutien, protection (crâne, thorax), mouvement (levier des muscles), homéostasie minérale (Ca, P), production sanguine (moelle rouge), stockage de lipides (moelle jaune)."},
+    {"type":"QCS","question":"Quelle proportion du calcium corporel est stockée dans l'os ?","options":["~30%","~50%","~70%","~99%"],"correct":[3],"explanation":"~99% du calcium corporel est stocké dans le tissu osseux (sous forme d'hydroxyapatite). C'est la principale réserve calcique de l'organisme."},
+    {"type":"QCM","question":"Concernant le tissu osseux COMPACT (cortical), quelles affirmations sont vraies ?","options":["Représente ~80% du squelette adulte","Organisé en ostéones (systèmes de Havers)","Très résistant aux contraintes mécaniques","Présent surtout dans la diaphyse des os longs","Très poreux et léger"],"correct":[0,1,2,3],"explanation":"Os compact : ~80% du squelette, ostéones (canaux de Havers + lamelles concentriques), résistant, diaphyse des os longs. L'os SPONGIEUX est poreux et léger (épiphyses)."},
+    {"type":"QCS","question":"Le tissu osseux SPONGIEUX (trabéculaire) :","options":["Est très dense et compact","Est constitué de travées osseuses, contient la moelle rouge","Ne contient pas de moelle","Est inerte et ne se remodèle pas"],"correct":[1],"explanation":"Os spongieux : organisation en travées (trabécules), réseau alvéolaire abritant la moelle rouge hématopoïétique. Présent dans les épiphyses des os longs et les os plats. Très actif métaboliquement."},
+    {"type":"QCM","question":"Quels sont les principaux types CELLULAIRES du tissu osseux ?","options":["Ostéoblastes (formation osseuse)","Ostéocytes (cellules matures)","Ostéoclastes (résorption)","Cellules de Schwann","Cellules bordantes"],"correct":[0,1,2,4],"explanation":"4 cellules : ostéoblastes (synthèse de matrice), ostéocytes (matures, dans les ostéoplastes), ostéoclastes (résorption multinucléés), cellules bordantes (quiescentes). Les cellules de Schwann appartiennent au SNP."},
+    {"type":"QCS","question":"Les OSTÉOBLASTES sont responsables de :","options":["La résorption osseuse","La formation osseuse (synthèse de matrice)","La phagocytose","L'immunité"],"correct":[1],"explanation":"Ostéoblastes = formation osseuse : synthétisent la matrice organique (ostéoïde, surtout collagène I) qui se minéralise (hydroxyapatite). Quand emmurés, ils deviennent ostéocytes."},
+    {"type":"QCS","question":"Les OSTÉOCLASTES sont responsables de :","options":["La formation de l'os","La résorption osseuse","La synthèse du collagène","La sécrétion de calcitonine"],"correct":[1],"explanation":"Ostéoclastes = cellules multinucléées (issues de la lignée monocytaire) qui résorbent l'os : acidification + enzymes (cathepsine K) → libération de Ca, P et fragments de collagène."},
+    {"type":"QCM","question":"L'OSSIFICATION INTRAMEMBRANEUSE concerne :","options":["Les os plats du crâne (voûte)","La clavicule","Les os longs (diaphyse)","La mandibule","Les vertèbres"],"correct":[0,1,3],"explanation":"Ossification intramembraneuse : à partir de membranes mésenchymateuses, sans modèle cartilagineux. Concerne les os plats du crâne, la clavicule, la mandibule. Les os longs et vertèbres = ossification ENDOCHONDRALE."},
+    {"type":"QCS","question":"L'OSSIFICATION ENDOCHONDRALE :","options":["Forme l'os à partir de membranes mésenchymateuses","Forme l'os à partir d'un modèle cartilagineux préexistant","Concerne uniquement le crâne","Ne se produit pas chez l'enfant"],"correct":[1],"explanation":"Ossification endochondrale : remplace progressivement un MODÈLE CARTILAGINEUX par de l'os. Concerne la majorité des os (longs, courts, vertèbres, base du crâne). Permet la croissance en longueur (cartilage de conjugaison)."},
+    {"type":"QCS","question":"La croissance EN LONGUEUR des os longs se fait au niveau :","options":["De la diaphyse","Du périoste","Du cartilage de conjugaison (plaque épiphysaire)","Du canal médullaire"],"correct":[2],"explanation":"Croissance en longueur = cartilage de conjugaison (plaque épiphysaire), entre épiphyse et diaphyse. Croissance en épaisseur = périoste (apposition). Les plaques se ferment à la fin de la puberté."},
+    {"type":"QCS","question":"Le REMODELAGE OSSEUX correspond à :","options":["Une croissance osseuse continue","Un cycle équilibré de résorption (ostéoclastes) + formation (ostéoblastes)","Une simple usure progressive","Un phénomène pathologique"],"correct":[1],"explanation":"Remodelage = cycle continu (BMU - Bone Multicellular Unit) : ostéoclastes résorbent → ostéoblastes reconstruisent. Permet adaptation aux contraintes, réparation des micro-lésions, maintien de la calcémie. Cycle de ~3 mois."},
+    {"type":"QCM","question":"Quelles hormones régulent la calcémie ?","options":["PTH (parathormone)","Calcitonine","Vitamine D (calcitriol)","Insuline","Cortisol"],"correct":[0,1,2],"explanation":"Régulation calcique : PTH (↑ Ca, sécrétée par les parathyroïdes en cas d'hypocalcémie) ; calcitonine (↓ Ca, thyroïde) ; vitamine D (↑ absorption intestinale Ca). Insuline = glycémie ; cortisol = stress."},
+    {"type":"QCS","question":"La PTH (parathormone) :","options":["Diminue la calcémie","Augmente la calcémie en stimulant la résorption osseuse","Augmente la calcémie en inhibant les ostéoclastes","N'a aucun effet sur le calcium"],"correct":[1],"explanation":"PTH = sécrétée en cas d'HYPOcalcémie. Augmente la calcémie par : 1) stimulation indirecte des ostéoclastes (résorption), 2) ↑ réabsorption rénale, 3) ↑ activation de la vitamine D → ↑ absorption intestinale."},
+    {"type":"QCS","question":"La CALCITONINE :","options":["Augmente la calcémie","Diminue la calcémie en inhibant les ostéoclastes","Stimule la résorption osseuse","Est sécrétée par les parathyroïdes"],"correct":[1],"explanation":"Calcitonine = produite par les cellules C de la thyroïde, sécrétée en cas d'HYPERcalcémie. Diminue la calcémie en inhibant les ostéoclastes. Effet relativement faible chez l'humain."},
+    {"type":"QCS","question":"La VITAMINE D active (calcitriol) augmente la calcémie principalement par :","options":["Inhibition des ostéoclastes","Augmentation de l'absorption intestinale du calcium","Diminution de l'absorption rénale","Sécrétion par la thyroïde"],"correct":[1],"explanation":"Calcitriol (1,25(OH)₂D₃) = forme active de la vitamine D. Augmente l'absorption intestinale du calcium et du phosphate. Sa carence cause le rachitisme (enfant) et l'ostéomalacie (adulte)."},
+    {"type":"QCM","question":"Quels sont les rôles VITAUX du calcium ?","options":["Contraction musculaire","Coagulation sanguine","Transmission nerveuse","Activité enzymatique","Vision"],"correct":[0,1,2,3],"explanation":"Rôles du Ca²⁺ : contraction musculaire (couplage excitation-contraction), coagulation (facteur IV), transmission synaptique, activation enzymatique, signalisation cellulaire, structure osseuse. La vision implique surtout la vitamine A."},
+    {"type":"QCS","question":"L'OSTÉOPOROSE est définie par :","options":["Une infection osseuse","Une diminution de la masse osseuse + altération de la microarchitecture → ↑ risque fracturaire","Une tumeur osseuse maligne","Une inflammation osseuse"],"correct":[1],"explanation":"Ostéoporose = ↓ DMO (densité minérale osseuse) + altération microarchitecturale → fragilité, ↑ risque fracturaire. Diagnostic par DEXA : T-score ≤ -2,5 (OMS). Touche surtout femmes ménopausées."},
+    {"type":"QCM","question":"Parmi les facteurs de risque d'OSTÉOPOROSE, on retrouve :","options":["Ménopause","Âge avancé","Carence en calcium / vitamine D","Sédentarité","Activité physique régulière"],"correct":[0,1,2,3],"explanation":"Facteurs de risque : ménopause (carence œstrogène), âge, ATCD familiaux, carence Ca/vit D, sédentarité, alcool/tabac, corticoïdes au long cours. L'activité physique en charge est PROTECTRICE."},
+    {"type":"QCS","question":"L'OSTÉOMALACIE chez l'adulte correspond à :","options":["Une infection osseuse","Une minéralisation insuffisante de la matrice osseuse (carence en vitamine D)","Une tumeur osseuse","Une fracture de fatigue"],"correct":[1],"explanation":"Ostéomalacie = trouble de la MINÉRALISATION (matrice ostéoïde présente mais peu minéralisée), souvent par carence en vitamine D. Équivalent du rachitisme chez l'adulte. Os mou, douloureux, déformations."},
+    {"type":"QCS","question":"Le RACHITISME concerne :","options":["L'adulte uniquement","L'enfant en croissance avec carence en vitamine D","Toutes les fractures pathologiques","Les sujets âgés"],"correct":[1],"explanation":"Rachitisme = équivalent enfantin de l'ostéomalacie. Carence en vitamine D pendant la croissance → trouble de la minéralisation osseuse → déformations (genu varum, chapelet costal, retard de croissance)."},
+    {"type":"QCM","question":"Concernant la maladie de PAGET osseuse, quelles affirmations sont vraies ?","options":["Trouble du remodelage osseux","Hyperactivité ostéoclastique puis ostéoblastique","Os épais mais désorganisé et fragile","Touche surtout l'enfant","Souvent localisée (bassin, vertèbres, crâne)"],"correct":[0,1,2,4],"explanation":"Paget : remodelage ANARCHIQUE (résorption excessive puis formation désorganisée), os épais, déformé et fragile. Touche le sujet âgé (>50 ans), souvent ATCD familiaux. Localisations : bassin, vertèbres, crâne, fémur."},
+    {"type":"QCS","question":"L'OSTÉOMYÉLITE est :","options":["Une tumeur de l'os","Une infection osseuse","Une carence en calcium","Une fracture de fatigue"],"correct":[1],"explanation":"Ostéomyélite = infection osseuse (bactérienne le plus souvent : Staphylococcus aureus +++). Aiguë (enfant : voie hématogène) ou chronique. Risque de séquestre osseux."},
+    {"type":"QCS","question":"Quel TYPE DE FRACTURE survient sur un os pathologique ?","options":["Fracture transversale","Fracture comminutive","Fracture pathologique (sur os fragilisé)","Fracture en bois vert"],"correct":[2],"explanation":"Fracture pathologique : survient sur un os déjà fragilisé (ostéoporose, métastase, kyste osseux, Paget) après un traumatisme minime ou même spontanément."},
+    {"type":"QCM","question":"Concernant la cicatrisation d'une fracture, dans l'ordre chronologique :","options":["1. Hématome fracturaire","2. Cal mou (cartilagineux)","3. Cal dur (osseux)","4. Remodelage final","5. Apparition des ostéoclastes uniquement à la fin"],"correct":[0,1,2,3],"explanation":"Cicatrisation osseuse : 1) hématome fracturaire (inflammation) → 2) cal mou (fibrocartilagineux, ~3 sem) → 3) cal dur (os immature, ~6-12 sem) → 4) remodelage (os lamellaire, des mois). Les ostéoclastes interviennent dès le début pour résorber l'os mort."},
+    {"type":"QCS","question":"L'effet PIÉZOÉLECTRIQUE de l'os signifie que :","options":["L'os ne réagit jamais aux contraintes","L'os génère des signaux électriques sous contrainte mécanique, stimulant le remodelage","L'os est totalement isolant","L'os ne se remodèle qu'après fracture"],"correct":[1],"explanation":"Effet piézoélectrique : sous contrainte mécanique, l'os génère des micro-courants électriques qui stimulent le remodelage selon la loi de Wolff (l'os s'adapte aux contraintes mécaniques)."},
+    {"type":"QCS","question":"La loi de WOLFF dit que :","options":["L'os est uniquement génétiquement déterminé","L'os s'adapte aux contraintes mécaniques (forme suit fonction)","L'os ne change pas après l'enfance","L'os n'est pas vivant"],"correct":[1],"explanation":"Loi de Wolff : l'os s'adapte (en architecture et densité) aux contraintes mécaniques qu'il subit. Sport en charge → ↑ densité. Immobilisation → ostéoporose de non-usage. Base de la rééducation osseuse."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

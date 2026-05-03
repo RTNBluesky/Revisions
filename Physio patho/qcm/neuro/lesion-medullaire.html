@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — Lésion Médullaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>Lésion <span>Médullaire</span></h1>
+  <div class="hero-sub">Fiche Neuro · Physiopathologie I · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>Ce QCM te fait réviser la fiche <strong>"Lésion Médullaire"</strong> avec <span id="qcmCount">…</span> questions de niveau partiel K1. Mix de QCS et QCM.</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">… questions</span>
+      <span class="info-pill teal" id="qcsPill">… QCS</span>
+      <span class="info-pill dark" id="qcmPill">… QCM</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "Lésion Médullaire",
+  questions: [
+    {"type":"QCS","question":"Jusqu'à quel niveau vertébral s'étend la moelle épinière chez l'adulte ?","options":["L4-L5","L1-L2","T12-L1","S1"],"correct":[1],"explanation":"Chez l'adulte, la moelle épinière s'étend de l'orifice occipital jusqu'à L1-L2. En dessous se trouve la queue de cheval."},
+    {"type":"QCS","question":"Comment s'appelle l'ensemble des racines nerveuses libres situées en dessous du cône médullaire ?","options":["Filum terminale","Queue de cheval","Plexus sacré","Cône terminal"],"correct":[1],"explanation":"La queue de cheval = ensemble des racines L2-S5 qui parcourent le canal rachidien sous le cône médullaire (fin de la moelle)."},
+    {"type":"QCM","question":"Concernant la substance grise de la moelle, quelles affirmations sont vraies ?","options":["Les cornes antérieures sont MOTRICES","Les cornes postérieures sont SENSITIVES","Les cornes latérales contiennent les neurones du SNA","Les cornes antérieures sont sensitives","La substance grise contient principalement des axones myélinisés"],"correct":[0,1,2],"explanation":"Antérieur = moteur, postérieur = sensitif, latéral = SNA. La substance grise contient les corps cellulaires (les axones myélinisés sont dans la substance blanche)."},
+    {"type":"QCS","question":"La règle mnémotechnique pour la moelle est :","options":["Antérieur = sensitif, postérieur = moteur","Antérieur = moteur, postérieur = sensitif","Latéral = moteur, médian = sensitif","Toutes les directions ont des fonctions mixtes"],"correct":[1],"explanation":"Antérieur = moteur, postérieur = sensitif (valable pour les cornes ET les cordons)."},
+    {"type":"QCM","question":"Quelles voies sensitives passent par la colonne POSTÉRIEURE de la moelle ?","options":["Proprioception consciente","Vibration","Toucher fin (épicritique)","Douleur","Température"],"correct":[0,1,2],"explanation":"Colonne postérieure (gracile + cunéiforme) = proprioception, vibration, toucher fin. Douleur et température passent par la voie spinothalamique latérale."},
+    {"type":"QCS","question":"La voie spinothalamique latérale véhicule :","options":["Le toucher fin et la proprioception","La douleur et la température","La motricité volontaire","Les réflexes ostéo-tendineux"],"correct":[1],"explanation":"La voie spinothalamique latérale = douleur + température (voie protopathique). Elle CROISE rapidement (1-2 segments au-dessus de l'entrée)."},
+    {"type":"QCS","question":"Une lésion AU-DESSUS de D1 (T1) entraîne :","options":["Une paraplégie","Une tétraplégie","Une hémiplégie","Aucun déficit"],"correct":[1],"explanation":"Au-dessus de T1 = atteinte des 4 membres = tétraplégie/tétraparésie. En dessous de T1 = paraplégie."},
+    {"type":"QCM","question":"Concernant le syndrome de BROWN-SÉQUARD (hémisection médullaire), quelles affirmations sont vraies ?","options":["Perte motrice IPSILATÉRALE","Perte de la proprioception IPSILATÉRALE","Perte de la douleur et température CONTROLATÉRALE","Perte motrice controlatérale","Aucun déficit moteur"],"correct":[0,1,2],"explanation":"Brown-Séquard : motricité + proprioception ipsilatérales (corticospinale et colonne postérieure homolatérales) ; douleur/T° controlatérales (spinothalamique croisée)."},
+    {"type":"QCS","question":"Le syndrome ANTÉRIEUR de la moelle (atteinte de l'artère spinale antérieure) se caractérise par :","options":["Perte motrice + douleur/T°, avec PROPRIOCEPTION PRÉSERVÉE","Perte de la proprioception uniquement","Hémisection avec déficit croisé","Atteinte sphinctérienne isolée"],"correct":[0],"explanation":"Le syndrome antérieur (artère spinale antérieure) atteint les 2/3 antérieurs de la moelle : déficit moteur + perte douleur/T° BILATÉRALES, mais la colonne POSTÉRIEURE est intacte (proprioception et toucher fin préservés)."},
+    {"type":"QCM","question":"Concernant le syndrome CENTROMÉDULLAIRE, quelles propositions sont vraies ?","options":["Membres supérieurs plus touchés que les membres inférieurs","Mécanisme typique : hyperextension cervicale","Atteinte centrale (canal central et fibres médianes)","Membres inférieurs systématiquement plus touchés","Pas d'atteinte sphinctérienne"],"correct":[0,1,2],"explanation":"Syndrome centromédullaire : MS > MI (les fibres des MS sont plus centrales dans le tractus corticospinal latéral). Mécanisme classique : hyperextension cervicale. Rétention urinaire fréquente."},
+    {"type":"QCS","question":"Quel niveau médullaire contient le centre de la miction ?","options":["L1-L2","S2-S4","T10-T12","C5-C6"],"correct":[1],"explanation":"Le centre médullaire de la miction se situe en S2-S4 (parasympathique sacré). Une lésion à ce niveau entraîne une vessie flasque/autonome."},
+    {"type":"QCM","question":"Concernant le CHOC MÉDULLAIRE (phase initiale), quelles affirmations sont correctes ?","options":["Paralysie flasque","Aréflexie","Anesthésie","Hyperréflexie immédiate","Spasticité immédiate"],"correct":[0,1,2],"explanation":"Phase de choc spinal : paralysie FLASQUE, aréflexie, anesthésie, atonie vésicale et intestinale. La spasticité et l'hyperréflexie n'apparaissent qu'APRÈS le retour de l'activité réflexe."},
+    {"type":"QCS","question":"Après la phase de choc médullaire, une lésion du 1er neurone (motoneurone supérieur) se traduit par :","options":["Paralysie flasque + aréflexie + atrophie","Paralysie spastique + hyperréflexie","Aucun déficit","Atrophie isolée sans paralysie"],"correct":[1],"explanation":"Lésion 1er neurone (SNC) après le choc : paralysie spastique, hyperréflexie, signe de Babinski, spasmes. La paralysie flasque + aréflexie + atrophie = lésion du 2e neurone (SNP)."},
+    {"type":"QCS","question":"Dans la classification ASIA, le grade A correspond à :","options":["Lésion incomplète motrice","Lésion complète","Fonctions normales","Lésion incomplète sensitive"],"correct":[1],"explanation":"ASIA A = lésion complète : aucune fonction motrice ni sensorielle préservée dans les segments S4-S5. ASIA E = normal."},
+    {"type":"QCM","question":"Concernant la classification ASIA, quelles correspondances sont correctes ?","options":["A = complète","B = incomplète sensitive","C = incomplète motrice avec majorité des muscles < 3/5","D = incomplète motrice avec majorité des muscles ≥ 3/5","E = atteinte sphinctérienne isolée"],"correct":[0,1,2,3],"explanation":"ASIA : A complète, B incomplète sensitive (motricité absente sous le niveau), C incomplète motrice <3/5, D incomplète motrice ≥3/5, E normale. Les sphincters ne sont pas un grade ASIA."},
+    {"type":"QCS","question":"Combien de dermatomes sont testés dans l'examen ASIA ?","options":["10","15","23","31"],"correct":[2],"explanation":"L'examen ASIA teste 23 dermatomes (sensibilité tactile et douloureuse) et 10 myotomes clés (5 par côté pour le bilan moteur)."},
+    {"type":"QCS","question":"Le myotome C5 correspond principalement à :","options":["L'extension du coude","L'abduction du bras / flexion du coude","La flexion plantaire","L'extension du poignet"],"correct":[1],"explanation":"C5 = abduction de l'épaule et flexion du coude (deltoïde, biceps). C6 = extension du poignet, C7 = extension du coude/triceps."},
+    {"type":"QCS","question":"Le myotome S1 correspond à :","options":["La flexion de hanche","L'extension du genou","La dorsiflexion","La flexion plantaire"],"correct":[3],"explanation":"S1 = flexion plantaire (triceps sural). L4 = dorsiflexion ; L3 = extension genou ; L2 = flexion de hanche."},
+    {"type":"QCM","question":"Quels niveaux médullaires assurent l'innervation diaphragmatique (centre phrénique) ?","options":["C2","C3","C4","C5","T1"],"correct":[1,2,3],"explanation":"Le diaphragme est innervé par le nerf phrénique issu de C3-C4-C5. Une lésion AU-DESSUS de C3 menace la respiration et nécessite une ventilation."},
+    {"type":"QCM","question":"Parmi les complications classiques d'un blessé médullaire, on retrouve :","options":["Escarres / ulcères de pression","Thrombose veineuse profonde","Hypotension orthostatique","Ostéoporose","Hyperhidrose excessive sans risque"],"correct":[0,1,2,3],"explanation":"Complications classiques : escarres (téguments), TVP (vasculaire), hypotension orthostatique, ostéoporose, vessie neurogène, calcifications hétérotopiques. L'hyperhidrose peut survenir lors d'une hyperréflexie autonome (urgence)."},
+    {"type":"QCS","question":"L'anesthésie en SELLE (périnée + face interne des cuisses) évoque :","options":["Un syndrome de Brown-Séquard","Un syndrome centromédullaire","Un syndrome du cône médullaire / queue de cheval","Une section totale haute"],"correct":[2],"explanation":"L'anesthésie en selle (S3-S5) est typique du syndrome du cône médullaire / queue de cheval, avec troubles sphinctériens et sexuels."},
+    {"type":"QCS","question":"Une lésion COMPLÈTE selon ASIA correspond à :","options":["Aucun mouvement volontaire mais sensibilité préservée","Aucune fonction motrice ou sensorielle préservée en S4-S5","Force musculaire ≤ 3/5","Présence d'un réflexe sphinctérien isolé"],"correct":[1],"explanation":"Une lésion ASIA A (complète) = aucune fonction motrice NI sensorielle dans les segments sacrés S4-S5 (test du toucher anal et de la contraction volontaire)."},
+    {"type":"QCM","question":"Concernant la PHASE 2 (lésion secondaire) de la lésion médullaire, quelles affirmations sont correctes ?","options":["Réduction du flux sanguin et ischémie étendue","Œdème médullaire","Excitotoxicité par libération de glutamate","Démyélinisation axonale graduelle","Rupture immédiate physique des axones"],"correct":[0,1,2,3],"explanation":"Phase secondaire : ischémie, œdème, inflammation, excitotoxicité (glutamate, K+), apoptose, démyélinisation graduelle. La rupture physique des axones est généralement progressive (sauf blessures par balle), pas immédiate."},
+    {"type":"QCS","question":"Une lésion intra-durale extra-médullaire correspond à :","options":["Une lésion à l'intérieur même de la moelle (ex : syringomyélie)","Une lésion sous la dure-mère mais hors de la moelle (ex : méningiome)","Une lésion en dehors de la dure-mère (ex : hernie discale)","Une lésion vasculaire pure"],"correct":[1],"explanation":"Intra-durale extra-médullaire : sous la dure-mère MAIS en dehors de la moelle. Exemples : méningiome, schwannome. Intra-médullaire = dans la moelle ; extra-durale = hernie discale, métastase."},
+    {"type":"QCM","question":"Concernant la cotation motrice ASIA (0-5), quelles correspondances sont vraies ?","options":["0 = paralysie totale","2 = mouvement actif sans la pesanteur","3 = mouvement actif contre la pesanteur","4 = contre résistance partielle","5 = mouvement seulement visible"],"correct":[0,1,2,3],"explanation":"Cotation : 0 paralysie / 1 contraction visible/palpable / 2 sans pesanteur / 3 contre pesanteur / 4 contre résistance partielle / 5 force normale."},
+    {"type":"QCS","question":"Selon les statistiques épidémiologiques, quelle est la cause la plus fréquente de lésion médullaire ?","options":["Les chutes","La violence","Les accidents de la route","Le sport"],"correct":[2],"explanation":"Les accidents de la route représentent ~48% des lésions médullaires, devant les chutes (~23%), la violence (~14%) et le sport (~9%). 80% des victimes sont des hommes, âge moyen ~37 ans."},
+    {"type":"QCS","question":"Une dyssynergie vésico-sphinctérienne correspond à :","options":["Une vessie flasque sans contraction","Un manque de coordination entre la vessie qui se contracte et le sphincter qui ne se relâche pas","Une infection urinaire","Une fistule"],"correct":[1],"explanation":"La dyssynergie vésico-sphinctérienne = contraction simultanée du détrusor (vessie) et du sphincter externe → mauvaise vidange, hyperpression, risque d'hydronéphrose. Complication classique des lésions du 1er neurone."},
+    {"type":"QCM","question":"Quels sites anatomiques sont à risque d'escarre chez le blessé médullaire ?","options":["Sacrum","Talons","Ischions","Occiput","Face palmaire des mains"],"correct":[0,1,2,3],"explanation":"Les zones à risque d'escarre = points d'appui : sacrum, ischions, talons, occiput, omoplates, malléoles, coudes. La face palmaire des mains n'est pas une zone classique d'escarre."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

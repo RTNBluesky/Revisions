@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 12 — Voies respiratoires inférieures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 12 — <span>Voies respiratoires inférieures</span></h1>
+  <div class="hero-sub">Fiche TP 12 · Pneumonie, tuberculose · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 12 — Maladies des voies respiratoires inférieures"</strong> (pneumonies, tuberculose, diagnostic, traitement).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 12 — Voies Respiratoires Inférieures",
+  questions: [
+    {"type":"QCS","question":"Une PNEUMONIE est :","options":["Une infection limitée aux bronches","Une infection du parenchyme pulmonaire (alvéoles + tissu interstitiel)","Une atteinte pleurale isolée","Une simple bronchite"],"correct":[1],"explanation":"Pneumonie = infection du parenchyme pulmonaire (alvéoles, espace interstitiel). À distinguer de la bronchite (atteinte des bronches) et de la pleurésie (atteinte de la plèvre)."},
+    {"type":"QCS","question":"L'agent BACTÉRIEN le plus fréquent de la pneumonie communautaire est :","options":["Mycobacterium tuberculosis","Streptococcus pneumoniae (pneumocoque)","Pseudomonas aeruginosa","Staphylococcus aureus"],"correct":[1],"explanation":"Streptococcus pneumoniae (pneumocoque) = 1ère cause de pneumonie communautaire. Tableau classique : début brutal, fièvre élevée, frissons, point de côté, toux + crachats rouillés, foyer de condensation."},
+    {"type":"QCM","question":"Symptômes typiques d'une pneumonie LOBAIRE (alvéolaire, bactérienne) :","options":["Début brutal","Fièvre élevée + frissons","Toux + expectoration purulente","Point de côté","Évolution insidieuse sans symptômes"],"correct":[0,1,2,3],"explanation":"Pneumonie lobaire bactérienne (pneumocoque ++) : début BRUTAL, fièvre/frissons, toux purulente parfois rouillée, douleur thoracique (point de côté), polypnée, foyer de condensation à l'auscultation."},
+    {"type":"QCM","question":"Concernant la PNEUMONIE ATYPIQUE :","options":["Début progressif","Fièvre modérée","Toux sèche tenace","Symptômes extra-pulmonaires (céphalées, myalgies)","Agents : Mycoplasma, Chlamydia, Legionella"],"correct":[0,1,2,3,4],"explanation":"Pneumonie atypique : début progressif, signes généraux + extra-pulmonaires (céphalées, myalgies, troubles digestifs), toux sèche, dissociation radio-clinique. Agents : Mycoplasma pneumoniae, Chlamydophila, Legionella (sévère)."},
+    {"type":"QCS","question":"À l'examen physique, le syndrome de CONDENSATION pulmonaire associe :","options":["Matité, augmentation des vibrations vocales, râles crépitants/souffle tubaire","Hypersonorité, abolition du murmure vésiculaire","Tympanisme, silence auscultatoire","Sibilants diffus uniquement"],"correct":[0],"explanation":"Sd de condensation (alvéolaire) : MATITÉ percussion, ↑ vibrations vocales, râles crépitants ± souffle tubaire (alvéoles remplies). Pneumothorax = hypersonorité + abolition. Asthme = sibilants."},
+    {"type":"QCM","question":"Quels examens diagnostiques sont utiles dans la PNEUMONIE ?","options":["Radiographie thoracique (foyer de condensation)","CRP / NFS","Procalcitonine (orientation bactérienne)","Hémocultures si fièvre","Échographie cardiaque systématique"],"correct":[0,1,2,3],"explanation":"Diagnostic : RX thorax (foyer alvéolaire systématisé), CRP/NFS, procalcitonine (↑ si bactérien), hémocultures, ECBC, antigénurie pneumocoque/Legionella. Échographie cardiaque pas systématique."},
+    {"type":"QCS","question":"Le score CRB-65 permet :","options":["Le diagnostic de tuberculose","D'évaluer la gravité d'une pneumonie communautaire en ambulatoire (Confusion, FR≥30, PA basse, Âge≥65)","La mesure de la calcémie","Le suivi cardiaque"],"correct":[1],"explanation":"CRB-65 = score de gravité pour pneumonie communautaire en ambulatoire. 4 critères : Confusion, FR ≥30, PA basse (PAS <90 ou PAD ≤60), Âge ≥65. ≥1 critère → hospitalisation à envisager."},
+    {"type":"QCS","question":"L'antibiothérapie de PREMIÈRE INTENTION dans la pneumonie communautaire à pneumocoque chez l'adulte sans comorbidité est :","options":["Vancomycine","Amoxicilline","Cotrimoxazole","Métronidazole"],"correct":[1],"explanation":"Pneumocoque (suspecté/confirmé) : amoxicilline 1g x3/j en 1ère intention (PO ou IV selon gravité). Si allergie : pristinamycine ou macrolides. Adapter selon antibiogramme."},
+    {"type":"QCS","question":"La TUBERCULOSE est causée par :","options":["Streptococcus pneumoniae","Mycobacterium tuberculosis (BAAR)","Un virus","Un champignon"],"correct":[1],"explanation":"Tuberculose = Mycobacterium tuberculosis (bacille de Koch), BAAR (Bacille Acido-Alcoolo-Résistant) à coloration de Ziehl-Neelsen. Croissance lente. Transmission aérienne interhumaine."},
+    {"type":"QCM","question":"Quels sont les SYMPTÔMES classiques de la TB pulmonaire ?","options":["Toux chronique > 2-3 semaines","Hémoptysie","Fièvre vespérale + sueurs nocturnes","Amaigrissement / asthénie","Évolution toujours aiguë sur 1 jour"],"correct":[0,1,2,3],"explanation":"TB pulmonaire : signes constitutionnels (fièvre vespérale, sueurs nocturnes, amaigrissement, asthénie) + toux chronique (>3 sem), hémoptysie possible. Évolution INSIDIEUSE et CHRONIQUE (semaines/mois)."},
+    {"type":"QCS","question":"L'examen de référence pour le diagnostic bactériologique de la TB est :","options":["Radio thoracique","Bacilloscopie directe (BAAR au Ziehl) + CULTURE (référence)","Sérologie","Antibiogramme uniquement"],"correct":[1],"explanation":"Diagnostic TB : crachats x3 → bacilloscopie directe (Ziehl) + CULTURE sur milieu de Löwenstein-Jensen (référence, lente : 4-6 semaines) ou MGIT (plus rapide). Tests moléculaires (GeneXpert) : rapides + résistance."},
+    {"type":"QCS","question":"L'IDR à la TUBERCULINE (test de Mantoux) :","options":["Diagnostique la TB-maladie","Met en évidence un contact ancien avec le BK ou une vaccination BCG (induration cutanée)","Permet de prescrire des antibiotiques","Est obsolète"],"correct":[1],"explanation":"IDR : injection ID de tuberculine, lecture à 72h (induration). Témoigne d'une exposition au BK ou d'un BCG. NE distingue PAS infection latente vs maladie active. Tests IGRA (Quantiferon, T-SPOT) plus spécifiques (non interférés par BCG)."},
+    {"type":"QCM","question":"Le TRAITEMENT antituberculeux standard comprend :","options":["Phase intensive (2 mois) : isoniazide + rifampicine + pyrazinamide + éthambutol (RIPE)","Phase de continuation (4 mois) : isoniazide + rifampicine","Durée totale : 6 mois (forme sensible non compliquée)","DOT (directly observed therapy) recommandée","Antibiothérapie de 5 jours"],"correct":[0,1,2,3],"explanation":"Tx TB standard (forme sensible) : 2 mois RIPE (isoniazide H, rifampicine R, pyrazinamide Z, éthambutol E) puis 4 mois HR. Total 6 mois. Observance cruciale (DOT). Surveiller hépatotoxicité et neuropathie (B6)."},
+    {"type":"QCS","question":"Le vaccin BCG :","options":["Empêche complètement la TB","Réduit le risque des formes graves de TB de l'enfant (méningite, miliaire)","Est inefficace","Doit être fait chaque année"],"correct":[1],"explanation":"BCG : protection partielle, surtout contre les formes graves chez l'enfant (méningite tuberculeuse, miliaire). Inefficace contre les formes pulmonaires de l'adulte. Recommandé chez enfants à risque (pays de forte endémie, contact avec patient bacillifère)."},
+    {"type":"QCM","question":"Quels sont des FACTEURS DE RISQUE de tuberculose ?","options":["VIH / immunodépression","Précarité, promiscuité","Diabète","Origine de pays endémique","Tabagisme"],"correct":[0,1,2,3,4],"explanation":"FdR : VIH (RR x100), immunodépression (corticoïdes, biothérapies), précarité, milieu carcéral, sans-abri, contact étroit avec patient bacillifère, origine de pays endémique, diabète, tabac, dénutrition, alcoolisme."},
+    {"type":"QCS","question":"La maladie de POTT correspond à :","options":["Une TB pulmonaire","Une TB vertébrale (spondylite tuberculeuse)","Une TB méningée","Une TB rénale"],"correct":[1],"explanation":"Maladie de Pott = tuberculose VERTÉBRALE (spondylite tuberculeuse). Atteinte des vertèbres dorsales surtout, abcès paravertébral, cyphose typique ('gibbosité'). Risque neurologique (compression médullaire)."},
+    {"type":"QCS","question":"Une TUBERCULOSE MILIAIRE est :","options":["Une forme bénigne","Une dissémination hématogène avec atteinte multi-organique (poumons, méninges, foie...)","Une simple toux","Une pneumonie atypique"],"correct":[1],"explanation":"TB miliaire = dissémination hématogène du BK → multiples micro-granulomes dans tous les organes (aspect de 'grains de mil' à la RX). Forme grave, urgence thérapeutique, risque méningite."},
+    {"type":"QCM","question":"Concernant la PHYSIOPATHOLOGIE de la TB :","options":["Phagocytose du BK par les macrophages alvéolaires","Formation de granulome avec cellules épithélioïdes et géantes (Langhans) + nécrose caséeuse","Contrôle si immunité cellulaire (LT) efficace","Réactivation possible en cas d'immunodépression","Toujours symptomatique"],"correct":[0,1,2,3],"explanation":"TB : inhalation BK → phagocytose macrophages → granulome caséeux (Langhans, lymphocytes) → contrôle immunitaire (90% restent ASYMPTOMATIQUES en TB latente) ou évolution maladie (10%). Réactivation si immunodépression."},
+    {"type":"QCS","question":"L'EMBOLIE PULMONAIRE est :","options":["Une infection pulmonaire","L'obstruction aiguë d'une artère pulmonaire par un caillot (souvent venu d'une TVP)","Une pneumonie","Un asthme aigu"],"correct":[1],"explanation":"EP = obstruction d'une branche de l'artère pulmonaire, le plus souvent par un thrombus migré depuis une TVP des membres inférieurs. Symptômes : douleur thoracique, dyspnée brutale, tachycardie, parfois hémoptysie."},
+    {"type":"QCS","question":"L'ASPECT MILLET / 'grains de mil' à la radio thoracique évoque :","options":["Une pneumonie lobaire","Une tuberculose miliaire","Un épanchement pleural","Une bronchiolite"],"correct":[1],"explanation":"Image en 'grains de mil' (millet) = micronodules disséminés dans les 2 champs pulmonaires = TB miliaire (dissémination hématogène). Urgence thérapeutique."},
+    {"type":"QCM","question":"Concernant la PRISE EN CHARGE KINÉSITHÉRAPIQUE en pathologie respiratoire :","options":["Désencombrement bronchique","Réentraînement à l'effort (BPCO, post-pneumonie)","Éducation respiratoire (respiration diaphragmatique)","Verticalisation post-aiguë","Antibiothérapie directe"],"correct":[0,1,2,3],"explanation":"Kiné respi : drainage des sécrétions, réentrainement à l'effort, éducation, ventilation dirigée, désinsufflation. Pas de prescription d'antibiotiques (rôle médical)."},
+    {"type":"QCS","question":"Une COMPLICATION grave d'une pneumonie est :","options":["Pleurésie / empyème","Une simple congestion","Une rhinorrhée","Une éruption cutanée bénigne"],"correct":[0],"explanation":"Complications de pneumonie : pleurésie purulente (empyème), abcès pulmonaire, sepsis, SDRA, IRA, choc septique. Risque ↑ chez personnes âgées et fragiles."},
+    {"type":"QCM","question":"Concernant la BPCO (bronchopneumopathie chronique obstructive) :","options":["Maladie respiratoire chronique","Cause principale : tabagisme","Spirométrie : VEMS/CV < 70%","Réversible totalement","Caractérisée par un trouble ventilatoire OBSTRUCTIF non totalement réversible"],"correct":[0,1,2,4],"explanation":"BPCO : maladie inflammatoire chronique des bronches, liée au tabac essentiellement. Trouble ventilatoire OBSTRUCTIF (VEMS/CV <70%) NON réversible (vs asthme). Évolution progressive avec exacerbations."},
+    {"type":"QCS","question":"Un PNEUMOTHORAX est :","options":["De l'air dans les bronches","De l'air dans la cavité pleurale → collapsus pulmonaire","De l'eau dans les poumons","Une infection bronchique"],"correct":[1],"explanation":"Pneumothorax = présence d'air dans la cavité pleurale → décollement pulmonaire → ↓ ventilation. Causes : spontané (jeune homme grand maigre), traumatique, iatrogène. Peut être compressif (urgence)."},
+    {"type":"QCS","question":"Les PRÉCAUTIONS pour TUBERCULOSE pulmonaire bacillifère sont :","options":["Aucune précaution","Isolement RESPIRATOIRE (chambre seule, masque FFP2 pour soignants), masque chirurgical pour le patient","Isolement gouttelettes simples","Isolement contact uniquement"],"correct":[1],"explanation":"TB bacillifère = précautions AÉRIENNES : chambre individuelle (pression négative idéalement), masque FFP2 pour soignants, masque chirurgical pour le patient. Isolement maintenu jusqu'à négativation des crachats (2-3 semaines de tx efficace)."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

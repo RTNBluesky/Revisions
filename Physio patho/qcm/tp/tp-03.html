@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 3 — Maladies Infectieuses</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 3 — <span>Maladies Infectieuses</span></h1>
+  <div class="hero-sub">Fiche TP 3 · Infection, transmission, agents · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 3 — Maladies Infectieuses"</strong> (chaîne épidémiologique, agents, transmission, histoire naturelle).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 3 — Maladies Infectieuses",
+  questions: [
+    {"type":"QCS","question":"L'INFECTION correspond à :","options":["La présence de micro-organismes sans multiplication ni dommage","La pénétration et la multiplication d'un agent pathogène dans un organisme avec dommages","La présence de parasites externes (ectoparasites) sur la peau","Une réaction allergique"],"correct":[1],"explanation":"Infection = pénétration + multiplication d'un agent pathogène dans l'hôte avec lésions tissulaires/réaction immunitaire. Différent de la colonisation (sans dommage) ou de l'infestation (parasites externes)."},
+    {"type":"QCS","question":"La COLONISATION se distingue de l'infection par :","options":["Une multiplication plus rapide","Une absence de dommage tissulaire ou de réaction de l'hôte","La présence systématique de symptômes","Une transmission obligatoire"],"correct":[1],"explanation":"Colonisation = présence de micro-organismes sur/dans l'hôte SANS dommage ni réaction de l'hôte. Beaucoup d'individus sont colonisés sans être infectés (ex : Staphylococcus aureus nasal)."},
+    {"type":"QCS","question":"L'INFESTATION concerne :","options":["Les bactéries intracellulaires","Les parasites externes (ectoparasites)","Les virus","Les champignons systémiques"],"correct":[1],"explanation":"Infestation = présence/multiplication d'ECTOPARASITES sur la surface du corps (poux, gale, tiques). Différent de l'infection (agent pénétrant)."},
+    {"type":"QCM","question":"Concernant les modes de TRANSMISSION DIRECTE, quels exemples sont corrects ?","options":["Contact sexuel","Goutelettes (toux, éternuement) à courte distance","Contact peau à peau","Aliments contaminés","Eau contaminée"],"correct":[0,1,2],"explanation":"Transmission directe : contact entre personnes (sexuel, peau à peau, gouttelettes courtes). Aliments/eau contaminés = transmission INDIRECTE (par véhicule)."},
+    {"type":"QCM","question":"Concernant les modes de TRANSMISSION INDIRECTE, quels exemples sont corrects ?","options":["Aliments / eau contaminés","Vecteur (moustique pour le paludisme)","Aérosols sur longue distance","Objets contaminés (fomites)","Embrassade"],"correct":[0,1,2,3],"explanation":"Transmission indirecte : via véhicule (eau, aliments, objets/fomites), vecteur (moustique, tique), aérosols longue distance. L'embrassade = directe."},
+    {"type":"QCS","question":"La chaîne épidémiologique commence par :","options":["L'hôte sensible","La porte d'entrée","L'agent infectieux","La porte de sortie"],"correct":[2],"explanation":"Chaîne épidémiologique : agent → réservoir → porte de sortie → mode de transmission → porte d'entrée → hôte sensible. Elle commence par l'agent infectieux."},
+    {"type":"QCM","question":"Parmi les principaux AGENTS INFECTIEUX, on compte :","options":["Bactéries","Virus","Champignons","Parasites","Prions"],"correct":[0,1,2,3,4],"explanation":"Les 5 grands types d'agents infectieux : bactéries, virus, champignons (mycètes), parasites (protozoaires, helminthes), prions (protéines infectieuses, ex : Creutzfeldt-Jakob)."},
+    {"type":"QCS","question":"Une infection NOSOCOMIALE est :","options":["Acquise dans la communauté","Acquise dans une structure de soins (hôpital)","Toujours d'origine virale","Toujours bénigne"],"correct":[1],"explanation":"Infection nosocomiale = acquise lors d'un séjour en structure de soins (hôpital, EHPAD), apparue ≥ 48h après l'admission. Souvent à germes résistants (MRSA, etc.)."},
+    {"type":"QCS","question":"Le COMMENSALISME correspond à :","options":["Le micro-organisme bénéficie sans nuire à l'hôte","Le micro-organisme et l'hôte bénéficient mutuellement","Le micro-organisme nuit à l'hôte","Une absence d'interaction"],"correct":[0],"explanation":"Commensalisme : un partenaire (microbe) en tire bénéfice, l'autre (hôte) n'en subit ni bien ni mal. Mutualisme = bénéfice réciproque (ex : flore intestinale). Parasitisme = pathogène nuit à l'hôte."},
+    {"type":"QCS","question":"Le MUTUALISME correspond à :","options":["Une situation où l'agent infectieux nuit à l'hôte","Un bénéfice réciproque entre l'hôte et le micro-organisme","Une absence de relation entre les deux","Une élimination immédiate du microbe"],"correct":[1],"explanation":"Mutualisme = bénéfice réciproque (ex : microbiote intestinal qui aide la digestion et reçoit nutriments). Le parasitisme est unilatéralement nuisible pour l'hôte."},
+    {"type":"QCM","question":"Quels facteurs AUGMENTENT la susceptibilité de l'hôte à l'infection ?","options":["Âge extrême (très jeune ou très âgé)","Immunodéficience","Malnutrition","Maladies chroniques (diabète)","Vaccination"],"correct":[0,1,2,3],"explanation":"Facteurs ↑ susceptibilité : âges extrêmes, immunodéficience (VIH, traitements immunosuppresseurs), malnutrition, maladies chroniques (diabète), grossesse. La vaccination DIMINUE la susceptibilité."},
+    {"type":"QCM","question":"Quelles sont des PORTES D'ENTRÉE classiques d'agents infectieux ?","options":["Pénétration cutanée (effraction, piqûre)","Contact (peau intacte, muqueuses)","Ingestion (voie digestive)","Inhalation (voie respiratoire)","Voie transplacentaire"],"correct":[0,1,2,3,4],"explanation":"Portes d'entrée : pénétration (effraction cutanée, piqûre), contact (peau, muqueuses), ingestion (digestif), inhalation (respiratoire), transplacentaire (mère-enfant)."},
+    {"type":"QCS","question":"La phase PRODROMIQUE d'une maladie infectieuse correspond à :","options":["L'absence de tout symptôme","L'apparition de symptômes non spécifiques avant la phase d'état","La phase de convalescence","La rechute"],"correct":[1],"explanation":"Phase prodromique : symptômes vagues et non spécifiques (malaise, fébricule) précédant la phase d'état (symptômes caractéristiques de la maladie)."},
+    {"type":"QCS","question":"Une maladie AIGUË se caractérise par :","options":["Une longue durée (mois/années)","Une apparition brutale et durée courte","Des poussées et rémissions","Un début insidieux"],"correct":[1],"explanation":"Maladie aiguë = début brutal, courte durée, évolution rapide. Subaiguë = intermédiaire. Chronique = longue durée, parfois insidieuse, peut comporter exacerbations/rémissions."},
+    {"type":"QCM","question":"Concernant l'histoire naturelle de la maladie infectieuse :","options":["Elle commence par l'incubation","Suivie d'une phase prodromique","Puis la phase d'état (clinique)","Et enfin la convalescence ou résolution","Elle ne comporte que 2 phases"],"correct":[0,1,2,3],"explanation":"Histoire naturelle : incubation (silencieuse) → prodromes (symptômes vagues) → phase d'état (signes spécifiques) → convalescence/résolution (ou complications/séquelles)."},
+    {"type":"QCS","question":"Les niveaux de prévention sont :","options":["Primaire, secondaire, tertiaire","Primaire seulement","Aiguë et chronique","Active et passive"],"correct":[0],"explanation":"3 niveaux : Primaire (avant la maladie : vaccination, hygiène) ; Secondaire (dépistage précoce + traitement rapide) ; Tertiaire (rééducation, limitation des séquelles)."},
+    {"type":"QCS","question":"Une maladie TRANSMISSIBLE est :","options":["Toujours d'origine virale","Capable de se propager d'un hôte à un autre","Toujours d'origine génétique","Forcément chronique"],"correct":[1],"explanation":"Maladie transmissible = peut se propager d'un hôte (ou réservoir) à un autre. Non transmissible = pas de transmission interhumaine ou animale (cancer, diabète, maladies cardiovasculaires)."},
+    {"type":"QCM","question":"Parmi ces maladies, lesquelles sont TRANSMISSIBLES ?","options":["Tuberculose","Grippe","Diabète de type 1","Hypertension","COVID-19"],"correct":[0,1,4],"explanation":"Transmissibles : tuberculose, grippe, COVID-19, IST, etc. Non transmissibles : diabète, HTA, cancer, maladies cardiovasculaires (origine multifactorielle, pas d'agent infectieux)."},
+    {"type":"QCS","question":"Une infection ENDOGÈNE provient :","options":["De l'environnement","De la flore microbienne propre du patient","D'un soignant","D'un autre patient"],"correct":[1],"explanation":"Infection endogène = à partir de la flore commensale du patient (ex : translocation digestive). Exogène = source externe. Nosocomiale = liée aux soins."},
+    {"type":"QCM","question":"Quels éléments constituent le SYSTÈME DE DÉFENSE de l'hôte ?","options":["Barrières mécaniques (peau, muqueuses)","Sécrétions (lysozyme, mucus, suc gastrique)","Microbiote commensal","Immunité innée","Immunité adaptative (lymphocytes)"],"correct":[0,1,2,3,4],"explanation":"Défenses : barrières (peau, muqueuses), sécrétions (lysozyme, HCl, mucus), microbiote (compétition), immunité innée (PNN, macrophages, complément), immunité adaptative (LT, LB, anticorps)."},
+    {"type":"QCS","question":"Le RÉSERVOIR de l'agent infectieux peut être :","options":["Uniquement humain","Humain, animal ou environnemental","Uniquement environnemental","Uniquement vectoriel"],"correct":[1],"explanation":"Réservoirs : humain (porteur sain ou malade), animal (zoonoses : rage, brucellose), environnemental (eau pour Legionella, sol pour tétanos)."},
+    {"type":"QCS","question":"Une zoonose est :","options":["Une infection transmise d'humain à humain","Une infection transmise de l'animal à l'humain","Une infection environnementale","Une infection auto-immune"],"correct":[1],"explanation":"Zoonose = infection transmise de l'animal à l'humain (rage, brucellose, leptospirose, grippe aviaire, COVID-19). Le réservoir est animal."},
+    {"type":"QCM","question":"Quelles affirmations sur les bactéries sont vraies ?","options":["Procaryotes (sans noyau)","Peuvent être Gram+ ou Gram-","Sensibles aux antibiotiques (en général)","Possèdent un noyau membranaire","Possèdent une paroi"],"correct":[0,1,2,4],"explanation":"Bactéries : procaryotes (PAS de noyau), Gram+/Gram-, sensibles aux antibiotiques (sauf résistances), possèdent une paroi. Le noyau membranaire est une caractéristique eucaryote."},
+    {"type":"QCS","question":"Un VIRUS est :","options":["Un être vivant complet","Un agent obligatoirement intracellulaire","Sensible aux antibiotiques","Toujours bactérien"],"correct":[1],"explanation":"Virus = parasite intracellulaire OBLIGATOIRE (a besoin du métabolisme cellulaire pour se répliquer). Insensible aux antibiotiques (qui ciblent les bactéries). Traitement antiviral spécifique."},
+    {"type":"QCS","question":"Un PRION est :","options":["Une bactérie atypique","Un virus à ARN","Une protéine mal repliée infectieuse","Un parasite eucaryote"],"correct":[2],"explanation":"Prion = protéine mal repliée (PrPsc) qui induit le mauvais repliement des protéines normales (PrPc). Cause la maladie de Creutzfeldt-Jakob, ESB. Pas d'acide nucléique → résistant aux traitements classiques."},
+    {"type":"QCM","question":"Le concept de prévention TERTIAIRE inclut :","options":["Vaccination","Dépistage précoce","Réhabilitation des séquelles","Limitation des incapacités","Hygiène de vie générale"],"correct":[2,3],"explanation":"Tertiaire = limitation des séquelles, rééducation, qualité de vie chez un sujet déjà atteint. Vaccination = primaire ; dépistage = secondaire."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

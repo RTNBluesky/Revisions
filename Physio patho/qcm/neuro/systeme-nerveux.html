@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — Système Nerveux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>Système <span>Nerveux</span></h1>
+  <div class="hero-sub">Fiche Neuro · Physiopathologie I · Niveau K1</div>
+</div>
+
+<div class="container">
+
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>Ce QCM contient 27 questions de niveau partiel pour réviser la fiche <strong>"Système Nerveux"</strong>. Mix de QCS (1 bonne réponse) et de QCM (plusieurs bonnes réponses possibles).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">… questions</span>
+      <span class="info-pill teal" id="qcsPill">… QCS</span>
+      <span class="info-pill dark" id="qcmPill">… QCM</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study">
+        <span class="mode-title">📚 Mode entraînement</span>
+        <span class="mode-desc">Correction immédiate après chaque question</span>
+      </button>
+      <button class="mode-btn" data-mode="exam">
+        <span class="mode-title">📝 Mode partiel</span>
+        <span class="mode-desc">Toutes les questions, correction à la fin</span>
+      </button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+
+  <div id="questionsContainer"></div>
+
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+
+  <div class="nav-links">
+    </div>
+
+</div>
+
+<script>
+const QCM_DATA = {
+  title: "Système Nerveux",
+  questions: [
+    {"type":"QCS","question":"Quelles structures composent le Système Nerveux Central (SNC) ?","options":["Nerfs et ganglions","Encéphale et moelle épinière","Encéphale, moelle et nerfs crâniens","Cerveau seul"],"correct":[1],"explanation":"Le SNC = encéphale (cerveau, cervelet, tronc cérébral) + moelle épinière. Les nerfs et ganglions appartiennent au SNP."},
+    {"type":"QCS","question":"Combien de paires de nerfs crâniens et de nerfs rachidiens compte-t-on respectivement ?","options":["10 paires crâniennes et 30 paires rachidiennes","12 paires crâniennes et 31 paires rachidiennes","12 paires crâniennes et 33 paires rachidiennes","8 paires crâniennes et 31 paires rachidiennes"],"correct":[1],"explanation":"12 paires de nerfs crâniens (voie corticobulbaire) et 31 paires de nerfs rachidiens (voie cortico-spinale)."},
+    {"type":"QCM","question":"Parmi les structures suivantes, lesquelles font partie de l'encéphale ?","options":["Cerveau","Cervelet","Tronc cérébral","Moelle épinière","Ganglions"],"correct":[0,1,2],"explanation":"L'encéphale comprend cerveau + cervelet + tronc cérébral. La moelle épinière fait partie du SNC mais pas de l'encéphale. Les ganglions sont dans le SNP."},
+    {"type":"QCM","question":"Concernant le système nerveux autonome (viscéral), quelles affirmations sont vraies ?","options":["Il innerve les muscles squelettiques","Il innerve les muscles lisses, le cœur et les glandes","Il comprend le système sympathique et parasympathique","Il est volontaire","Il a une composante afférente (viscérocepteurs)"],"correct":[1,2,4],"explanation":"Le SN autonome est involontaire. Il innerve muscles lisses/cœur/glandes. Il comprend sympathique (combat/fuite) et parasympathique (repos/digestion). Les muscles squelettiques relèvent du SN somatique."},
+    {"type":"QCS","question":"Quelle est la fonction principale du cervelet ?","options":["Fonctions cognitives supérieures","Coordination et équilibre","Fonctions vitales (respiration, rythme cardiaque)","Relais sensitif et moteur"],"correct":[1],"explanation":"Le cervelet est responsable de la coordination motrice et de l'équilibre. Les fonctions cognitives = cerveau ; les fonctions vitales = tronc cérébral."},
+    {"type":"QCS","question":"Le système sympathique est associé à :","options":["La digestion et le repos","Le combat ou la fuite","La sécrétion lacrymale","Le ralentissement cardiaque"],"correct":[1],"explanation":"Le sympathique correspond à la réaction « combat ou fuite » : dilatation pupillaire, accélération cardiaque, dilatation bronchique, sécrétion d'adrénaline."},
+    {"type":"QCM","question":"Parmi les nerfs crâniens suivants, lesquels sont purement SENSITIFS ?","options":["I — Olfactif","II — Optique","V — Trijumeau","VIII — Vestibulocochléaire","XII — Hypoglosse"],"correct":[0,1,3],"explanation":"Les nerfs sensitifs purs sont I (olfactif), II (optique) et VIII (vestibulocochléaire). Le V (trijumeau) est mixte. Le XII (hypoglosse) est moteur."},
+    {"type":"QCS","question":"Quel nerf crânien innerve les muscles de la langue ?","options":["IX — Glossopharyngien","X — Vague","XI — Accessoire","XII — Hypoglosse"],"correct":[3],"explanation":"Le XII (hypoglosse) est moteur pour les muscles de la langue. Une déviation de la langue à la protraction = lésion du XII homolatéral."},
+    {"type":"QCS","question":"Quel nerf crânien évalue-t-on en demandant au patient de sourire, fermer les yeux fortement et froncer les sourcils ?","options":["V — Trijumeau","VII — Facial","IX — Glossopharyngien","XI — Spinal"],"correct":[1],"explanation":"Le VII (facial) innerve les muscles de la mimique. Tester : sourire, fermer paupières, froncer sourcils, gonfler les joues."},
+    {"type":"QCM","question":"Quelles sont les fonctions du nerf vague (X) ?","options":["Innervation cardiaque","Innervation des bronches","Innervation du tube digestif","Mouvement des yeux","Audition"],"correct":[0,1,2],"explanation":"Le X (vague/pneumogastrique) innerve cœur, bronches et tube digestif (parasympathique). Le mouvement des yeux relève des III, IV, VI ; l'audition du VIII."},
+    {"type":"QCS","question":"Sur l'échelle de Glasgow, quel est le score minimum possible ?","options":["0","1","3","5"],"correct":[2],"explanation":"Le score de Glasgow va de 3 (minimum) à 15 (maximum). Le minimum de 3 correspond à 1 (oculaire) + 1 (verbal) + 1 (moteur)."},
+    {"type":"QCS","question":"Un score de Glasgow ≤ 8 correspond à :","options":["Un traumatisme léger","Un traumatisme modéré","Un traumatisme sévère / coma","Une conscience normale"],"correct":[2],"explanation":"Glasgow 13-15 = traumatisme léger ; 9-12 = modéré ; ≤ 8 = sévère, coma."},
+    {"type":"QCM","question":"Concernant la cotation 0-5 de la force musculaire, quelles propositions sont exactes ?","options":["0 = aucune contraction","2 = mouvement contre gravité","3 = mouvement contre gravité (sans résistance)","4 = mouvement contre résistance","5 = aucune force"],"correct":[0,2,3],"explanation":"0 = aucune contraction ; 1 = contraction visible ; 2 = mouvement SANS gravité ; 3 = mouvement CONTRE gravité ; 4 = contre résistance ; 5 = force normale."},
+    {"type":"QCS","question":"Une spasticité (hypertonie) signe une atteinte de :","options":["La corne antérieure de la moelle","La voie pyramidale","Le nerf périphérique","La jonction neuromusculaire"],"correct":[1],"explanation":"Spasticité = hypertonie élastique signant une atteinte de la voie pyramidale (motoneurone supérieur). La corne antérieure / SNP donnent une hypotonie."},
+    {"type":"QCS","question":"Une hypotonie + aréflexie + atrophie musculaire évoque :","options":["Une lésion du SNP","Une lésion de la voie pyramidale","Une lésion du cervelet","Une lésion thalamique"],"correct":[0],"explanation":"Le syndrome neurogène périphérique = hypotonie + aréflexie + atrophie + fasciculations. Atteinte du motoneurone inférieur ou du nerf périphérique."},
+    {"type":"QCM","question":"Parmi les éléments suivants, lesquels font partie de l'évaluation de la sensibilité de BASE ?","options":["Sensibilité douloureuse (piqûre)","Sensibilité vibratoire (diapason)","Stéréognosie","Proprioception","Graphesthésie"],"correct":[0,1,3],"explanation":"Sensibilité de base : douloureuse, vibratoire, proprioceptive, tactile. Stéréognosie et graphesthésie relèvent de la sensibilité DISCRIMINATIVE."},
+    {"type":"QCS","question":"Le réflexe rotulien explore principalement la racine :","options":["L2","L4","S1","C7"],"correct":[1],"explanation":"Réflexe rotulien = L4. Achilléen = S1. Bicipital = C5-C6. Tricipital = C7."},
+    {"type":"QCS","question":"Le test de Romberg permet d'évaluer :","options":["La force musculaire","La coordination cérébelleuse pure","L'équilibre proprioceptif","Les réflexes ostéo-tendineux"],"correct":[2],"explanation":"Le test de Romberg (debout pieds joints, yeux fermés) évalue l'équilibre proprioceptif. Une chute aux yeux fermés = ataxie sensitive (proprioceptive)."},
+    {"type":"QCM","question":"Quels sont les tests cérébelleux classiques ?","options":["Épreuve doigt-nez","Épreuve talon-genou","Mouvements alternés rapides (diadococinésie)","Test de Romberg yeux fermés","Réflexe cutané plantaire"],"correct":[0,1,2],"explanation":"Tests cérébelleux : doigt-nez, talon-genou, mouvements alternés rapides (dysdiadococinésie). Le Romberg explore la proprioception, pas le cervelet pur. Le réflexe cutané plantaire explore la voie pyramidale."},
+    {"type":"QCM","question":"Quels sont les signes d'irritation méningée ?","options":["Raideur de nuque","Signe de Brudzinski","Signe de Kernig","Signe de Babinski","Signe de Lasègue"],"correct":[0,1,2],"explanation":"Signes méningés : raideur de nuque, Brudzinski (flexion des hanches lors de la flexion du cou), Kernig. Babinski = atteinte pyramidale ; Lasègue = sciatalgie."},
+    {"type":"QCS","question":"Une marche en circumduction du membre inférieur, avec bras fléchi en écharpe, évoque :","options":["Une marche parkinsonienne","Une marche hémiplégique","Une ataxie cérébelleuse","Un steppage"],"correct":[1],"explanation":"Cette description = marche hémiplégique (lésion vasculaire du SNC controlatéral). Parkinson = petits pas/festination ; cérébelleuse = ébrieuse ; steppage = relevé du pied."},
+    {"type":"QCS","question":"Le steppage (footdrop) est dû à :","options":["Une atteinte du cervelet","Une paralysie des releveurs du pied","Une lésion parkinsonienne","Une lésion du nerf vague"],"correct":[1],"explanation":"Le steppage = paralysie des releveurs du pied (souvent atteinte du nerf fibulaire/sciatique poplité externe). Le patient soulève exagérément le genou pour ne pas accrocher l'orteil."},
+    {"type":"QCS","question":"Le topodiagnostic correspond à :","options":["Le diagnostic du mécanisme physiopathologique","Le diagnostic de la localisation anatomique de la lésion","Le diagnostic étiologique","Le diagnostic de gravité"],"correct":[1],"explanation":"Topodiagnostic = diagnostic de la LOCALISATION anatomique d'une lésion à partir des signes/symptômes."},
+    {"type":"QCM","question":"Associez correctement type de lésion et exemple :","options":["Focale → AVC ischémique","Multifocale → SEP (sclérose en plaques)","Diffuse → Encéphalite","Systématisée → SLA","Focale → Méningite"],"correct":[0,1,2,3],"explanation":"Focale = 1 zone (AVC) ; Multifocale = plusieurs zones distinctes (SEP) ; Diffuse = ensemble du cerveau (encéphalite) ; Systématisée = système fonctionnel (SLA = motoneurone). La méningite est diffuse, pas focale."},
+    {"type":"QCS","question":"Un déficit sensitif en « gant » ou « chaussette » est typique de :","options":["Une lésion médullaire","Une lésion cérébrale corticale","Une atteinte des nerfs périphériques (polyneuropathie)","Une atteinte cérébelleuse"],"correct":[2],"explanation":"La distribution en gant et chaussette est caractéristique des polyneuropathies (atteinte distale et symétrique des nerfs périphériques, ex : neuropathie diabétique)."},
+    {"type":"QCM","question":"Une lésion cérébrale focale peut être d'origine :","options":["Vasculaire (AVC)","Tumorale","Traumatique","Inflammatoire (méningite)","Démyélinisante"],"correct":[0,1,2,3,4],"explanation":"Les pathologies cérébrales focales possibles sont : vasculaires, tumorales, traumatiques, inflammatoires, démyélinisantes, toxiques/métaboliques. Toutes ces propositions sont correctes."},
+    {"type":"QCS","question":"Le MMSE (Mini-Mental State Examination) est utilisé pour :","options":["Évaluer la force musculaire","Dépister les démences (score /30)","Mesurer la spasticité","Évaluer la coordination"],"correct":[1],"explanation":"Le MMSE est un outil de dépistage des troubles cognitifs / démences, scoré sur 30. Le MoCA est plus sensible aux atteintes cognitives légères."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

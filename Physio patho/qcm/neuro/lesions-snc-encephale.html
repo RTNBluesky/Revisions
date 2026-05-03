@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — Lésions SNC + Encéphale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>Lésions SNC <span>+ Encéphale</span></h1>
+  <div class="hero-sub">Fiche Neuro · Physiopathologie I · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>Ce QCM te fait réviser la fiche <strong>"Lésions SNC + Encéphale"</strong> avec <span id="qcmCount">…</span> questions de niveau partiel K1. Mix de QCS et QCM.</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">… questions</span>
+      <span class="info-pill teal" id="qcsPill">… QCS</span>
+      <span class="info-pill dark" id="qcmPill">… QCM</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "Lésions SNC + Encéphale",
+  questions: [
+    {"type":"QCS","question":"Le thalamus joue principalement le rôle de :","options":["Centre moteur principal","Grand relais sensoriel (sauf olfaction)","Centre du langage","Régulateur hormonal"],"correct":[1],"explanation":"Le thalamus est le grand relais sensoriel : TOUTES les afférences sensorielles (sauf olfactives) y font relais avant d'atteindre le cortex."},
+    {"type":"QCM","question":"Quelles structures composent les ganglions de la base ?","options":["Noyau caudé","Putamen","Globus pallidus","Noyau subthalamique","Thalamus"],"correct":[0,1,2,3],"explanation":"Ganglions de la base : noyau caudé + putamen (= striatum), globus pallidus, noyau subthalamique. Le thalamus est une structure distincte mais très liée fonctionnellement."},
+    {"type":"QCS","question":"L'aire de Broca, située dans le lobe frontal, est responsable de :","options":["La compréhension du langage","La production du langage (motrice)","La vision","L'audition"],"correct":[1],"explanation":"L'aire de Broca (frontal gauche) = production motrice du langage. L'aire de Wernicke (temporal) = compréhension du langage."},
+    {"type":"QCM","question":"Concernant les lobes cérébraux, quelles correspondances sont correctes ?","options":["Lobe frontal → aire motrice + Broca","Lobe pariétal → somatosensoriel + schéma corporel","Lobe temporal → audition + Wernicke + mémoire","Lobe occipital → vision","Lobe occipital → langage"],"correct":[0,1,2,3],"explanation":"Frontal = motricité + Broca + jugement ; Pariétal = somatosensoriel + schéma corporel ; Temporal = audition + Wernicke + mémoire ; Occipital = vision."},
+    {"type":"QCS","question":"Le système carotidien irrigue principalement :","options":["Les 2/3 antérieurs du cerveau","Le tronc cérébral et le cervelet","Les lobes occipitaux","La moelle épinière"],"correct":[0],"explanation":"Système carotidien (circulation antérieure) = 2/3 antérieurs du cerveau. Le système vertébro-basilaire (postérieur) irrigue tronc, cervelet, lobes occipitaux."},
+    {"type":"QCM","question":"Quelles artères naissent directement de l'artère carotide interne ?","options":["Artère cérébrale antérieure (ACA)","Artère cérébrale moyenne (ACM)","Artère ophtalmique","Artère cérébrale postérieure (ACP)","Artère choroïdienne antérieure"],"correct":[0,1,2,4],"explanation":"De l'ACI naissent : ACA, ACM (sa branche principale), ophtalmique, choroïdienne antérieure et communicante postérieure. L'ACP naît du tronc basilaire (vertébro-basilaire)."},
+    {"type":"QCS","question":"Le polygone de Willis est :","options":["Un faisceau de fibres motrices","Un réseau anastomotique entre circulations antérieure et postérieure","Une zone du cortex visuel","Une voie sensitive descendante"],"correct":[1],"explanation":"Le polygone de Willis est un réseau anastomotique à la base du cerveau qui relie les circulations carotidienne et vertébro-basilaire. Il permet la redistribution du flux en cas d'occlusion."},
+    {"type":"QCS","question":"Un AVC ischémique représente environ quelle proportion de tous les AVC ?","options":["50%","65%","85%","98%"],"correct":[2],"explanation":"L'AVC ischémique représente ~85% des AVC. L'AVC hémorragique représente les 15% restants mais a une mortalité plus élevée."},
+    {"type":"QCM","question":"Concernant l'AIT (Accident Ischémique Transitoire), quelles affirmations sont vraies ?","options":["Déficit neurologique focal","Durée < 24h","Lésion visible à l'imagerie","Signe d'alerte d'AVC à venir","Pas besoin de prise en charge"],"correct":[0,1,3],"explanation":"AIT : déficit focal de < 24h SANS lésion à l'imagerie. C'est un signe d'alerte majeur pour un AVC futur — prise en charge urgente nécessaire."},
+    {"type":"QCS","question":"Le traitement de référence d'un AVC ischémique en phase aiguë est :","options":["Anti-hypertenseurs","Thrombolytiques (rTPA) et/ou thrombectomie","Anti-épileptiques","Corticoïdes"],"correct":[1],"explanation":"Le traitement aigu de l'AVC ischémique = rTPA (thrombolyse intraveineuse) si <4,5h, et/ou thrombectomie mécanique. Le délai est crucial : 'time is brain'."},
+    {"type":"QCM","question":"Concernant l'évolution clinique après AVC, dans quel ordre apparaissent les phases ?","options":["1. Hypotonie/aréflexie initiale","2. Hypertonie et co-contraction (spasticité)","3. Modèles synergiques de mouvement","4. Spasticité immédiate dès le début","5. Hypotonie permanente sans récupération"],"correct":[0,1,2],"explanation":"Évolution AVC : phase 1 = hypotonie/aréflexie (choc) → phase 2 = hypertonie/spasticité → phase 3 = mouvements synergiques puis sélectifs. Pas de spasticité immédiate."},
+    {"type":"QCS","question":"Un hématome épidural se développe typiquement en :","options":["Quelques minutes","Quelques heures","Plusieurs jours","Plusieurs mois"],"correct":[1],"explanation":"Hématome épidural : développement en quelques HEURES (souvent par rupture de l'artère méningée moyenne). Sous-dural subaigu = jours, sous-dural chronique = mois."},
+    {"type":"QCM","question":"Concernant la maladie de Parkinson, quelles affirmations sont vraies ?","options":["Dégénérescence de la substance noire","Perte des récepteurs dopaminergiques","Hyperréflexie typique","Tremblement au REPOS","Bradykinésie"],"correct":[0,1,3,4],"explanation":"Parkinson : dégénérescence dopaminergique de la substance noire → bradykinésie, tremblement de REPOS, rigidité, instabilité posturale. Les réflexes ne sont PAS hyperactifs."},
+    {"type":"QCS","question":"La rigidité 'en roue dentée' est typique de quelle maladie ?","options":["Sclérose en plaques","Maladie de Parkinson","Syndrome de Guillain-Barré","Maladie d'Alzheimer"],"correct":[1],"explanation":"La rigidité en roue dentée (résistance saccadée à la mobilisation passive) est un signe cardinal de la maladie de Parkinson, avec la bradykinésie et le tremblement de repos."},
+    {"type":"QCM","question":"Parmi les signes moteurs de Parkinson, on retrouve :","options":["Bradykinésie","Micrographie","Amimie (visage figé)","Marche à grands pas avec ballant","Freezing"],"correct":[0,1,2,4],"explanation":"Signes moteurs Parkinson : bradykinésie, micrographie, amimie, hypophonie, marche à PETITS pas (festination, perte du ballant), freezing, tremblement de repos."},
+    {"type":"QCS","question":"Le traitement médicamenteux principal de la maladie de Parkinson est :","options":["Lévodopa","Corticoïdes","Antiépileptiques","Interférons"],"correct":[0],"explanation":"La lévodopa (souvent associée à la carbidopa) est le traitement de référence : précurseur de la dopamine qui passe la barrière hémato-encéphalique."},
+    {"type":"QCM","question":"Les '5 A' de la démence comprennent :","options":["Amnésie","Anomie","Apraxie","Agnosie","Aphasie"],"correct":[0,1,2,3,4],"explanation":"Les 5 A de la démence : Amnésie (mémoire), Anomie (oubli des mots), Apraxie (gestes), Agnosie (reconnaissance), Aphasie (langage)."},
+    {"type":"QCM","question":"Concernant la physiopathologie de la maladie d'Alzheimer, quelles affirmations sont correctes ?","options":["Formation de plaques amyloïdes (Aβ)","Tresses neurofibrillaires (protéine tau)","Démyélinisation auto-immune","Dégénérescence dopaminergique","Réponse des astrocytes et de la microglie"],"correct":[0,1,4],"explanation":"Alzheimer : plaques amyloïdes (Aβ) extracellulaires + tresses neurofibrillaires (tau) intracellulaires + neuroinflammation. La démyélinisation = SEP, la dégénérescence dopaminergique = Parkinson."},
+    {"type":"QCS","question":"La sclérose en plaques (SEP) est :","options":["Une maladie auto-immune attaquant les oligodendrocytes","Une maladie vasculaire","Une maladie tumorale","Une maladie génétique transmise au mode dominant"],"correct":[0],"explanation":"SEP = maladie auto-immune attaquant les oligodendrocytes (cellules myélinisantes du SNC) → démyélinisation de la substance blanche par plaques disséminées dans le temps et l'espace."},
+    {"type":"QCM","question":"Quels facteurs peuvent aggraver ou déclencher une poussée de SEP ?","options":["Chaleur","Stress","Effort physique","Infections","Repos prolongé"],"correct":[0,1,2,3],"explanation":"Facteurs aggravants/déclenchants de SEP : chaleur (signe d'Uhthoff), stress, effort physique, infections. Le repos n'est pas un déclencheur."},
+    {"type":"QCS","question":"La SLA (sclérose latérale amyotrophique) atteint :","options":["Le motoneurone uniquement","Les motoneurones 1er ET 2e","La sensibilité uniquement","La cognition uniquement"],"correct":[1],"explanation":"La SLA atteint à la fois le motoneurone supérieur (1er, central) ET le motoneurone inférieur (2e, périphérique). La sensibilité et la cognition restent INTACTES — paralysie progressive sans déficit sensitif."},
+    {"type":"QCS","question":"La myasthénie grave est due à :","options":["Une attaque auto-immune des récepteurs à l'acétylcholine","Une dégénérescence de la substance noire","Une démyélinisation du SNC","Une atteinte vasculaire"],"correct":[0],"explanation":"La myasthénie grave est une maladie auto-immune ciblant les récepteurs nicotiniques à l'acétylcholine de la jonction neuromusculaire. D'où la fatigabilité musculaire fluctuante."},
+    {"type":"QCM","question":"Quels sont les signes du SYNDROME CÉRÉBELLEUX ?","options":["Ataxie","Hypotonie","Dysmétrie","Dysarthrie","Hypertonie spastique"],"correct":[0,1,2,3],"explanation":"Syndrome cérébelleux : ataxie, dysmétrie, dysdiadococinésie, dysarthrie, tremblement intentionnel, hypotonie. L'hypertonie spastique signe une atteinte pyramidale, PAS cérébelleuse."},
+    {"type":"QCS","question":"Quel examen offre la meilleure résolution SPATIALE pour visualiser les structures molles du cerveau ?","options":["EEG","EMG","TDM (scanner)","IRM"],"correct":[3],"explanation":"L'IRM offre la meilleure résolution spatiale pour les tissus mous (matière blanche/grise, lésions). L'EEG a la meilleure résolution TEMPORELLE."},
+    {"type":"QCS","question":"En urgence pour un AVC suspecté, quel examen est réalisé en premier ?","options":["EEG","EMG","TDM cérébrale (scanner)","IRMf"],"correct":[2],"explanation":"En urgence AVC : TDM cérébrale d'abord (rapide, accessible, élimine l'hémorragie). L'IRM peut être réalisée ensuite pour mieux visualiser l'ischémie aiguë."},
+    {"type":"QCM","question":"Parmi les principes de la NEUROPLASTICITÉ, on retrouve :","options":["Use it or lose it (utiliser ou perdre)","Specificity (spécificité de l'entraînement)","Repetition (milliers de répétitions nécessaires)","Salience (émotion et motivation)","Le repos absolu favorise la récupération"],"correct":[0,1,2,3],"explanation":"Neuroplasticité (10 principes) : use it or lose it, use it & improve it, specificity, repetition, intensity, time, salience, age, transference, interference. Le repos absolu n'en fait PAS partie."},
+    {"type":"QCS","question":"Une crise d'épilepsie 'petit mal' (absence) se caractérise par :","options":["Convulsions tonico-cloniques généralisées","Regard perdu de 10-30 secondes sans chute","Paralysie d'un hémicorps","Perte définitive de conscience"],"correct":[1],"explanation":"L'absence (petit mal) = brève suspension de conscience (10-30 sec) avec regard fixe, sans convulsions ni chute. Surtout chez l'enfant."},
+    {"type":"QCM","question":"Quelles affirmations sur la VASCULARISATION cérébrale sont vraies ?","options":["L'ACM est la branche principale de l'ACI","Le système vertébro-basilaire irrigue le tronc et le cervelet","La PICA est la plus grande branche de l'artère vertébrale","L'ACP naît directement de la carotide interne","Le polygone de Willis relie les deux systèmes"],"correct":[0,1,2,4],"explanation":"ACM = branche principale de l'ACI ; système vertébro-basilaire = tronc/cervelet/occipital ; PICA = grande branche de l'artère vertébrale ; polygone de Willis relie carotidien et vertébro-basilaire. L'ACP naît du tronc basilaire, PAS de l'ACI."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

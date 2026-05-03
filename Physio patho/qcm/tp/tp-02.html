@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 2 — Lésions cellulaires</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 2 — <span>Lésions Cellulaires</span></h1>
+  <div class="hero-sub">Fiche TP 2 · Adaptations, lésions, nécrose, apoptose · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 2 — Lésions cellulaires"</strong> (adaptations, lésions réversibles/irréversibles, nécrose, apoptose, accumulations, calcifications).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 2 — Lésions Cellulaires",
+  questions: [
+    {"type":"QCS","question":"L'hypertrophie correspond à :","options":["Une augmentation du NOMBRE de cellules","Une augmentation de la TAILLE des cellules","Une diminution du nombre de cellules","Une mort cellulaire"],"correct":[1],"explanation":"Hypertrophie = ↑ TAILLE des cellules (↑ protéines, organites). Hyperplasie = ↑ NOMBRE de cellules. Souvent associées dans certains organes."},
+    {"type":"QCS","question":"L'hyperplasie correspond à :","options":["Une augmentation de la taille des cellules","Une augmentation du nombre de cellules par prolifération","Une mort cellulaire programmée","Un changement de type cellulaire"],"correct":[1],"explanation":"Hyperplasie = augmentation du NOMBRE de cellules (prolifération). Concerne les cellules capables de se diviser (épiderme, intestin, épithélium glandulaire). Pas applicable aux cardiomyocytes."},
+    {"type":"QCM","question":"Concernant l'hypertrophie, quelles affirmations sont vraies ?","options":["Concerne les cellules à capacité de division limitée","L'hypertrophie utérine pendant la grossesse en est un exemple physiologique","L'hypertrophie cardiaque (HTA) en est un exemple pathologique","Elle implique la création de nouvelles cellules","La musculation est un exemple physiologique"],"correct":[0,1,2,4],"explanation":"L'hypertrophie concerne les cellules à division limitée (myocytes cardiaques, lisses). Pas de nouvelles cellules. Exemples : utérus en grossesse (physio), muscle squelettique entraîné (physio), cœur en HTA (patho)."},
+    {"type":"QCS","question":"L'atrophie correspond à :","options":["Une diminution du nombre de cellules vivantes","Une diminution de la taille des cellules avec perte de substance","Un changement irréversible de type cellulaire","Une mort cellulaire massive"],"correct":[1],"explanation":"Atrophie = diminution de la TAILLE des cellules (les cellules ne sont pas mortes). Mécanismes : ↓ synthèse protéique, ↑ dégradation (ubiquitine-protéasome, autophagie). Réversible."},
+    {"type":"QCS","question":"La métaplasie correspond à :","options":["Le remplacement d'un type cellulaire par un autre, mieux adapté","La mort programmée des cellules","Une augmentation du nombre de cellules","Un retour de la cellule à son état normal"],"correct":[0],"explanation":"Métaplasie = remplacement d'un type cellulaire différencié par un autre. Reprogrammation des cellules souches tissulaires. Réversible, mais peut prédisposer au cancer si stimulus persiste."},
+    {"type":"QCM","question":"Concernant la métaplasie, quels exemples sont corrects ?","options":["Tabagisme → métaplasie malpighienne des voies respiratoires","Reflux gastrique → œsophage de Barrett","Hypoxie → métaplasie cardiaque","Inflammation chronique → métaplasie épidermoïde","Grossesse → métaplasie utérine"],"correct":[0,1,3],"explanation":"Métaplasie classique : tabagisme (épithélium cilié → pavimenteux), Barrett (malpighien → cylindrique intestinal sur reflux), inflammation chronique. La métaplasie cardiaque ou utérine de grossesse n'existe pas en tant que telles."},
+    {"type":"QCS","question":"La dysplasie est :","options":["Toujours irréversible","Un état adaptatif réversible considéré comme précurseur du cancer","Une forme de mort cellulaire","Une réaction inflammatoire"],"correct":[1],"explanation":"Dysplasie = perturbation de la croissance cellulaire (variation taille/forme/organisation). Adaptative et réversible si stimulus supprimé, MAIS peut être un précurseur du cancer (col utérin +++)."},
+    {"type":"QCM","question":"Quels sont les 2 caractéristiques classiques de la lésion cellulaire RÉVERSIBLE ?","options":["Gonflement cellulaire (tuméfaction)","Dégénérescence graisseuse","Pycnose nucléaire","Caryorrhexie","Caryolyse"],"correct":[0,1],"explanation":"Lésion réversible : gonflement cellulaire (défaillance pompe Na/K) + dégénérescence graisseuse (foie surtout). Pycnose, caryorrhexie, caryolyse = signes de NÉCROSE (irréversible)."},
+    {"type":"QCM","question":"Concernant les mécanismes fondamentaux de lésion cellulaire, on retrouve :","options":["Déplétion en ATP / hypoxie","Formation de radicaux libres (ROS)","Perturbation de l'homéostasie calcique","Augmentation excessive du glycogène","Démyélinisation"],"correct":[0,1,2],"explanation":"Mécanismes fondamentaux : 1) déplétion ATP/hypoxie ; 2) ROS (stress oxydatif) ; 3) ↑ Ca²⁺ intracellulaire (active phospholipases, protéases, endonucléases). Le reste = mécanismes spécifiques."},
+    {"type":"QCS","question":"La nécrose est :","options":["Une mort cellulaire programmée physiologique","Une mort cellulaire pathologique avec inflammation locale","Une adaptation réversible","Un changement de type cellulaire"],"correct":[1],"explanation":"Nécrose = mort cellulaire PATHOLOGIQUE (jamais physiologique), suivie d'autolyse + dénaturation des protéines + fuite du contenu cellulaire + INFLAMMATION locale. Apoptose = sans inflammation."},
+    {"type":"QCM","question":"Quels sont les changements nucléaires de la nécrose ?","options":["Pycnose (condensation de la chromatine)","Caryorrhexie (fragmentation du noyau)","Caryolyse (dissolution du noyau)","Hyperchromasie","Apoptose"],"correct":[0,1,2],"explanation":"Évolution nucléaire dans la nécrose : pycnose → caryorrhexie → caryolyse. L'apoptose a un mécanisme propre (corps apoptotiques, sans rupture membranaire)."},
+    {"type":"QCS","question":"La nécrose de COAGULATION est typique de :","options":["L'infarctus cérébral","L'infarctus du myocarde / rein (organes solides ischémiés)","La tuberculose","Les abcès cérébraux"],"correct":[1],"explanation":"Nécrose de coagulation = ischémie d'organes solides (cœur, rein), architecture préservée. Liquéfactive = SNC. Caséeuse = tuberculose. Gangrène = membres, intestin."},
+    {"type":"QCS","question":"La nécrose LIQUÉFACTIVE est typique de :","options":["L'infarctus du myocarde","Le système nerveux central (AVC) et abcès","La tuberculose","Les calcifications cardiaques"],"correct":[1],"explanation":"Nécrose liquéfactive = digestion enzymatique, formation d'un liquide visqueux. Typique du SNC (AVC, abcès cérébral) et des infections bactériennes (pus)."},
+    {"type":"QCS","question":"La nécrose CASÉEUSE est typique de :","options":["L'infarctus du rein","La tuberculose","La gangrène sèche","L'AVC ischémique"],"correct":[1],"explanation":"Nécrose caséeuse = aspect 'fromage blanc', typique de la tuberculose. C'est une combinaison de nécrose de coagulation et de liquéfaction."},
+    {"type":"QCM","question":"Concernant l'apoptose, quelles affirmations sont vraies ?","options":["C'est une mort cellulaire programmée","Elle est généralement physiologique","Elle s'accompagne d'inflammation locale","Elle implique des caspases","Elle produit des corps apoptotiques phagocytés"],"correct":[0,1,3,4],"explanation":"Apoptose : mort programmée, souvent PHYSIO (élimination cellules sénescentes/inutiles), SANS inflammation, médiée par les caspases, formation de corps apoptotiques phagocytés sans réaction inflammatoire."},
+    {"type":"QCS","question":"La voie INTRINSÈQUE de l'apoptose implique :","options":["La liaison FasL → Fas","La libération de cytochrome c mitochondrial → caspase-9","Une activation des récepteurs membranaires uniquement","La phagocytose par les macrophages"],"correct":[1],"explanation":"Voie intrinsèque (mitochondriale) : BAX/BAK → perméabilisation membrane externe → cytochrome c → APAF-1 → apoptosome → caspase-9 → caspases exécutrices. Voie extrinsèque = FasL/Fas → caspase-8."},
+    {"type":"QCS","question":"La voie EXTRINSÈQUE de l'apoptose passe par :","options":["Le cytochrome c et la caspase-9","Les récepteurs membranaires (Fas, TNFR1) et la caspase-8","Le calcium intracellulaire","L'ATP mitochondrial"],"correct":[1],"explanation":"Voie extrinsèque : FasL → Fas (ou TNF → TNFR1) → FADD → caspase-8 → caspases exécutrices. Élimine les lymphocytes auto-réactifs et les cellules infectées par virus."},
+    {"type":"QCM","question":"Différences entre NÉCROSE et APOPTOSE :","options":["Nécrose = inflammation ; Apoptose = pas d'inflammation","Nécrose = pathologique ; Apoptose = souvent physiologique","Apoptose = caspases ; Nécrose = pas de caspases","Apoptose = cellules entières gonflent et explosent","Apoptose = corps apoptotiques phagocytés"],"correct":[0,1,2,4],"explanation":"Nécrose : inflammation, gonflement puis rupture, contenu déversé. Apoptose : caspases, condensation, corps apoptotiques phagocytés, PAS d'inflammation. Le gonflement-explosion = nécrose."},
+    {"type":"QCS","question":"La calcification DYSTROPHIQUE :","options":["Survient sur tissu normal en cas d'hypercalcémie","Survient dans des zones de nécrose, avec calcémie normale","Est physiologique","N'existe que chez l'enfant"],"correct":[1],"explanation":"Calcification dystrophique : dépôt de calcium dans des tissus NÉCROSÉS / lésionnels, avec calcémie sérique NORMALE. Métastatique = tissus normaux + hypercalcémie."},
+    {"type":"QCS","question":"La calcification MÉTASTATIQUE :","options":["Survient sur des zones nécrotiques","Survient sur des tissus normaux en cas d'hypercalcémie","Est limitée aux poumons","N'a pas de signification pathologique"],"correct":[1],"explanation":"Calcification métastatique : dépôts de calcium dans des tissus NORMAUX en présence d'hypercalcémie (hyperparathyroïdie, métastases osseuses). Touche reins, poumons, vaisseaux."},
+    {"type":"QCS","question":"La stéatose hépatique correspond à :","options":["Une accumulation anormale de protéines","Une accumulation de glycogène","Une accumulation de lipides (triglycérides) dans les hépatocytes","Une accumulation de fer"],"correct":[2],"explanation":"Stéatose hépatique = accumulation de triglycérides dans les hépatocytes (cytoplasme). Causes principales : alcoolisme, obésité, diabète, médicaments hépatotoxiques."},
+    {"type":"QCM","question":"Quels sont les 4 mécanismes d'accumulation intracellulaire ?","options":["Métabolisme anormal d'une substance normale","Défaut de repliement / transport (mutation)","Déficit enzymatique héréditaire","Substance exogène non digestible","Hyperréplication virale obligatoire"],"correct":[0,1,2,3],"explanation":"4 mécanismes : 1) métabolisme anormal (stéatose) ; 2) défaut de repliement (α1-antitrypsine) ; 3) déficit enzymatique (Tay-Sachs, surcharge lysosomale) ; 4) substance exogène non digestible (silice, carbone)."},
+    {"type":"QCS","question":"Le ROS (reactive oxygen species) provoque des lésions par :","options":["Activation directe des caspases","Peroxydation des lipides membranaires + oxydation des protéines + lésions de l'ADN","Compression mécanique","Acidose seule"],"correct":[1],"explanation":"Les ROS = espèces avec électron non apparié, très réactives. Elles provoquent peroxydation lipidique (membranes), oxydation protéique, lésions ADN. Stress oxydatif = ROS > antioxydants."},
+    {"type":"QCM","question":"Concernant l'hypoxie / déplétion en ATP, quelles conséquences observe-t-on ?","options":["Défaillance de la pompe Na/K ATPase","Gonflement cellulaire","Acidose lactique (glycolyse anaérobie)","Augmentation de la phosphorylation oxydative","Désorganisation du cytosquelette"],"correct":[0,1,2,4],"explanation":"Hypoxie → ↓ ATP → 1) défaillance pompe Na/K → gonflement cellulaire ; 2) glycolyse anaérobie → acidose lactique ; 3) désorganisation cytosquelette ; 4) ↓ synthèse protéique. La phospho oxydative DIMINUE (mitochondries souffrent)."},
+    {"type":"QCS","question":"Le rôle clé du Ca²⁺ dans la lésion cellulaire est :","options":["De stabiliser les membranes","D'activer phospholipases, protéases, endonucléases","D'inhiber les caspases","De fournir de l'énergie"],"correct":[1],"explanation":"L'augmentation pathologique du Ca²⁺ intracellulaire active : phospholipases (lésion membrane), protéases (cytosquelette), ATPase (épuise ATP), endonucléases (fragmentation ADN). Cascade de mort cellulaire."},
+    {"type":"QCM","question":"Concernant les manifestations cliniques (signes vs symptômes), quelles affirmations sont vraies ?","options":["Symptôme = subjectif (rapporté par le patient)","Signe = objectif (observable par le clinicien)","La douleur est un signe objectif","La fièvre est un signe","Un syndrome regroupe signes ET symptômes"],"correct":[0,1,3,4],"explanation":"Symptôme = subjectif (douleur, vertige). Signe = objectif (fièvre, œdème, tachycardie). La douleur est un SYMPTÔME, pas un signe. Syndrome = ensemble caractéristique de signes/symptômes."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

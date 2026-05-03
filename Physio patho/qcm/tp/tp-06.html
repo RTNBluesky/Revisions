@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM — TP 6 — Ostéoporose & Fractures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/qcm.css">
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="progress-bar" id="progressBar">
+  <div class="progress-info">Question <span id="qCurrent">0</span>/<span id="qTotal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-score">Score : <span id="liveScore">0</span></div>
+</div>
+<div class="hero">
+  <div class="hero-tag">QCM Kiné K1 · ESSATLA</div>
+  <h1>TP 6 — <span>Ostéoporose & Fractures</span></h1>
+  <div class="hero-sub">Fiche TP 6 · Ostéopénie, ostéoporose, fractures · Niveau K1</div>
+</div>
+<div class="container">
+  <div class="intro-card" id="introCard">
+    <h2>Prêt·e à t'entraîner ?</h2>
+    <p>QCM sur la fiche <strong>"TP 6 — Ostéopénie, Ostéoporose & Fractures"</strong> (épidémio, diagnostic DEXA, traitement, fractures).</p>
+    <div class="info-row">
+      <span class="info-pill" id="totalPill">…</span>
+      <span class="info-pill teal" id="qcsPill">…</span>
+      <span class="info-pill dark" id="qcmPill">…</span>
+    </div>
+    <p style="margin-bottom: 8px; font-weight: 600; color: var(--dark);">Choisis ton mode :</p>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="study"><span class="mode-title">📚 Mode entraînement</span><span class="mode-desc">Correction immédiate après chaque question</span></button>
+      <button class="mode-btn" data-mode="exam"><span class="mode-title">📝 Mode partiel</span><span class="mode-desc">Toutes les questions, correction à la fin</span></button>
+    </div>
+    <button class="start-btn" id="startBtn">Commencer le QCM →</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="final-card" id="finalCard">
+    <div style="font-size: 13px; letter-spacing: 3px; color: var(--orange); text-transform: uppercase;">Résultat final</div>
+    <div class="final-score"><span id="finalScore">0</span><span style="font-size:32px; color: rgba(255,255,255,0.4)">/<span id="finalTotal">0</span></span></div>
+    <div class="final-pct"><span id="finalPct">0</span>%</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">↻ Recommencer</button>
+  </div>
+  <div class="nav-links"></div>
+</div>
+<script>
+const QCM_DATA = {
+  title: "TP 6 — Ostéoporose & Fractures",
+  questions: [
+    {"type":"QCS","question":"L'OSTÉOPÉNIE correspond, à la DEXA, à un T-score :","options":["≥ -1","Entre -1 et -2,5","≤ -2,5","≤ -2,5 + fracture"],"correct":[1],"explanation":"OMS : Normal T-score > -1 ; Ostéopénie : -1 à -2,5 ; Ostéoporose : ≤ -2,5 ; Ostéoporose sévère : ≤ -2,5 + fracture de fragilité."},
+    {"type":"QCS","question":"L'ostéoporose est définie (DEXA) par un T-score :","options":["> -1","Entre -1 et -2,5","≤ -2,5","≤ -3,5"],"correct":[2],"explanation":"Ostéoporose densitométrique : T-score ≤ -2,5 (≥ 2,5 écarts-types sous la moyenne d'un adulte jeune de référence)."},
+    {"type":"QCS","question":"L'examen de référence pour le diagnostic densitométrique d'ostéoporose est :","options":["IRM osseuse","Scintigraphie","DEXA (absorptiométrie biphotonique)","Radiographie standard"],"correct":[2],"explanation":"DEXA = examen de référence : mesure la DMO (densité minérale osseuse) au rachis lombaire et au col fémoral. Donne le T-score (vs adulte jeune) et le Z-score (vs même âge)."},
+    {"type":"QCM","question":"Parmi les facteurs de risque MAJEURS d'ostéoporose, on retrouve :","options":["Sexe féminin","Ménopause précoce","Antécédent de fracture de fragilité","Corticothérapie prolongée","Activité physique régulière en charge"],"correct":[0,1,2,3],"explanation":"Facteurs majeurs : sexe féminin, ménopause précoce, ATCD personnel/familial de fracture de fragilité, corticoïdes au long cours, IMC bas, alcoolisme, tabagisme. L'activité en charge est PROTECTRICE."},
+    {"type":"QCS","question":"L'ostéoporose POST-MÉNOPAUSIQUE est principalement due à :","options":["Une carence en calcium","Une carence en œstrogènes","Un excès de PTH","Une carence en vitamine K"],"correct":[1],"explanation":"Post-ménopause : carence œstrogénique → ↑ activité ostéoclastique → ↑ résorption osseuse > formation → perte osseuse rapide les premières années (jusqu'à 3-5%/an au début)."},
+    {"type":"QCM","question":"Quels sites anatomiques sont les plus exposés aux fractures ostéoporotiques ?","options":["Col fémoral","Vertèbres (tassements)","Poignet (fracture de Pouteau-Colles)","Crâne","Humérus proximal"],"correct":[0,1,2,4],"explanation":"Sites typiques : col fémoral (gravissime, mortalité 20-25% à 1 an), vertèbres (tassements souvent silencieux), poignet (Pouteau-Colles), humérus proximal. Le crâne n'est pas un site classique."},
+    {"type":"QCS","question":"La fracture de POUTEAU-COLLES est :","options":["Une fracture du col fémoral","Une fracture distale du radius en extension du poignet","Une fracture vertébrale","Une fracture de l'humérus"],"correct":[1],"explanation":"Pouteau-Colles : fracture de l'extrémité inférieure du radius, à déplacement postérieur, sur chute en hyperextension du poignet. Très fréquente chez la femme ménopausée."},
+    {"type":"QCM","question":"Concernant les fractures VERTÉBRALES ostéoporotiques :","options":["Souvent silencieuses (asymptomatiques)","Provoquent un tassement vertébral","Peuvent diminuer la taille","Apparaissent souvent sans traumatisme évident","Toujours symptomatiques"],"correct":[0,1,2,3],"explanation":"Tassements vertébraux : souvent silencieux (50% asymptomatiques), perte de taille progressive, cyphose dorsale, parfois douleur aiguë. Découverte fréquemment fortuite."},
+    {"type":"QCM","question":"Quels traitements sont utilisés dans l'ostéoporose ?","options":["Bisphosphonates (alendronate)","Dénosumab","Calcium + vitamine D","Tériparatide (PTH 1-34)","Antibiotiques"],"correct":[0,1,2,3],"explanation":"Traitements : antirésorbeurs (bisphosphonates, dénosumab, raloxifène), anaboliques (tériparatide, romosozumab), supplémentation Ca + vit D systématique. Antibiotiques = ostéomyélite, pas ostéoporose."},
+    {"type":"QCS","question":"Les BISPHOSPHONATES agissent en :","options":["Stimulant les ostéoblastes","Inhibant les ostéoclastes","Apportant directement du calcium","Stimulant la PTH"],"correct":[1],"explanation":"Bisphosphonates (alendronate, risédronate, acide zolédronique) : se fixent à l'os et inhibent l'activité ostéoclastique → ↓ résorption → stabilisation/gain de DMO."},
+    {"type":"QCS","question":"Un trait de fracture TRANSVERSAL résulte typiquement de :","options":["Une force de torsion","Une force directe perpendiculaire à l'os","Une compression axiale","Une fracture pathologique"],"correct":[1],"explanation":"Trait transversal : force directe (choc perpendiculaire). Spiroïde = torsion. Comminutif = haute énergie. En bois vert = enfant."},
+    {"type":"QCS","question":"Une fracture EN BOIS VERT survient :","options":["Chez l'adulte âgé","Chez l'enfant (os flexible)","Sur os nécrosé","Sur métastase"],"correct":[1],"explanation":"Fracture en bois vert : typique de l'enfant (os flexible) → la corticale se rompt d'un seul côté, l'autre se plie sans rompre. Ressemble à une branche verte qu'on plie."},
+    {"type":"QCM","question":"Concernant la consolidation osseuse, dans l'ordre :","options":["1. Hématome inflammatoire","2. Cal mou (fibrocartilagineux)","3. Cal dur (osseux)","4. Remodelage","5. La consolidation est en 2 étapes"],"correct":[0,1,2,3],"explanation":"Consolidation en 4 étapes : hématome (jours), cal mou (3-6 sem), cal dur (6-12 sem), remodelage (mois-années pour retrouver l'architecture)."},
+    {"type":"QCM","question":"Quels facteurs RETARDENT la consolidation osseuse ?","options":["Tabagisme","Diabète","Anti-inflammatoires (AINS) au long cours","Mauvaise vascularisation locale","Jeune âge"],"correct":[0,1,2,3],"explanation":"Retardateurs : tabac (vasoconstriction), diabète, AINS chroniques (↓ COX-2 et inflammation utile), mauvaise vascularisation, infection, mobilité excessive du foyer, âge avancé. Le jeune âge favorise."},
+    {"type":"QCS","question":"L'OSTÉONÉCROSE de la tête fémorale survient :","options":["Toujours après une infection","Après une perte de vascularisation (ex : fracture du col, alcool, corticoïdes)","Uniquement chez l'enfant","Sans aucun facteur de risque"],"correct":[1],"explanation":"Ostéonécrose aseptique : interruption de la vascularisation → mort osseuse. FdR : corticoïdes, alcoolisme, fracture du col, drépanocytose, lupus, traumatisme. Site classique : tête fémorale."},
+    {"type":"QCS","question":"Une OSTÉOMYÉLITE est :","options":["Une tumeur osseuse","Une infection osseuse, souvent à Staphylococcus aureus","Une décalcification","Une carence en vitamine D"],"correct":[1],"explanation":"Ostéomyélite : infection osseuse, le plus souvent bactérienne (S. aureus +++). Voie hématogène (enfant) ou par contiguïté/inoculation directe (adulte, post-chirurgie/fracture ouverte)."},
+    {"type":"QCM","question":"Parmi les COMPLICATIONS d'une fracture, on retrouve :","options":["Pseudarthrose (non-consolidation)","Cal vicieux","Embolie graisseuse","Syndrome de loge","Aucune complication possible"],"correct":[0,1,2,3],"explanation":"Complications : pseudarthrose (>6 mois sans consolidation), cal vicieux (mauvaise position), embolie graisseuse (fracture os longs), syndrome de loge (urgence !), nécrose avasculaire, infection."},
+    {"type":"QCS","question":"Le syndrome de LOGE est :","options":["Une infection osseuse","Une augmentation de pression dans une loge musculaire fermée → ischémie","Une fracture multiple","Une rupture ligamentaire"],"correct":[1],"explanation":"Syndrome de loge : ↑ pression intra-compartimentale (œdème, hématome) → compression vasculo-nerveuse → ischémie musculaire/nerveuse. URGENCE chirurgicale (fasciotomie). Signe : douleur disproportionnée."},
+    {"type":"QCM","question":"Concernant l'ENTORSE :","options":["Atteinte d'un ligament","Grades 1 (étirement) à 3 (rupture complète)","Survient lors d'un mouvement forcé","Concerne souvent la cheville (LLE)","C'est une fracture"],"correct":[0,1,2,3],"explanation":"Entorse = atteinte ligamentaire (étirement à rupture). Grades I (bénigne), II (rupture partielle), III (rupture totale ± instabilité). Cheville (LLE) = la plus fréquente. Pas une fracture (concerne l'os)."},
+    {"type":"QCS","question":"Une LUXATION est :","options":["Une fracture osseuse","Une perte de contact totale et permanente entre 2 surfaces articulaires","Un simple étirement","Une déchirure musculaire"],"correct":[1],"explanation":"Luxation = perte complète et permanente du contact articulaire (subluxation = perte partielle). Articulations souvent touchées : épaule (la +), interphalangienne, hanche prothétique."},
+    {"type":"QCS","question":"Une CLAQUAGE musculaire correspond à :","options":["Une rupture des fibres musculaires","Une fracture","Une luxation","Un étirement musculaire"],"correct":[0],"explanation":"Claquage = déchirure (rupture) de fibres musculaires (grade 2). Crampe = contraction involontaire ; courbatures = micro-lésions. Élongation (grade 1) < claquage (grade 2) < rupture (grade 3)."},
+    {"type":"QCM","question":"Quels sont les bénéfices de l'activité physique en CHARGE pour l'os ?","options":["Stimulation du remodelage osseux (loi de Wolff)","Amélioration de la DMO","Prévention de l'ostéoporose","Amélioration de l'équilibre (↓ chutes)","Aucun effet sur les os"],"correct":[0,1,2,3],"explanation":"Activité en charge : stimule le remodelage osseux (loi de Wolff), ↑ DMO, prévient l'ostéoporose, améliore l'équilibre/musculature → ↓ risque de chute et de fracture."},
+    {"type":"QCS","question":"Le score FRAX permet :","options":["Le diagnostic d'ostéomyélite","D'estimer le risque fracturaire à 10 ans","La mesure de la calcémie","L'évaluation cardio-vasculaire"],"correct":[1],"explanation":"FRAX = outil OMS qui calcule le risque de fracture majeure ostéoporotique et de col fémoral à 10 ans, en intégrant ATCD, FdR et DMO (col)."},
+    {"type":"QCM","question":"Concernant le rôle du KINÉSITHÉRAPEUTE dans la prise en charge de l'ostéoporose :","options":["Renforcement musculaire (en charge ++)","Travail proprioceptif et d'équilibre (prévention des chutes)","Éducation posturale","Mobilisations actives","Massage exclusivement"],"correct":[0,1,2,3],"explanation":"Le kiné a un rôle clé : renforcement (en charge), proprioception/équilibre (chutes), éducation posturale, mobilisations, contre-indications (mouvements en flexion + rotation rachidienne, sauts à risque)."},
+    {"type":"QCS","question":"L'ostéomalacie chez l'adulte se distingue de l'ostéoporose par :","options":["Une atteinte de la masse osseuse uniquement","Un trouble de la MINÉRALISATION (carence en vitamine D)","Une infection osseuse","Une cause uniquement génétique"],"correct":[1],"explanation":"Ostéomalacie = trouble de la MINÉRALISATION (matrice ostéoïde non minéralisée), souvent par carence en vit D. Ostéoporose = ↓ masse osseuse avec minéralisation normale. Symptômes différents : douleurs diffuses pour ostéomalacie."}
+  ]
+};
+</script>
+<script src="../../assets/qcm.js"></script>
+</body>
+</html>

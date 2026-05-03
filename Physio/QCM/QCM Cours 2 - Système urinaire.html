@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM – Système Urinaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1b2a;
+    --bg2: #142336;
+    --card: #1b2d42;
+    --card2: #243950;
+    --ink: #f5f0e8;
+    --muted: #8a97a8;
+    --border: rgba(201,168,76,0.2);
+    --accent: #c9a84c;
+    --accent2: #e8c96e;
+    --accent3: #1a7a5a;
+    --accent4: #0a7e8c;
+    --accent5: #12a8b8;
+    --correct: #3dd68c;
+    --wrong: #ff5c6b;
+    --shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: radial-gradient(ellipse at top, #1b2d42 0%, #0d1b2a 60%); color: var(--ink); min-height: 100vh; line-height: 1.6; padding: 24px 16px 60px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 32px; padding: 28px 20px; background: linear-gradient(135deg, rgba(10,126,140,0.15), rgba(201,168,76,0.08)); border: 1px solid var(--border); border-radius: 16px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: radial-gradient(circle, var(--accent2), transparent 70%); opacity: 0.2; border-radius: 50%; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1.1; margin-bottom: 6px; background: linear-gradient(135deg, #e8c96e, #12a8b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .header .subtitle { color: var(--muted); font-size: 14px; letter-spacing: 0.5px; }
+  .header .meta { margin-top: 12px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .header .meta span { background: rgba(255,255,255,0.04); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); }
+  .mode-selector { display: flex; gap: 12px; margin-bottom: 24px; background: var(--card); padding: 6px; border-radius: 14px; border: 1px solid var(--border); }
+  .mode-btn { flex: 1; padding: 14px 16px; background: transparent; border: none; color: var(--muted); cursor: pointer; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .mode-btn .ic { font-size: 18px; }
+  .mode-btn:hover { color: var(--ink); background: rgba(255,255,255,0.04); }
+  .mode-btn.active { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .mode-btn small { font-weight: 400; opacity: 0.85; font-size: 11px; margin-top: 2px; }
+  .progress { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .progress-text { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .progress-text strong { color: var(--ink); font-size: 14px; }
+  .progress-bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent3), var(--accent4)); border-radius: 4px; width: 0%; transition: width 0.4s ease; }
+  .score-pill { background: linear-gradient(135deg, var(--accent3), var(--accent4)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .question-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .q-num { display: inline-block; background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .q-difficulty { display: inline-block; margin-left: 6px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+  .q-difficulty.easy { background: rgba(61,214,140,0.15); color: var(--correct); border: 1px solid rgba(61,214,140,0.3); }
+  .q-difficulty.medium { background: rgba(255,159,67,0.15); color: var(--accent2); border: 1px solid rgba(255,159,67,0.3); }
+  .q-difficulty.hard { background: rgba(255,92,107,0.15); color: var(--wrong); border: 1px solid rgba(255,92,107,0.3); }
+  .q-text { font-size: 18px; font-weight: 600; line-height: 1.5; margin-bottom: 18px; color: var(--ink); }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { background: var(--bg2); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; font-size: 14.5px; user-select: none; }
+  .option:hover { border-color: var(--accent4); background: rgba(74,158,255,0.05); transform: translateY(-1px); }
+  .option.selected { border-color: var(--accent4); background: rgba(74,158,255,0.10); box-shadow: 0 0 0 3px rgba(74,158,255,0.15); }
+  .option .marker { width: 28px; height: 28px; border-radius: 50%; background: var(--card2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all 0.2s; }
+  .option.selected .marker { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; border-color: transparent; }
+  .option.correct { border-color: var(--correct); background: rgba(61,214,140,0.10); }
+  .option.correct .marker { background: var(--correct); color: #0a0c14; border-color: transparent; }
+  .option.wrong { border-color: var(--wrong); background: rgba(255,92,107,0.10); }
+  .option.wrong .marker { background: var(--wrong); color: #fff; border-color: transparent; }
+  .option.disabled { cursor: default; pointer-events: none; opacity: 0.85; }
+  .option.disabled:hover { transform: none; }
+  .feedback { margin-top: 18px; padding: 14px 16px; border-radius: 10px; border-left: 4px solid; font-size: 14px; line-height: 1.55; display: none; }
+  .feedback.show { display: block; animation: slideIn 0.3s ease; }
+  .feedback.correct { background: rgba(61,214,140,0.08); border-color: var(--correct); }
+  .feedback.wrong { background: rgba(255,92,107,0.08); border-color: var(--wrong); }
+  .feedback .verdict { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .feedback.correct .verdict { color: var(--correct); }
+  .feedback.wrong .verdict { color: var(--wrong); }
+  .feedback .explanation { color: var(--ink); font-size: 13.5px; }
+  .feedback .explanation strong { color: var(--accent2); }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .controls { display: flex; gap: 12px; justify-content: space-between; margin-top: 22px; }
+  .btn { padding: 12px 22px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent4), var(--accent5)); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-secondary { background: var(--card2); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--card); border-color: var(--accent4); }
+  .results { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; text-align: center; box-shadow: var(--shadow); }
+  .results h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+  .results .final-score { font-size: 64px; font-weight: 900; margin: 18px 0; background: linear-gradient(135deg, var(--accent3), var(--accent4)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .final-score.bad { background: linear-gradient(135deg, var(--wrong), var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .results .verdict-msg { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 30px; }
+  .stat { background: var(--bg2); padding: 16px 10px; border-radius: 10px; border: 1px solid var(--border); }
+  .stat .num { font-size: 22px; font-weight: 800; }
+  .stat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+  .stat.correct .num { color: var(--correct); }
+  .stat.wrong .num { color: var(--wrong); }
+  .stat.total .num { color: var(--accent4); }
+  .review-section { margin-top: 24px; text-align: left; }
+  .review-section h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .review-q { background: var(--bg2); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border-left: 3px solid var(--correct); }
+  .review-q.wrong { border-left-color: var(--wrong); }
+  .review-q .rq-title { font-weight: 600; margin-bottom: 6px; font-size: 13.5px; }
+  .review-q .rq-ans { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .review-q .rq-ans strong { color: var(--ink); }
+  .review-q .rq-correct { color: var(--correct); font-size: 12.5px; }
+  .review-q .rq-explain { font-size: 12.5px; color: var(--muted); margin-top: 6px; font-style: italic; }
+  .hidden { display: none !important; }
+  @media (max-width: 600px) {
+    body { padding: 14px 8px 40px; }
+    .header h1 { font-size: 24px; }
+    .question-card { padding: 18px; }
+    .q-text { font-size: 16px; }
+    .option { padding: 11px 12px; font-size: 13.5px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .mode-btn { padding: 10px 8px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+<a href="#" onclick="if(history.length>1){history.back();return false;}else{return true;}" id="backBtnNav" style="position:fixed; top:14px; left:14px; z-index:10000; background:rgba(20,22,32,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18); color:#e8eaf0; padding:9px 14px; border-radius:10px; text-decoration:none; font-family:'Source Sans 3','Inter',system-ui,sans-serif; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.4);" onmouseover="this.style.borderColor='#4a9eff'; this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)'; this.style.color='#e8eaf0';">← Page précédente</a>
+<div class="wrap">
+  <div class="header">
+    <h1>QCM – Système Urinaire</h1>
+    <div class="subtitle">Cours 2 · Physiologie II</div>
+    <div class="meta"><span>📚 30 questions</span><span>⏱️ ~15 min</span><span>🎯 Niveau mixte</span></div>
+  </div>
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="revision"><span class="ic">📖</span><span>Révision<small style="display:block">Correction immédiate</small></span></button>
+    <button class="mode-btn" data-mode="exam"><span class="ic">🎓</span><span>Examen<small style="display:block">Score à la fin</small></span></button>
+  </div>
+  <div class="progress" id="progressBar">
+    <div class="progress-text">Question <strong id="currentQ">1</strong> / <strong id="totalQ">30</strong></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="score-pill" id="scorePill">0 / 0</div>
+  </div>
+  <div id="quizArea"></div>
+  <div class="results hidden" id="results">
+    <h2>🏆 Résultats</h2>
+    <div class="final-score" id="finalScore">0%</div>
+    <div class="verdict-msg" id="verdictMsg"></div>
+    <div class="stats-grid">
+      <div class="stat correct"><div class="num" id="statCorrect">0</div><div class="lbl">Correctes</div></div>
+      <div class="stat wrong"><div class="num" id="statWrong">0</div><div class="lbl">Incorrectes</div></div>
+      <div class="stat total"><div class="num" id="statTotal">0</div><div class="lbl">Total</div></div>
+    </div>
+    <div class="controls" style="justify-content:center;"><button class="btn btn-secondary" onclick="restart()">🔄 Recommencer</button></div>
+    <div class="review-section"><h3>📋 Révision détaillée</h3><div id="reviewList"></div></div>
+  </div>
+</div>
+<script>
+const questions = [{"q": "Quelle est l'unité fonctionnelle du rein ?", "difficulty": "easy", "options": ["Le glomérule", "Le néphron", "Le TCP", "Le calice"], "correct": 1, "explanation": "Le néphron est l'unité fonctionnelle : corpuscule rénal (glomérule + capsule de Bowman) + TCP + anse de Henle + TCD + canal collecteur."}, {"q": "Combien de néphrons compte chaque rein environ ?", "difficulty": "easy", "options": ["~10 000", "~100 000", "~1 million", "~10 millions"], "correct": 2, "explanation": "Chaque rein contient environ 1 million de néphrons. Leur nombre ne peut pas augmenter (perte = irréversible)."}, {"q": "Quel est le poids approximatif d'un rein ?", "difficulty": "easy", "options": ["~50 g", "~140 g", "~500 g", "~1 kg"], "correct": 1, "explanation": "Chaque rein pèse ~140 g. Pourtant, les reins traitent 180 L d'eau et 1,5 kg de sel par jour."}, {"q": "Le cortex rénal est :", "difficulty": "easy", "options": ["La zone interne", "La zone externe contenant glomérules et tubules", "Le bassinet", "L'uretère"], "correct": 1, "explanation": "Le cortex (externe) contient les glomérules et la majorité des tubules. La médulla (interne) contient les pyramides de Malpighi."}, {"q": "Quel est le volume d'urine produit par jour environ ?", "difficulty": "easy", "options": ["100 ml", "500 ml", "1,5 L", "5 L"], "correct": 2, "explanation": "Volume normal d'urine ≈ 1,5 L/jour. Cela représente seulement ~1% du filtrat (180 L/jour) — le reste est réabsorbé."}, {"q": "L'érythropoïétine est sécrétée par :", "difficulty": "easy", "options": ["Le foie", "La rate", "Les reins", "La moelle osseuse"], "correct": 2, "explanation": "Les reins sécrètent l'érythropoïétine (EPO), hormone qui stimule la production de globules rouges dans la moelle osseuse."}, {"q": "Quels sont les 3 étapes de production de l'urine ?", "difficulty": "easy", "options": ["Filtration, réabsorption, sécrétion", "Sécrétion, digestion, absorption", "Inspiration, expiration, perfusion", "Excrétion, défécation, miction"], "correct": 0, "explanation": "Les 3 étapes : 1) Filtration glomérulaire, 2) Réabsorption tubulaire, 3) Sécrétion tubulaire."}, {"q": "L'urine est transportée du rein à la vessie par :", "difficulty": "easy", "options": ["L'urètre", "Les uretères", "Les calices", "Le bassinet"], "correct": 1, "explanation": "Les uretères (2) transportent l'urine des reins vers la vessie. L'urètre (1) la conduit ensuite hors du corps."}, {"q": "Le détrusor est :", "difficulty": "easy", "options": ["Une enzyme", "Le muscle de la vessie", "Une partie du néphron", "Une hormone"], "correct": 1, "explanation": "Le détrusor est le muscle lisse de la paroi vésicale. Sa contraction (parasympathique) permet la miction."}, {"q": "Quel est le débit de filtration glomérulaire (TFG) normal ?", "difficulty": "medium", "options": ["~50 ml/min", "~125 ml/min (~180 L/jour)", "~300 ml/min", "~5 ml/min"], "correct": 1, "explanation": "TFG normal ≈ 125 ml/min (~180 L/jour). La clairance de la créatinine est utilisée comme estimation clinique."}, {"q": "Quelles substances NE PASSENT PAS la barrière de filtration glomérulaire ?", "difficulty": "medium", "options": ["Eau et glucose", "Ions et urée", "Cellules sanguines et protéines plasmatiques", "Créatinine"], "correct": 2, "explanation": "La barrière retient les cellules sanguines (volumineuses) et les protéines plasmatiques (charge négative + taille). La protéinurie signe une atteinte de cette barrière."}, {"q": "Combien de couches forment la barrière de filtration glomérulaire ?", "difficulty": "medium", "options": ["1 (capillaire)", "2", "3 (endothélium fenestré + membrane basale + podocytes)", "5"], "correct": 2, "explanation": "3 couches : 1) endothélium fenestré, 2) membrane basale glomérulaire (charges négatives, repousse les protéines), 3) podocytes (avec leurs pédicelles)."}, {"q": "Quel pourcentage du filtrat est réabsorbé au TCP ?", "difficulty": "medium", "options": ["~25%", "~50%", "~65%", "~85%"], "correct": 2, "explanation": "Le TCP réabsorbe ~65% du filtrat de manière isosmotique. Réabsorbe la totalité du glucose et des AA, ~50% du Na⁺ et de l'eau."}, {"q": "Quel est le rôle de l'ADH ?", "difficulty": "medium", "options": ["↑ sécrétion de Na⁺", "Insère des aquaporines au TCD/canal collecteur → ↑ réabsorption d'eau", "Stimule la rénine", "Diminue le TFG"], "correct": 1, "explanation": "L'ADH (neurohypophyse) augmente la perméabilité du TCD/canal collecteur à l'eau via l'insertion d'aquaporines (AQP2) → urine concentrée."}, {"q": "Dans quelle situation la rénine est-elle libérée ?", "difficulty": "medium", "options": ["Hypertension", "Hyperhydratation", "Hypotension / baisse du Na⁺", "Excès de potassium"], "correct": 2, "explanation": "La rénine est libérée par l'appareil juxtaglomérulaire en réponse à : 1) baisse de PA (barorécepteurs), 2) baisse de NaCl (macula densa), 3) stimulation sympathique β1."}, {"q": "L'aldostérone agit principalement en :", "difficulty": "medium", "options": ["↓ réabsorption Na⁺", "↑ réabsorption Na⁺/eau et ↑ sécrétion K⁺/H⁺", "Stimulant la rénine", "Inhibant l'angiotensine II"], "correct": 1, "explanation": "L'aldostérone (TCD/canal collecteur) ↑ réabsorption Na⁺ et eau, ↑ sécrétion K⁺ et H⁺. Effecteur final du SRAA."}, {"q": "Que signifie la glycosurie ?", "difficulty": "medium", "options": ["Bonne santé", "Diabète non contrôlé (glycémie > seuil rénal ~1,8 g/L)", "Déshydratation", "Insuffisance rénale"], "correct": 1, "explanation": "Glycosurie = glucose dans l'urine. Normalement tout le glucose est réabsorbé au TCP. Si glycémie > seuil rénal (~1,8 g/L), l'excès apparaît dans l'urine. Signe classique de diabète mal équilibré."}, {"q": "Quel est l'effet de l'ANP ?", "difficulty": "medium", "options": ["↑ PA et volémie", "Antagonise le SRAA : ↑ TFG, ↓ réabsorption Na⁺, ↓ PA", "Active la rénine", "Stimule l'aldostérone"], "correct": 1, "explanation": "L'ANP (sécrété par les cellules auriculaires en réponse à une distension) antagonise le SRAA : ↑ TFG, ↓ réabsorption Na⁺, inhibe rénine/aldostérone/ADH → ↓ PA."}, {"q": "Quelle est la formule du calcul de la quantité excrétée ?", "difficulty": "medium", "options": ["E = F + R", "E = F − R + S", "E = F × R / S", "E = R − F"], "correct": 1, "explanation": "Excrétion (E) = Filtration (F) − Réabsorption (R) + Sécrétion (S). Formule fondamentale de la physiologie rénale."}, {"q": "Le mécanisme à contre-courant fonctionne grâce à :", "difficulty": "medium", "options": ["L'aldostérone seule", "L'organisation des anses de Henle et vasa recta en sens opposés (gradient 300 → 1200 mOsm)", "La filtration glomérulaire", "La vessie"], "correct": 1, "explanation": "Le multiplicateur à contre-courant : anses de Henle (descendante perméable à H₂O, ascendante perméable au NaCl) + vasa recta créent un gradient osmotique croissant dans la médulla (300 → 1200 mOsm/kg)."}, {"q": "La protéinurie peut signer :", "difficulty": "medium", "options": ["Une bonne hydratation", "Une atteinte de la barrière de filtration glomérulaire (néphropathie)", "Une infection urinaire uniquement", "Une déshydratation"], "correct": 1, "explanation": "La protéinurie indique le passage anormal de protéines (souvent albumine) à travers la barrière glomérulaire. Néphropathie diabétique, glomérulonéphrites… (peut être physiologique après un effort intense)."}, {"q": "L'urine concentrée est produite quand :", "difficulty": "medium", "options": ["Hyperhydratation", "Déshydratation / osmolalité plasmatique ↑ → ↑ ADH", "Excès de Na⁺", "Insuffisance rénale terminale"], "correct": 1, "explanation": "Urine concentrée = ADH élevée. Déclenché par déshydratation (osmolalité ↑) ou volémie ↓ → osmorécepteurs hypothalamiques → ↑ ADH."}, {"q": "L'urine diluée est produite quand :", "difficulty": "medium", "options": ["ADH absente / faible (hyperhydratation)", "Déshydratation", "Vomissements répétés", "Sudation intense"], "correct": 0, "explanation": "Sans ADH, le TCD/canal collecteur sont imperméables à l'eau → l'eau reste dans le filtrat → urine diluée et abondante."}, {"q": "Le néphron juxtamédullaire est caractérisé par :", "difficulty": "medium", "options": ["Une anse de Henle courte", "Une longue anse de Henle pénétrant profondément la médulla (rôle clé dans la concentration de l'urine)", "L'absence de glomérule", "Localisation vésicale"], "correct": 1, "explanation": "Les néphrons juxtamédullaires (~20%) ont des anses de Henle longues qui plongent dans la médulla. Ils sont essentiels au mécanisme à contre-courant et donc à la concentration de l'urine."}, {"q": "Quel est le calcul de la pression de filtration nette ?", "difficulty": "hard", "options": ["PCG + PHC + POC = 100 mmHg", "PCG − PHC − POC = 10 mmHg (55 − 15 − 30)", "PCG × PHC / POC", "PHC + POC − PCG"], "correct": 1, "explanation": "Pression nette = PCG (55) − PHC (15) − POC (30) = 10 mmHg. PCG = pression capillaire glom., PHC = pression hydrostatique capsulaire, POC = pression oncotique."}, {"q": "Quelle est la particularité de la branche descendante de l'anse de Henle ?", "difficulty": "hard", "options": ["Imperméable à l'eau", "Très perméable à l'eau, peu aux solutés (filtrat se concentre)", "Imperméable à tout", "Réabsorbe le glucose"], "correct": 1, "explanation": "Branche descendante : très perméable à l'eau, peu aux solutés → l'eau quitte → filtrat se concentre. Ascendante : imperméable à l'eau, perméable au NaCl → filtrat se dilue."}, {"q": "Le segment large de l'anse ascendante utilise :", "difficulty": "hard", "options": ["Une pompe Na⁺/K⁺/2Cl⁻", "Une simple diffusion", "Aucun transporteur", "L'osmose seule"], "correct": 0, "explanation": "Le cotransporteur NKCC2 (Na⁺/K⁺/2Cl⁻) du segment large ascendant réabsorbe ~25% du Na⁺ filtré. Cible des diurétiques de l'anse (furosémide)."}, {"q": "L'aquaporine 2 (AQP2) est :", "difficulty": "hard", "options": ["Constitutive du TCD", "Insérée dans la membrane apicale du canal collecteur sous l'effet de l'ADH", "Située dans le glomérule", "Dans l'estomac"], "correct": 1, "explanation": "L'ADH se fixe sur ses récepteurs V2 → ↑ AMPc → translocation des vésicules contenant AQP2 vers la membrane apicale → réabsorption d'eau. Sans ADH, AQP2 retourne en intracellulaire."}, {"q": "L'angiotensine II augmente la réabsorption de Na⁺ au TCP via :", "difficulty": "hard", "options": ["L'antiporteur Na⁺/H⁺ (NHE3)", "Une pompe Cl⁻/HCO₃⁻", "L'aquaporine 4", "Aucun mécanisme"], "correct": 0, "explanation": "L'Ang II stimule l'antiporteur Na⁺/H⁺ (NHE3) au TCP, augmentant la réabsorption de Na⁺ (et donc d'eau). Action directe sur le tubule, en plus de la stimulation de l'aldostérone."}, {"q": "Le mécanisme tubuloglomérulaire est :", "difficulty": "hard", "options": ["Sans rétroaction", "Une rétroaction de la macula densa qui ajuste le TFG selon le NaCl tubulaire", "Une action de l'ADH", "Une activité de l'aldostérone"], "correct": 1, "explanation": "Rétroaction tubulo-glomérulaire : la macula densa (TCD) détecte le NaCl. Si NaCl ↑ (TFG trop élevé), libération d'adénosine → vasoconstriction de l'artériole afférente → ↓ TFG."}];
+let currentIndex = 0, score = 0, mode = 'revision', answers = [];
+const quizArea = document.getElementById('quizArea');
+const resultsEl = document.getElementById('results');
+document.getElementById('totalQ').textContent = questions.length;
+function init() {
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      restart();
+    });
+  });
+  renderQuestion();
+}
+function renderQuestion() {
+  if (currentIndex >= questions.length) return showResults();
+  const q = questions[currentIndex];
+  document.getElementById('currentQ').textContent = currentIndex + 1;
+  document.getElementById('progressFill').style.width = ((currentIndex) / questions.length * 100) + '%';
+  document.getElementById('scorePill').textContent = score + ' / ' + currentIndex;
+  const difLabel = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' }[q.difficulty];
+  let optsHTML = q.options.map((opt, i) => '<div class="option" data-i="' + i + '"><div class="marker">' + String.fromCharCode(65+i) + '</div><div>' + opt + '</div></div>').join('');
+  quizArea.innerHTML =
+    '<div class="question-card">' +
+      '<div><span class="q-num">Question ' + (currentIndex + 1) + '</span><span class="q-difficulty ' + q.difficulty + '">' + difLabel + '</span></div>' +
+      '<div class="q-text">' + q.q + '</div>' +
+      '<div class="options" id="optList">' + optsHTML + '</div>' +
+      '<div class="feedback" id="feedback"></div>' +
+      '<div class="controls">' +
+        '<button class="btn btn-secondary" id="prevBtn" ' + (currentIndex === 0 ? 'disabled style="opacity:0.3"' : '') + '>← Précédent</button>' +
+        '<button class="btn btn-primary" id="nextBtn" disabled>Valider →</button>' +
+      '</div>' +
+    '</div>';
+  let selected = null, answered = false;
+  const opts = quizArea.querySelectorAll('.option');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const feedback = document.getElementById('feedback');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (answered) return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selected = parseInt(opt.dataset.i);
+      nextBtn.disabled = false;
+      nextBtn.textContent = mode === 'revision' ? 'Valider →' : 'Suivant →';
+    });
+  });
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      const prevAnswer = answers[currentIndex - 1];
+      if (prevAnswer && prevAnswer.isCorrect) score--;
+      answers.pop();
+      currentIndex--;
+      renderQuestion();
+    }
+  });
+  nextBtn.addEventListener('click', () => {
+    if (selected === null) return;
+    if (mode === 'revision' && !answered) {
+      answered = true;
+      const isCorrect = selected === q.correct;
+      if (isCorrect) score++;
+      answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      opts.forEach((o, i) => {
+        o.classList.add('disabled');
+        if (i === q.correct) o.classList.add('correct');
+        else if (i === selected) o.classList.add('wrong');
+      });
+      feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+      feedback.innerHTML = '<div class="verdict">' + (isCorrect ? '✓ Correct !' : '✗ Incorrect') + '</div><div class="explanation">' + q.explanation + '</div>';
+      nextBtn.textContent = currentIndex === questions.length - 1 ? '🏆 Voir les résultats →' : 'Question suivante →';
+      document.getElementById('scorePill').textContent = score + ' / ' + (currentIndex + 1);
+    } else {
+      if (mode === 'exam') {
+        const isCorrect = selected === q.correct;
+        if (isCorrect) score++;
+        answers.push({ questionIndex: currentIndex, selected: selected, isCorrect: isCorrect });
+      }
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+function showResults() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('scorePill').textContent = score + ' / ' + questions.length;
+  quizArea.classList.add('hidden');
+  resultsEl.classList.remove('hidden');
+  const pct = Math.round(score / questions.length * 100);
+  const finalScoreEl = document.getElementById('finalScore');
+  finalScoreEl.textContent = pct + '%';
+  finalScoreEl.classList.toggle('bad', pct < 50);
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = questions.length - score;
+  document.getElementById('statTotal').textContent = questions.length;
+  let msg;
+  if (pct >= 90) msg = "🌟 Excellent ! Tu maîtrises parfaitement le chapitre.";
+  else if (pct >= 75) msg = "👏 Très bien ! Quelques détails à revoir.";
+  else if (pct >= 60) msg = "👍 Bonne base, mais il reste des points à consolider.";
+  else if (pct >= 40) msg = "📚 Il faut retravailler le cours pour progresser.";
+  else msg = "💪 Courage, reprends la fiche et retente !";
+  document.getElementById('verdictMsg').textContent = msg;
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = answers.map((a, i) => {
+    const q = questions[a.questionIndex];
+    const userAns = a.selected !== null ? '<strong>' + String.fromCharCode(65 + a.selected) + '.</strong> ' + q.options[a.selected] : 'Aucune réponse';
+    const correctBlock = !a.isCorrect ? '<div class="rq-correct">Bonne réponse : <strong>' + String.fromCharCode(65 + q.correct) + '.</strong> ' + q.options[q.correct] + '</div>' : '';
+    return '<div class="review-q ' + (a.isCorrect ? '' : 'wrong') + '">' +
+           '<div class="rq-title">Q' + (a.questionIndex + 1) + '. ' + q.q + '</div>' +
+           '<div class="rq-ans">Ta réponse : ' + userAns + ' ' + (a.isCorrect ? '✓' : '✗') + '</div>' +
+           correctBlock +
+           '<div class="rq-explain">' + q.explanation + '</div>' +
+           '</div>';
+  }).join('');
+}
+function restart() {
+  currentIndex = 0; score = 0; answers = [];
+  resultsEl.classList.add('hidden');
+  quizArea.classList.remove('hidden');
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('scorePill').textContent = '0 / 0';
+  renderQuestion();
+}
+init();
+</script>
+</body>
+</html>
